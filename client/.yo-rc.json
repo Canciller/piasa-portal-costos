@@ -1,0 +1,14 @@
+{
+  "generator-easy-ui5": {
+    "projectname": "Costos",
+    "namespace": "com.piasa",
+    "platform": "Static webserver",
+    "viewtype": "XML",
+    "viewname": "MainView",
+    "ui5libs": "Local resources (SAPUI5)",
+    "newdir": true,
+    "namespaceURI": "com/piasa",
+    "uimodules": ["uimodule"],
+    "setupCompleted": true
+  }
+}
