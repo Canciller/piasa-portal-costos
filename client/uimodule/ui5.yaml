@@ -8,7 +8,7 @@ resources:
       webapp: uimodule/webapp
 framework:
   name: SAPUI5
-  version: 1.77.0
+  version: 1.80.0
   libraries:
     - name: sap.ui.core
     - name: sap.m
@@ -21,3 +21,6 @@ server:
       configuration:
         port: 35729
         path: uimodule/webapp
+    - name: ui5-middleware-simpleproxy
+      afterMiddleware: compression
+      mountPath: /api
