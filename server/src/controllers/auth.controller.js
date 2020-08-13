@@ -54,7 +54,10 @@ controller.login = (req, res, next) => {
         throw IncorrectUsernameOrPassword;
       }
     })
-    .catch(next);
+    .catch(error => {
+      res.clearCookie('token');
+      next(error);
+    });
 };
 
 controller.logout = (req, res, next) => {

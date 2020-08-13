@@ -1,7 +1,9 @@
  <mvc:View
-  controllerName="com.piasa.Costos.controller.MainView"
   displayBlock="true"
   xmlns="sap.m"
   xmlns:mvc="sap.ui.core.mvc">
-  <App id="idAppControl" />
+  <Page title="Launchpad">
+    <content>
+    </content>
+  </Page>
 </mvc:View>

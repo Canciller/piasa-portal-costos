@@ -1,0 +1,73 @@
+ <mvc:View
+  controllerName="com.piasa.Costos.controller.Login"
+  displayBlock="true"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc">
+    <VBox
+      fitContainer="true"
+      alignItems="Center"
+      alignContent="Center"
+      justifyContent="Center"
+    >
+      <items>
+        <VBox
+          id='loginForm'
+          class='loginForm'
+        >
+          <Label
+            text="Email or Username"
+            labelFor="username"
+          />
+          <Input
+            id="username"
+            placeholder="Email or Username"
+            value="{
+              path: 'login>/username',
+              type: 'sap.ui.model.type.String',
+              constraints: {
+                minLength: 1,
+                maxLength: 254
+              }
+            }"
+            liveChange=".OnChange"
+            submit=".OnSubmit"
+          />
+          <Label
+            class="sapUiTinyMarginTop"
+            text="Password"
+            labelFor="password"
+          />
+          <Input
+            id="password"
+            placeholder="Password"
+            type="Password"
+            value="{
+              path: 'login>/password',
+              type: 'sap.ui.model.type.String',
+              constraints: {
+                minLength: 1,
+                maxLength: 80
+              }
+            }"
+            liveChange=".OnChange"
+            submit=".OnSubmit"
+          />
+          <Text
+            text="{login>/message}"
+            id="errorText"
+            textAlign="Center"
+            width="100%"
+            class="sapUiTinyMarginTop loginMessage"
+          />
+          <Button
+            icon="sap-icon://journey-arrive"
+            class="sapUiTinyMarginTop"
+            text="Sign In"
+            type="Emphasized"
+            width="100%"
+            press=".OnSubmit"
+          />
+        </VBox>
+      </items>
+    </VBox>
+</mvc:View>

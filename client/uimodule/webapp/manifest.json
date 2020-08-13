@@ -67,21 +67,33 @@
         "viewPath": "com.piasa.Costos.view",
         "controlId": "idAppControl",
         "controlAggregation": "pages",
-        "async": true
+        "async": true,
+        "transition": "slide",
+        "bypassed": {
+          "target": "notFound"
+        }
       },
       "routes": [
         {
-          "name": "RouteMainView",
-          "pattern": "RouteMainView",
-          "target": ["TargetMainView"]
+          "pattern": "",
+          "name": "login",
+          "target": "login"
         }
       ],
       "targets": {
-        "TargetMainView": {
+        "login": {
           "viewType": "XML",
           "viewLevel": 1,
-          "viewId": "idAppControl",
-          "viewName": "MainView"
+          "viewName": "Login"
+        },
+        "launchpad": {
+          "viewType": "XML",
+          "viewLevel": 2,
+          "viewName": "Launchpad"
+        },
+        "notFound": {
+          "viewName": "NotFound",
+          "transition": "show"
         }
       }
     }

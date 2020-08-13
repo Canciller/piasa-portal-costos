@@ -1,1 +1,9 @@
-/* Enter your custom styles here */
+.loginForm {
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 19rem !important;
+}
+
+.loginMessage {
+  color: rgb(238, 0, 0);
+}
