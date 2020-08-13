@@ -4,9 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('ex:server');
-var http = require('http');
+import app from '../app';
+import http from 'http';
+import connectWithRetry from '../util/connectWithRetry';
+import debug from '../util/log/debug';
 
 /**
  * Get port from environment and store in Express.
@@ -25,9 +26,15 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+server.listen(port);
+
+/**
+ * Connect to Database with retry.
+ */
+
+connectWithRetry();
 
 /**
  * Normalize a port into a number, string, or false.

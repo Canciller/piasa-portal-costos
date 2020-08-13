@@ -6,29 +6,36 @@
     "start": "npm run prod",
     "build": "npm-run-all clean transpile",
     "server": "node ./build/bin/www",
-    "dev": "NODE_ENV=development npm-run-all build server",
+    "dev": "DEBUG=server,error,http NODE_ENV=development npm-run-all build server",
     "prod": "NODE_ENV=production npm-run-all build server",
     "transpile": "babel ./src --out-dir build",
     "clean": "rimraf build",
     "watch:dev": "nodemon",
-    "test": "jest --passWithNoTests"
+    "test": "npm run build && jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
+    "bcrypt": "^5.0.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "express-favicon": "^2.0.1",
-    "http-proxy-middleware": "^1.0.5",
+    "express-jwt": "^6.0.0",
+    "express-validator": "^6.6.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "mssql": "^6.2.1",
     "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "sql": "^0.78.0"
   },
   "devDependencies": {
+    "babel-jest": "^26.3.0",
     "jest": "^26.3.0"
   },
   "nodemonConfig": {
@@ -43,12 +50,11 @@
       "*.spec.js"
     ]
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
-  },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "src",
+      "*.old*"
+    ]
   }
 }
