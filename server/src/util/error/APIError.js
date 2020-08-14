@@ -11,7 +11,7 @@ class APIError extends ExtendableError {
    * @param {number} status
    * @param {boolean} isPublic
    */
-  constructor(message, status = 400, isPublic = true) {
+  constructor(message = 'Bad Request', status = 400, isPublic = true) {
     super(message, status, isPublic);
   }
 }

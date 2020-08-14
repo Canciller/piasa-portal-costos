@@ -10,7 +10,7 @@ class NotFound extends APIError {
    * @param {string} message
    * @param {number} status
    */
-  constructor(message = 'Resource not found', status = 404) {
+  constructor(message = 'Not Found', status = 404) {
     super(message, status);
   }
 }

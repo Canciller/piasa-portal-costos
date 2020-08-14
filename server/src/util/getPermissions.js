@@ -14,6 +14,11 @@ const permissions = {
   },
 };
 
+/**
+ * Get permissions for role in collection.
+ * @param {string} collection
+ * @param {string} role
+ */
 export default function (collection, role) {
   var r = permissions[role];
   if (r === undefined) return null;

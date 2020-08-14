@@ -1,8 +1,12 @@
-export default function (res) {
+/**
+ * Check if database result has affected rows.
+ * @param {Object} result
+ */
+export default function (result) {
   return (
-    res &&
-    Array.isArray(res.rowsAffected) &&
-    res.rowsAffected.length > 0 &&
-    res.rowsAffected[0] !== 0
+    result &&
+    result.rowsAffected &&
+    result.rowsAffected.length &&
+    result.rowsAffected[0] > 0
   );
 }

@@ -9,7 +9,7 @@ class ValidationError extends APIError {
    * Creates a Validation Error.
    * @param {string} message
    */
-  constructor(message = 'Validation error') {
+  constructor(message = 'Validation Error') {
     super(message);
   }
 }

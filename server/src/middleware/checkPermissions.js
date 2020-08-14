@@ -1,16 +1,10 @@
-import jwt from 'express-jwt';
+import authenticate from '../middleware/authenticate';
 import getPermissions from '../util/getPermissions';
 import UnauthorizedError from '../util/error/UnauthorizedError';
 
-require('dotenv').config();
-
 export default function (collection) {
   return [
-    jwt({
-      secret: process.env.SECRET,
-      algorithms: ['HS256'],
-      getToken: (req) => req.cookies.token,
-    }),
+    authenticate,
     function (req, res, next) {
       const role = req.user.role;
       const permissions = getPermissions(collection, role);

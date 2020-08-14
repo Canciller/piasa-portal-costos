@@ -1,267 +1,218 @@
+import sql, { Table } from 'mssql';
 import hasAffectedRows from '../util/dbHasAffectedRows';
 import queryResult from '../util/dbQueryResult';
 import getPool from '../util/dbGetPool';
 import hashPassword from '../util/hashPassword';
+import log from '../util/log/error';
 
 /**
- * User.
- * @param {string} username
- * @param {string} email
- * @param {string} password
- * @param {string} status
- * @param {string} role
+ * Class representing a User.
  */
-var User = function (username, email, password, status, role) {
-  this.username = username;
-  this.email = email;
-  this.password = password;
-  this.role = role;
-  this.status = status;
-};
-
-/**
- * Check if user is active.
- * @param {Object} user
- */
-User.isActive = (user) => {
-  return user && user.status === 'A';
-};
-
-/**
- * Create user.
- * @param {Object} user
- */
-User.create = async (user) => {
-  user.date = new Date(); // Current server date
-
-  var hash = await hashPassword(user.password); // Hash password
-  delete user.password;
-
-  var pool = await getPool();
-  var request = await pool
-    .request()
-    .input('username', user.username)
-    .input('email', user.email)
-    .input('password', hash)
-    .input('role', user.role)
-    .input('status', user.status)
-    .input('date', user.date);
-
-  var res = await request.query(`
-      INSERT INTO users (username, email, password, status, role, date)
-      VALUES (
-        @username,
-        @email,
-        @password,
-        @status,
-        @role,
-        @date
-      )
-    `);
-
-  return queryResult(user, hasAffectedRows(res));
-};
-
-/**
- * Get user.
- * @param {string} username
- */
-User.get = async (username) => {
-  var pool = await getPool();
-  var request = await pool.request().input('username', username);
-
-  var res = await request.query(`
-      SELECT * FROM users WHERE username = @username
-    `);
-
-  if (res.recordset && res.recordset.length !== 0) {
-    return queryResult(res.recordset[0], true);
-  } else {
-    return queryResult(null, false);
+export default class User {
+  /**
+   * Create a User.
+   * @param {string} username
+   * @param {string} email
+   * @param {string} password
+   * @param {boolean} isActive
+   * @param {string} role
+   */
+  constructor(username, email, password, isActive, role) {
+    this.username = username;
+    this.password = password;
+    this.isActive = isActive;
+    this.email = email;
+    this.role = role;
+    this.createdAt = new Date();
+    this.updatedAt = this.createdAt;
   }
-};
 
-/**
- * Get all users.
- */
-User.getAll = async () => {
-  var pool = await getPool();
-  var request = await pool.request();
-
-  var res = await request.query(`
-    SELECT
-      username,
-      email,
-      status,
-      role,
-      date
-    FROM users`);
-
-  if (res.recordset && res.recordset.length !== 0) {
-    return queryResult(res.recordset, true);
-  } else {
-    return queryResult([], true);
+  toJSON() {
+    return {
+      username: this.username,
+      password: this.password,
+      email: this.email,
+      isActive: this.isActive,
+      role: this.role,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
-};
 
-/**
- * Change username.
- * @param {string} username
- * @param {string} newUsername
- */
-User.changeUsername = async (username, newUsername) => {
-  try {
+  /**
+   * Create request and add inputs.
+   * @param {string} username
+   */
+  async request(username) {
+    this.updatedAt = new Date();
+
     var pool = await getPool();
-    var request = await pool
+    return await pool
       .request()
-      .input('username', username)
-      .input('newUsername', newUsername);
-
-    var res = await request.query(`
-      UPDATE users SET
-        username = @newUsername
-      WHERE username = @username
-    `);
-
-    return queryResult({ username: newUsername }, hasAffectedRows(res));
-  } catch (error) {
-    return handleError(error);
-  }
-};
-
-/**
- * Change password.
- * @param {string} username
- * @param {string} password
- */
-User.changePasword = async (username, password) => {
-  var hash;
-  if (password) {
-    hash = await hashPassword(password); // Hash password
-    password = undefined;
+      .input('username', sql.VarChar(80), this.username)
+      .input('email', sql.VarChar(254), this.email)
+      .input('password', sql.VarChar(80), this.password)
+      .input('role', this.role)
+      .input('status', this.isActive ? 'A' : 'U')
+      .input('createdAt', sql.DateTime, this.createdAt)
+      .input('updatedAt', sql.DateTime, this.updatedAt)
+      .input('current', username);
   }
 
-  var pool = await getPool();
-  var request = await pool
-    .request()
-    .input('username', username)
-    .input('password', hash);
+  /**
+   * Create new user in database.
+   * @param {User} user
+   */
+  static async create(user) {
+    try {
+      var request = await user.request();
+      var res = await request.query(`
+        INSERT INTO users (username, email, password, status, role, createdAt, updatedAt)
+        VALUES (
+          @username,
+          @email,
+          @password,
+          @status,
+          @role,
+          @createdAt,
+          @createdAt
+        )
+      `);
 
-  var res = await request.query(`
-      UPDATE users SET
-        password = @password
-      WHERE username = @username
-    `);
-
-  return queryResult({ username }, hasAffectedRows(res));
-};
-
-/**
- * Change email.
- * @param {string} username
- * @param {string} email
- */
-User.changeEmail = async (username, email) => {
-  var pool = await getPool();
-  var request = await pool
-    .request()
-    .input('username', username)
-    .input('email', email);
-
-  var res = await request.query(`
-      UPDATE users SET
-        email = @email
-      WHERE username = @username
-    `);
-
-  return queryResult({ username, email }, hasAffectedRows(res));
-};
-
-/**
- * Activate user.
- * @param {string} username
- */
-User.activate = async (username) => {
-  var pool = await getPool();
-  var request = await pool.request().input('username', username);
-
-  var res = await request.query(`
-      UPDATE users SET
-        status = 'A'
-      WHERE username = @username
-    `);
-
-  var success = hasAffectedRows(res);
-  return queryResult({ username, active: success }, success);
-};
-
-/**
- * Deactivate user.
- * @param {string} username
- */
-User.deactivate = async (username) => {
-  var pool = await getPool();
-  var request = await pool.request().input('username', username);
-
-  var res = await request.query(`
-      UPDATE users SET
-        status = NULL
-      WHERE username = @username
-    `);
-
-  var success = hasAffectedRows(res);
-  return queryResult({ username, active: !success }, success);
-};
-
-/**
- * Update user.
- * @param {string} username
- * @param {string} user
- */
-User.update = async (username, user) => {
-  var hash;
-  if (user.password) {
-    hash = await hashPassword(user.password); // Hash password
-    delete user.password;
+      if (hasAffectedRows(res)) {
+        var createdUser = user.toJSON();
+        delete createdUser.password;
+        return createdUser;
+      }
+      throw new Error('Error creating user');
+    } catch (error) {
+      throw error;
+    }
   }
 
-  var pool = await getPool();
-  var request = await pool
-    .request()
-    .input('username', username)
-    .input('newUsername', newUsername)
-    .input('email', user.email)
-    .input('password', hash)
-    .input('role', user.role)
-    .input('status', user.status)
-    .input('date', user.date);
+  /**
+   * Update existing user from database by username.
+   * @param {string} username
+   * @param {Object} data
+   */
+  static async update(username, data) {
+    try {
+      var user = new User();
+      user.username = data.username || username;
+      user.email = data.email;
+      user.password = data.password;
+      user.role = data.role;
 
-  var res = await request.query(`
-      UPDATE users SET
-        username = @newUsername
-        email = @email
-        password = @password
-        role = @role
-        status = @status
-      WHERE useranme = @username
-    `);
+      var request = await user.request(username);
+      var res = await request.query(`
+        UPDATE users SET
+          username = IsNull(@username, username),
+          email = IsNull(@email, email),
+          password = IsNull(@password, password),
+          role = IsNull(@role, role),
+          updatedAt = @updatedAt
+        WHERE username = @current
+      `);
 
-  return queryResult(user, hasAffectedRows(res));
-};
+      if (hasAffectedRows(res)) {
+        var updatedUser = await User.get(data.username || username);
+        return updatedUser;
+      }
 
-/**
- * Remove user.
- * @param {string} username
- */
-User.remove = async (username) => {
-  var pool = await getPool();
-  var request = await pool.request().input('username', username);
+      throw new Error('Error updating user');
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  var res = await request.query(`
-    DELETE FROM users WHERE username = @username
-  `);
+  /**
+   * Remove existing user from database by username.
+   * @param {string} username
+   */
+  static async remove(username) {
+    try {
+      var pool = await getPool();
+      var request = await pool.request().input('username', username);
 
-  return queryResult({ username }, hasAffectedRows(res));
-};
+      var res = await request.query(`
+        DELETE FROM users WHERE username = @username
+      `);
 
-export default User;
+      if (hasAffectedRows(res))
+        return {
+          username,
+        };
+
+      throw new Error('Error removing user');
+    } catch (error) {
+      log(error);
+
+      throw error;
+    }
+  }
+
+  /**
+   * Get user from database by username.
+   * @param {string} username
+   */
+  static async get(username) {
+    try {
+      var pool = await getPool();
+      var request = await pool.request().input('username', username);
+
+      var res = await request.query(`
+        SELECT * FROM users WHERE username = @username
+      `);
+
+      if (res.recordset && res.recordset.length !== 0) {
+        var user = {
+          ...res.recordset[0],
+        };
+
+        //delete user.password;
+
+        user.isActive = user.status === 'A';
+        delete user.status;
+
+        return user;
+      }
+
+      return null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Get all users from database.
+   */
+  static async getAll() {
+    try {
+      var pool = await getPool();
+      var request = await pool.request();
+
+      var res = await request.query(`
+      SELECT
+        username,
+        email,
+        status,
+        role,
+        createdAt,
+        updatedAt
+      FROM users`);
+
+      if (res.recordset && res.recordset.length !== 0) {
+        res.recordset.forEach((user) => {
+          user.isActive = user.status === 'A';
+          delete user.status;
+        });
+
+        return res.recordset;
+      }
+
+      return [];
+    } catch (error) {
+      throw error;
+    }
+  }
+}

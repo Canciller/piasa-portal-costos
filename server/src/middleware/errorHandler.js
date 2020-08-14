@@ -2,18 +2,22 @@ import log from '../util/log/error';
 
 import InternalServerError from '../util/error/InternalServerError';
 
+/**
+ * Returns a simplified error object.
+ * @param {Error} error
+ */
 function simpleError(error) {
   switch (error.name) {
     case 'ValidationError':
     case 'RequestError':
     case 'UnauthorizedError':
+    case 'ForbiddenError':
       error.isPublic = true;
   }
 
   if (!error.isPublic) error = new InternalServerError();
 
   return {
-    success: false,
     error: {
       name: error.name,
       message: error.message,

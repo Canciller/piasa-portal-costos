@@ -4,7 +4,7 @@ import APIError from './APIError';
  * Class representing an Unauthorized error.
  * @extends APIError
  */
-class Forbidden extends APIError {
+class ForbiddenError extends APIError {
   /**
    * Creates an Unauthorized error.
    * @param {string} message
@@ -15,4 +15,4 @@ class Forbidden extends APIError {
   }
 }
 
-export default Forbidden;
+export default ForbiddenError;

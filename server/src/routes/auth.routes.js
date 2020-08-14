@@ -1,4 +1,4 @@
-import jwt from 'express-jwt';
+import authenticate from '../middleware/authenticate';
 import controller from '../controllers/auth.controller';
 
 const router = require('express').Router();
@@ -7,19 +7,7 @@ router.route('/login').post(controller.login);
 
 router.route('/logout').get(controller.logout);
 
-router.route('/me').get(
-  jwt({
-    secret: process.env.SECRET,
-    algorithms: ['HS256'],
-    getToken: (req) => req.cookies.token,
-  }),
-  (req, res, next) => {
-    return res.status(200).json({
-      success: true,
-      data: req.user,
-    });
-  }
-);
+router.route('/me').get(authenticate, (req, res) => res.json(req.user));
 
 /*
 router.route('/forgot/username').post(controller.forgotUsername);

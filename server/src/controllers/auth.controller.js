@@ -1,75 +1,38 @@
 import User from '../models/user.model';
+
 import UnauthorizedError from '../util/error/UnauthorizedError';
-import ForbiddenError from '../util/error/Forbidden';
+import ForbiddenError from '../util/error/ForbiddenError';
+
+import signToken from '../util/signToken';
 import comparePassword from '../util/comparePassword';
-import jsonwebtoken from 'jsonwebtoken';
 
-require('dotenv').config();
+export default {
+  login: async (req, res, next) => {
+    try {
+      var username = req.body.username,
+        password = req.body.password;
 
-var controller = {};
+      var user = await User.get(username);
+      if (!user || !user.isActive) throw new UnauthorizedError();
 
-controller.login = (req, res, next) => {
-  var user;
-  const username = req.body.username;
-  const password = req.body.password;
+      var validCredentials = await comparePassword(password, user.password);
+      if (!validCredentials) throw new UnauthorizedError();
 
-  const IncorrectUsernameOrPassword = new UnauthorizedError(
-    'Username or password is incorrect'
-  );
+      var token = signToken(user);
 
-  User.get(username)
-    .then((result) => {
-      user = result.data;
-      if (result.success) {
-        if (!User.isActive(user))
-          throw new ForbiddenError('User is not active');
-        return comparePassword(password, user.password);
-      } else {
-        throw IncorrectUsernameOrPassword;
-      }
-    })
-    .then((result) => {
-      if (result === true) {
-        const token = jsonwebtoken.sign(
-          {
-            username: user.username,
-            role: user.role,
-          },
-          process.env.SECRET,
-          {
-            algorithm: 'HS256',
-          }
-        );
+      res.cookie('token', token, { httpOnly: true });
+      return res.json({
+        username: user.username,
+        role: user.role,
+        token,
+      });
+    } catch (error) {
+      res.clearCookie('token'); // Clear token on error.
 
-        res.cookie('token', token, { httpOnly: true });
-        res.json({
-          success: true,
-          token,
-          data: {
-            username: user.username,
-            role: user.role,
-          },
-        });
-      } else {
-        throw IncorrectUsernameOrPassword;
-      }
-    })
-    .catch(error => {
-      res.clearCookie('token');
       next(error);
-    });
+    }
+  },
+  logout: async (req, res) => {
+    return res.clearCookie('token').sendStatus(200);
+  },
 };
-
-controller.logout = (req, res, next) => {
-  return res.clearCookie('token').sendStatus(200);
-};
-
-/*
-controller.forgotPassword = async (req, res, next) => {};
-
-controller.forgotUsername = async (req, res, next) => {};
-
-controller.forgotEmail = async (req, res, next) => {};
-*/
-
-export default controller;

@@ -53,8 +53,7 @@
   "jest": {
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
-      "src",
-      "*.old*"
+      "src"
     ]
   }
 }
