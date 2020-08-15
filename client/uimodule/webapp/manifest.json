@@ -78,21 +78,37 @@
           "pattern": "",
           "name": "login",
           "target": "login"
+        },
+        {
+          "pattern": "launchpad",
+          "name": "launchpad",
+          "target": "launchpad"
+        },
+        {
+          "pattern": "users",
+          "name": "users",
+          "target": "users"
         }
       ],
       "targets": {
         "login": {
           "viewType": "XML",
           "viewLevel": 1,
-          "viewName": "Login"
+          "viewName": "route.Login"
         },
         "launchpad": {
           "viewType": "XML",
-          "viewLevel": 2,
-          "viewName": "Launchpad"
+          "viewLevel": 1,
+          "viewName": "route.Launchpad"
+        },
+        "users": {
+          "viewType": "XML",
+          "viewLevel": 1,
+          "viewName": "route.admin.ManageUsers",
+          "transition": "show"
         },
         "notFound": {
-          "viewName": "NotFound",
+          "viewName": "route.NotFound",
           "transition": "show"
         }
       }

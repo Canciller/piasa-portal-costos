@@ -25,6 +25,7 @@ export default {
 
       var user = new User(
         req.body.username,
+        req.body.name,
         req.body.email,
         password,
         req.body.isActive,
@@ -40,15 +41,16 @@ export default {
   update: async (req, res, next) => {
     try {
       var username = req.user.username;
-      var password = await hashPassword(req.body.password);
+      var password;
+      if (req.body.password !== undefined)
+        password = await hashPassword(req.body.password);
 
-      var user = new User(
-        req.body.username,
-        req.body.email,
-        password,
-        true, // Ignored in update.
-        req.body.role
-      );
+      var user = new User();
+      user.username = req.body.username;
+      user.name = req.body.name;
+      user.email = req.body.email;
+      user.password = password;
+      user.role = req.body.role;
 
       var updated = await User.update(username, user);
       delete updated.password;

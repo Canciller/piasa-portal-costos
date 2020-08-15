@@ -1,5 +1,5 @@
  <mvc:View
-  controllerName="com.piasa.Costos.controller.Login"
+  controllerName="com.piasa.Costos.controller.route.Login"
   displayBlock="true"
   xmlns="sap.m"
   xmlns:mvc="sap.ui.core.mvc">
@@ -14,13 +14,26 @@
           id='loginForm'
           class='loginForm'
         >
+          <MessageStrip
+            id="errorMessage"
+            showIcon="true"
+            showCloseButton="true"
+            text="Error"
+            type="Error"
+          >
+            <layoutData>
+              <FlexItemData
+                styleClass="loginErrorMessage"
+              />
+            </layoutData>
+          </MessageStrip>
           <Label
-            text="Email or Username"
+            text="{i18n>loginUsernameLabel.text}"
             labelFor="username"
           />
           <Input
             id="username"
-            placeholder="Email or Username"
+            placeholder="{i18n>loginUsernameInput.placeholder}"
             value="{
               path: 'login>/username',
               type: 'sap.ui.model.type.String',
@@ -34,12 +47,12 @@
           />
           <Label
             class="sapUiTinyMarginTop"
-            text="Password"
+            text="{i18n>loginPasswordLabel.text}"
             labelFor="password"
           />
           <Input
             id="password"
-            placeholder="Password"
+            placeholder="{i18n>loginPasswordInput.placeholder}"
             type="Password"
             value="{
               path: 'login>/password',
@@ -52,17 +65,10 @@
             liveChange=".OnChange"
             submit=".OnSubmit"
           />
-          <Text
-            text="{login>/message}"
-            id="errorText"
-            textAlign="Center"
-            width="100%"
-            class="sapUiTinyMarginTop loginMessage"
-          />
           <Button
             icon="sap-icon://journey-arrive"
-            class="sapUiTinyMarginTop"
-            text="Sign In"
+            class="sapUiSmallMarginTop"
+            text="{i18n>loginSubmitButton.text}"
             type="Emphasized"
             width="100%"
             press=".OnSubmit"

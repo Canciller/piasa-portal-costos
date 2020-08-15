@@ -5,6 +5,7 @@ import ForbiddenError from '../util/error/ForbiddenError';
 
 import signToken from '../util/signToken';
 import comparePassword from '../util/comparePassword';
+import isEmail from '../util/validateEmail';
 
 export default {
   login: async (req, res, next) => {
@@ -12,7 +13,10 @@ export default {
       var username = req.body.username,
         password = req.body.password;
 
-      var user = await User.get(username);
+      var user;
+      if (isEmail(username)) user = await User.getByEmail(username);
+      else user = await User.get(username);
+
       if (!user || !user.isActive) throw new UnauthorizedError();
 
       var validCredentials = await comparePassword(password, user.password);
@@ -23,8 +27,10 @@ export default {
       res.cookie('token', token, { httpOnly: true });
       return res.json({
         username: user.username,
+        name: user.name,
+        email: user.email,
         role: user.role,
-        token,
+        //token,
       });
     } catch (error) {
       res.clearCookie('token'); // Clear token on error.

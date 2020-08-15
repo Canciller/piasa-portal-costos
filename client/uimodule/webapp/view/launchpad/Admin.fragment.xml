@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:f="sap.f"
+  xmlns:core="sap.ui.core"
+>
+  <Page title='{i18n>launchpadAdmin.title}'>
+    <GenericTile
+      class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+      header="{i18n>launchpadAdmin.users.header}"
+      subheader="{i18n>launchpadAdmin.users.subheader}"
+      width="13rem"
+      press=".Admin.onPressManageUsers"
+    >
+      <TileContent
+      >
+        <ImageContent
+          class="imageContent"
+          src="sap-icon://user-edit"
+        />
+      </TileContent>
+    </GenericTile>
+  </Page>
+</core:FragmentDefinition>

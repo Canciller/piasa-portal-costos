@@ -1,0 +1,18 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:tnt="sap.tnt"
+>
+	<Popover
+    placement="Bottom"
+    contentWidth="10rem"
+    showHeader="false"
+  >
+    <content>
+      <tnt:NavigationList>
+        <tnt:NavigationListItem text="{i18n>userMenu.settings}" icon="sap-icon://user-settings" />
+        <tnt:NavigationListItem text="{i18n>userMenu.logout}" select=".Header.onLogoutPress" icon="sap-icon://log" />
+      </tnt:NavigationList>
+    </content>
+	</Popover>
+</core:FragmentDefinition>

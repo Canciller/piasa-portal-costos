@@ -1,6 +1,11 @@
 sap.ui.define(
-  ['sap/ui/core/UIComponent', 'sap/ui/Device', 'com/piasa/Costos/model/models'],
-  function (UIComponent, Device, models) {
+  [
+    'sap/ui/core/UIComponent',
+    'sap/ui/Device',
+    'com/piasa/Costos/model/models',
+    'sap/ui/model/json/JSONModel',
+  ],
+  function (UIComponent, Device, models, JSONModel) {
     'use strict';
 
     return UIComponent.extend('com.piasa.Costos.Component', {
@@ -14,14 +19,26 @@ sap.ui.define(
        * @override
        */
       init: function () {
-        // call the base component's init function
+        // Call the base component's init function
         UIComponent.prototype.init.apply(this, arguments);
 
-        // enable routing
+        // Enable routing
         this.getRouter().initialize();
 
-        // set the device model
+        // Set the device model
         this.setModel(models.createDeviceModel(), 'device');
+
+        this.setModel(
+          new JSONModel({
+            username: null,
+            email: null,
+            role: null,
+          }),
+          'user'
+        );
+
+        // TODO: Show busy indicator
+        //sap.ui.core.BusyIndicator.show();
       },
     });
   }

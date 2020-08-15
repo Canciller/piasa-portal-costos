@@ -33,6 +33,58 @@ sap.ui.define(
       },
 
       /**
+       * Get user model.
+       */
+      getUser: function () {
+        return this.getModel('user');
+      },
+
+      /**
+       * Set user model.
+       * @param {Object} data
+       */
+      setUser: function (data) {
+        var oUserModel = this.getModel('user');
+        if (!oUserModel) return;
+
+        oUserModel.setProperty('/username', data.username);
+        oUserModel.setProperty('/name', data.name);
+        oUserModel.setProperty('/email', data.email);
+        var role = 'User';
+        switch (data.role) {
+          case 'A':
+            role = 'Administrator';
+            break;
+          case 'M':
+            role = 'Manager';
+            break;
+          default:
+            break;
+        }
+        oUserModel.setProperty('/role', role);
+        oUserModel.setProperty('/actualRole', data.role);
+      },
+
+      /**
+       * Load saved user if exists.
+       * @param {Function} callback
+       */
+      loadUser: function (callback) {
+        fetch('/api/v1/auth/me')
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) throw data.error;
+            this.setUser(data);
+            console.log(callback);
+          })
+          .catch((error) => {
+            console.log(error);
+            this.setUser({ username: null, role: null });
+            this.navTo('login');
+          });
+      },
+
+      /**
        * Convenience method for getting the resource bundle.
        * @public
        * @returns {sap.ui.model.resource.ResourceModel} the resourceModel of the component
@@ -62,7 +114,7 @@ sap.ui.define(
         if (sPreviousHash !== undefined) {
           window.history.back();
         } else {
-          this.getRouter().navTo('appHome', {}, true /*no history*/);
+          this.getRouter().navTo('launchpad', {}, true /*no history*/);
         }
       },
     });

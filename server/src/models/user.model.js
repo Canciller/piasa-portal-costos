@@ -17,8 +17,9 @@ export default class User {
    * @param {boolean} isActive
    * @param {string} role
    */
-  constructor(username, email, password, isActive, role) {
+  constructor(username, name, email, password, isActive, role) {
     this.username = username;
+    this.name = name;
     this.password = password;
     this.isActive = isActive;
     this.email = email;
@@ -30,6 +31,7 @@ export default class User {
   toJSON() {
     return {
       username: this.username,
+      name: this.name,
       password: this.password,
       email: this.email,
       isActive: this.isActive,
@@ -50,6 +52,7 @@ export default class User {
     return await pool
       .request()
       .input('username', sql.VarChar(80), this.username)
+      .input('name', sql.VarChar(50), this.name)
       .input('email', sql.VarChar(254), this.email)
       .input('password', sql.VarChar(80), this.password)
       .input('role', this.role)
@@ -67,9 +70,10 @@ export default class User {
     try {
       var request = await user.request();
       var res = await request.query(`
-        INSERT INTO users (username, email, password, status, role, createdAt, updatedAt)
+        INSERT INTO users (username, name, email, password, status, role, createdAt, updatedAt)
         VALUES (
           @username,
+          @name,
           @email,
           @password,
           @status,
@@ -99,6 +103,7 @@ export default class User {
     try {
       var user = new User();
       user.username = data.username || username;
+      user.name = data.name;
       user.email = data.email;
       user.password = data.password;
       user.role = data.role;
@@ -107,6 +112,7 @@ export default class User {
       var res = await request.query(`
         UPDATE users SET
           username = IsNull(@username, username),
+          name = IsNull(@name, name),
           email = IsNull(@email, email),
           password = IsNull(@password, password),
           role = IsNull(@role, role),
@@ -184,6 +190,38 @@ export default class User {
   }
 
   /**
+   * Get user from database by email.
+   * @param {string} email
+   */
+  static async getByEmail(email) {
+    try {
+      var pool = await getPool();
+      var request = await pool.request().input('email', email);
+
+      var res = await request.query(`
+        SELECT * FROM users WHERE email = @email
+      `);
+
+      if (res.recordset && res.recordset.length !== 0) {
+        var user = {
+          ...res.recordset[0],
+        };
+
+        //delete user.password;
+
+        user.isActive = user.status === 'A';
+        delete user.status;
+
+        return user;
+      }
+
+      return null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * Get all users from database.
    */
   static async getAll() {
@@ -194,6 +232,7 @@ export default class User {
       var res = await request.query(`
       SELECT
         username,
+        name,
         email,
         status,
         role,

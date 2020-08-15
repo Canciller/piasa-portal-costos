@@ -2,8 +2,35 @@
   padding: 2rem 1.5rem;
   width: 100%;
   max-width: 19rem !important;
+  position: relative;
 }
 
 .loginMessage {
   color: rgb(238, 0, 0);
+}
+
+.loginErrorMessage {
+  position: absolute;
+  bottom: -4rem;
+  left: 0;
+  right: 0;
+}
+
+.userMenuRole {
+  font-size: 0.8rem;
+}
+
+.userMenuUserName {
+  font-size: 1rem;
+}
+
+.imageContent {
+  font-size: 5rem;
+  overflow: visible !important;
+}
+
+.sapMImageContentImageIcon {
+  font-size: inherit !important;
+  position: absolute;
+  top: 0;
 }

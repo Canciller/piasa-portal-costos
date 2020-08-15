@@ -1,5 +1,5 @@
  <mvc:View
-  controllerName="com.piasa.Costos.controller.NotFound"
+  controllerName="com.piasa.Costos.controller.route.NotFound"
   displayBlock="true"
   xmlns="sap.m"
   xmlns:mvc="sap.ui.core.mvc">
