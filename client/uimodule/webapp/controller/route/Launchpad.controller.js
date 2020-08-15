@@ -19,18 +19,21 @@ sap.ui.define(
       Header: new ToolHeader(this),
       Admin: new AdministradorLaunchpad(this),
       onInit: function () {
+        // Load launchpad when role changes.
+        var oUserModel = this.getOwnerComponent().getModel('user');
+        oUserModel.bindProperty('/role').attachChange(
+          function (oEvent) {
+            var role = oEvent.getSource().getValue();
+            if (role) this._loadLaunchpad(role);
+          }.bind(this)
+        );
+
+        // Load launchpad if coming from other route.
         this.getRouter()
           .getRoute('launchpad')
-          .attachMatched(function () {
-            var oUserModel = this.getModel('user');
-            oUserModel.bindProperty('/role').attachChange(
-              function (oEvent) {
-                var role = oEvent.getSource().getValue();
-                if (this._lastRole && this._lastRole === role) return;
-                this._lastRole = role;
-                if (role) this._loadLaunchpad(role);
-              }.bind(this)
-            );
+          .attachMatched(function() {
+            var role = oUserModel.oData.role;
+            if (role) this._loadLaunchpad(role);
           }, this);
       },
       _loadLaunchpad: function (role) {
