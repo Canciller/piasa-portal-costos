@@ -4,8 +4,19 @@ sap.ui.define(
     'sap/ui/Device',
     'com/piasa/Costos/model/models',
     'sap/ui/model/json/JSONModel',
+    'sap/ui/core/routing/History',
+    './service/AuthService',
+    './service/RoleService',
   ],
-  function (UIComponent, Device, models, JSONModel) {
+  function (
+    UIComponent,
+    Device,
+    models,
+    JSONModel,
+    History,
+    AuthService,
+    RoleService
+  ) {
     'use strict';
 
     return UIComponent.extend('com.piasa.Costos.Component', {
@@ -23,19 +34,67 @@ sap.ui.define(
         UIComponent.prototype.init.apply(this, arguments);
 
         // Enable routing
-        this.getRouter().initialize();
+        var oRouter = this.getRouter();
+        oRouter.initialize();
 
         // Set the device model
         this.setModel(models.createDeviceModel(), 'device');
 
-        this.setModel(
-          new JSONModel({
-            username: null,
-            email: null,
-            role: null,
-          }),
-          'user'
-        );
+        var oAuthModel = new JSONModel({
+          username: null,
+          email: null,
+          role: null,
+          name: null,
+        });
+
+        this.setModel(oAuthModel, 'user');
+
+        AuthService.setModel(oAuthModel);
+        AuthService.setBaseUrl('/api/v1/auth');
+
+        // Check if user is logged in.
+        oRouter.attachRouteMatched(function (oEvent) {
+          var name = oEvent.getParameter('name');
+          switch (name) {
+            case 'login':
+              AuthService.me()
+                .then(() => {
+                  oRouter.navTo('launchpad', {}, true);
+                })
+                .catch((error) => {
+                  // TODO: Handle server connection error here.
+                  console.error(error);
+                });
+              break;
+            default:
+              AuthService.me()
+                .then((user) => RoleService.getPermissions(user.role))
+                .then((permissions) => {
+                  var allow = false;
+                  switch (name) {
+                    case 'users':
+                      var users = permissions.users;
+                      if (users.all) allow = true;
+                      break;
+                    default:
+                      allow = true;
+                      break;
+                  }
+                  if (!allow) {
+                    var sPreviousHash = History.getInstance().getPreviousHash();
+
+                    if (sPreviousHash !== undefined) window.history.back();
+                    else throw new Error('Unauthorized');
+                  }
+                })
+                .catch((error) => {
+                  // TODO: Handle server connection error here.
+                  console.error(error);
+                  oRouter.navTo('login', {}, true);
+                });
+              break;
+          }
+        }, this);
 
         // TODO: Show busy indicator
         //sap.ui.core.BusyIndicator.show();

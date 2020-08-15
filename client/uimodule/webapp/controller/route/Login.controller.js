@@ -5,18 +5,22 @@ sap.ui.define(
     'sap/ui/core/Core',
     'sap/ui/core/theming/Parameters',
     'sap/ui/core/IconPool',
+    '../../service/AuthService',
   ],
-  function (BaseController, JSONModel, Core, Parameters, IconPool) {
+  function (
+    BaseController,
+    JSONModel,
+    Core,
+    Parameters,
+    IconPool,
+    AuthService
+  ) {
     'use strict';
     return BaseController.extend('com.piasa.Costos.Login.controller', {
       onInit: function () {
-        var oErrorMessage = this.byId('errorMessage');
-        oErrorMessage.setVisible(false);
-
         let oView = this.getView(),
           oMM = Core.getMessageManager();
 
-        this._oUserModel = this.getOwnerComponent().getModel('user');
         this._oLoginModel = new JSONModel({
           username: '',
           password: '',
@@ -26,13 +30,9 @@ sap.ui.define(
         oMM.registerObject(this.byId('username'), true);
         oMM.registerObject(this.byId('password'), true);
 
-        fetch('/api/v1/auth/me')
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.error) throw data.error;
-            this._setUserAndRedirect(data);
-          })
-          .catch(() => {});
+        // Hide error message.
+        var oErrorMessage = this.byId('errorMessage');
+        oErrorMessage.setVisible(false);
       },
       _validateInput: function (oInput) {
         let sValueState = 'None',
@@ -55,10 +55,6 @@ sap.ui.define(
 
         return bValidationError;
       },
-      _setUserAndRedirect: function (data) {
-        this.setUser(data);
-        this.navTo('launchpad', null, true);
-      },
       OnChange: function (oEvent) {
         let oInput = oEvent.getSource();
         this._validateInput(oInput);
@@ -72,29 +68,18 @@ sap.ui.define(
           bValidationError = this._validateInput(oInput) || bValidationError;
         }, this);
 
-        if (bValidationError) {
-          // Handle validation error.
-        } else {
+        if (!bValidationError) {
           // No validation error.
           let username = this._oLoginModel.oData.username,
             password = this._oLoginModel.oData.password;
 
-          fetch('/api/v1/auth/login', {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              username: username,
-              password: password,
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.error) throw data.error;
+          // Call login service.
+          AuthService.login(username, password)
+            .then(() => {
               oErrorMessage.setVisible(false);
-              this._setUserAndRedirect(data);
+
+              // Go to launchpad.
+              this.navTo('launchpad', {}, true);
             })
             .catch(() => {
               oErrorMessage.setVisible(true);

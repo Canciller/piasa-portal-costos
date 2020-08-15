@@ -5,9 +5,9 @@ import UnauthorizedError from '../util/error/UnauthorizedError';
 export default function (collection) {
   return [
     authenticate,
-    function (req, res, next) {
+    async function (req, res, next) {
       const role = req.user.role;
-      const permissions = getPermissions(collection, role);
+      const permissions = await getPermissions(collection, role);
       if (!permissions) return next(new UnauthorizedError());
 
       var allow = false;

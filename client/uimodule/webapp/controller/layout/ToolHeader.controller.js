@@ -17,7 +17,7 @@ sap.ui.define(
               this._popover = oPopover;
               this.getView().addDependent(this._oPopover);
               this._popover.openBy(oUsername);
-              this._popover.setModel(this.getUser(), 'user');
+              this._popover.setModel(this.getModel('user'), 'user');
               this._popover.setModel(this.getModel('i18n'), 'i18n');
             }.bind(this)
           );

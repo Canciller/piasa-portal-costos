@@ -3,6 +3,6 @@
   xmlns:f="sap.f"
   xmlns:core="sap.ui.core"
 >
-  <Page title='{i18n>launchpadManager.title}'>
+  <Page title='{i18n>role.U}'>
   </Page>
 </core:FragmentDefinition>

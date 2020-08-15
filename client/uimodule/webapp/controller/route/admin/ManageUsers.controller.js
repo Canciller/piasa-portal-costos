@@ -7,15 +7,6 @@ sap.ui.define(
     'use strict';
     return BaseController.extend('com.piasa.Costos.AdminLaunchpad.controller', {
       Header: new ToolHeader(this),
-      onAfterRendering: function () {
-        var oRouter = this.getRouter();
-        oRouter.getRoute('users').attachMatched(this.loadUser, this);
-        /*
-        oRouter.attachRouteMatched(function() {
-          console.log('all routes');
-        }, this);
-        */
-      },
     });
   }
 );

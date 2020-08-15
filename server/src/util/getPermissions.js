@@ -19,7 +19,7 @@ const permissions = {
  * @param {string} collection
  * @param {string} role
  */
-export default function (collection, role) {
+export default async function (collection, role) {
   var r = permissions[role];
   if (r === undefined) return null;
 
