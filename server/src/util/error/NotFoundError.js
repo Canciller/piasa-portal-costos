@@ -4,7 +4,7 @@ import APIError from './APIError';
  * Class representing a Not Found Error.
  * @extends APIError
  */
-class NotFound extends APIError {
+class NotFoundError extends APIError {
   /**
    * Creates a Not Found Error.
    * @param {string} message
@@ -15,4 +15,4 @@ class NotFound extends APIError {
   }
 }
 
-export default NotFound;
+export default NotFoundError;

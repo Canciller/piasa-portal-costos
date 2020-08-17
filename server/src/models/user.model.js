@@ -158,20 +158,19 @@ export default class User {
   static async update(username, data) {
     try {
       var user = new User();
-      user.username = data.username || username;
+      user.username = username;
       user.name = data.name;
       user.email = data.email;
-      user.password = data.password;
       user.role = data.role;
 
       var request = await user.request(username);
 
       //Line removed from query: username = IsNull(@username, username),
+      //Line removed from query: password = IsNull(@password, password),
       var res = await request.query(`
         UPDATE users SET
           name = IsNull(@name, name),
           email = IsNull(@email, email),
-          password = IsNull(@password, password),
           role = IsNull(@role, role),
           updatedAt = @updatedAt
         WHERE username = @current

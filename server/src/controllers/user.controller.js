@@ -1,9 +1,18 @@
 import User from '../models/user.model';
-
+import generatePassword from '../util/generatePassword';
 import hashPassword from '../util/hashPassword';
-
 import NotFoundError from '../util/error/NotFoundError';
-import ForbiddenError from '../util/error/ForbiddenError';
+import nodemailer from 'nodemailer';
+
+require('dotenv').config();
+
+const transporter = nodemailer.createTransport({
+    service: 'hotmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 
 export default {
   load: async (req, res, next, username) => {
@@ -22,24 +31,34 @@ export default {
   },
   create: async (req, res, next) => {
     try {
-      if (!req.body.username || req.body.username === '')
-        throw new ForbiddenError();
-      // TODO: Remove this, create secure random password
-      //       and send them through email.
-      var password = 'password';
-      if (req.body.password !== undefined)
-        password = await hashPassword(req.body.password);
+      var password = generatePassword();
+      var hash = await hashPassword(password);
 
       var user = new User(
         req.body.username,
         req.body.name,
         req.body.email,
-        password,
+        hash,
         req.body.isActive,
         req.body.role
       );
 
       var created = await User.create(user);
+
+      try {
+        let info = await transporter.sendMail({
+          from: 'emiliolopez.gabriel@hotmail.com',
+          to: req.body.email,
+          subject: 'Creación de cuenta',
+          html: `
+          <p>Nombre de usuario: ${req.body.username}</p>
+          <p>Contraseña: ${password}</p>`
+        });
+      } catch(error) {
+        await User.remove(req.body.username);
+        throw error;
+      }
+
       return res.json(created);
     } catch (error) {
       next(error);
@@ -66,15 +85,10 @@ export default {
   update: async (req, res, next) => {
     try {
       var username = req.user.username;
-      var password;
-      if (req.body.password !== undefined)
-        password = await hashPassword(req.body.password);
 
       var user = new User();
-      user.username = req.body.username;
       user.name = req.body.name;
       user.email = req.body.email;
-      user.password = password;
       user.role = req.body.role;
 
       var updated = await User.update(username, user);

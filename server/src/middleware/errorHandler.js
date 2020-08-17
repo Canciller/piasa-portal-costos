@@ -22,6 +22,7 @@ function simpleError(error) {
       name: error.name,
       message: error.message,
       status: error.status,
+      details: error.details,
     },
   };
 }
