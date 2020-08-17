@@ -14,6 +14,12 @@ sap.ui.define(['./APIService'], function (APIService) {
     _clearUsers: function () {
       this.model.setProperty('/users', []);
     },
+    hideBusy: function() {
+      sap.ui.core.BusyIndicator.hide();
+    },
+    showBusy: function() {
+      sap.ui.core.BusyIndicator.show();
+    },
     saveUser: function (username, user) {
       var saved = this.model.getProperty('/saved');
       saved[username] = user;
@@ -24,13 +30,16 @@ sap.ui.define(['./APIService'], function (APIService) {
       return saved;
     },
     getAll: function () {
+      this.showBusy();
       return this.api()
         .get()
         .then((users) => {
+          this.hideBusy();
           this._setUsers(users);
           return users;
         })
         .catch((error) => {
+          this.hideBusy();
           this._clearUsers();
           console.log(error);
           throw error;
@@ -38,26 +47,33 @@ sap.ui.define(['./APIService'], function (APIService) {
     },
     deleteUser: async function (username) {
       try {
+        this.showBusy();
         await this.api(`/${username}`).delete();
+        this.hideBusy();
       } catch (err) {
+        this.hideBusy();
         console.log(err);
         throw err;
       }
     },
     createUser: async function (user) {
       try {
+        this.showBusy();
         var createdUser = await this.api().post(user);
+        this.hideBusy();
         // TODO: Fix this on server side.
         createdUser.createdAt = new Date(createdUser.createdAt);
         createdUser.updatedAt = new Date(createdUser.updatedAt);
         return createdUser;
       } catch (err) {
+        this.hideBusy();
         console.log(err);
         throw err;
       }
     },
     updateUser: async function (username, user) {
       try {
+        this.showBusy();
         // TODO: Improve this on the server side.
         // TODO: Change this, please.
         var updatedUser = await this.api(`/${username}`).put(user);
@@ -66,6 +82,7 @@ sap.ui.define(['./APIService'], function (APIService) {
         var isActive = await this.api(
           `/${newUsername}/${user.isActive ? 'activate' : 'deactivate'}`
         ).get();
+        this.hideBusy();
 
         updatedUser.isActive = isActive.isActive;
 
@@ -75,6 +92,7 @@ sap.ui.define(['./APIService'], function (APIService) {
 
         return updatedUser;
       } catch (err) {
+        this.hideBusy();
         console.log(err);
         throw err;
       }
