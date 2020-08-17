@@ -51,6 +51,7 @@ sap.ui.define(
           update: [],
           create: [],
           delete: [],
+          saved: {},
         });
 
         this.setModel(oUserModel, 'users');

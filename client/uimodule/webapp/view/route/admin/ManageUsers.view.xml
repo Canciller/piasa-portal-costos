@@ -117,7 +117,13 @@
           >
             <Label text="Fecha de actualizacion" />
             <t:template>
-              <Text text="{users>updatedAt}" />
+              <Text text="{
+                path: 'users>updatedAt',
+                type: 'sap.ui.model.type.DateTime',
+                formatOptions: {
+                  style: 'medium'
+                }
+              }" />
             </t:template>
           </t:Column>
           <t:Column
@@ -125,7 +131,13 @@
           >
             <Label text="Fecha de creacion" />
             <t:template>
-              <Text text="{users>createdAt}" />
+              <Text text="{
+                path: 'users>createdAt',
+                type: 'sap.ui.model.type.DateTime',
+                formatOptions: {
+                  style: 'medium'
+                }
+              }" />
             </t:template>
           </t:Column>
           <t:Column
@@ -136,11 +148,13 @@
                 <Button
                   icon="{= ${users>editable} ? 'sap-icon://cancel' : 'sap-icon://edit' }"
                   type="{= ${users>editable} ? 'Reject' : 'Default' }"
+                  press=".handleEditOrCancel"
                   class='tableActionButton'
                 />
                 <Button
                   icon="{= ${users>editable} ? 'sap-icon://save' : 'sap-icon://delete' }"
                   type="{= ${users>editable} ? 'Default' : 'Reject' }"
+                  press=".handleSaveOrDelete"
                   class='tableActionButton'
                 />
               </HBox>

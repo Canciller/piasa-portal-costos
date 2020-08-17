@@ -22,8 +22,8 @@ export default {
   },
   create: async (req, res, next) => {
     try {
-      if(!req.body.username || req.body.username === '')
-        throw new ForbiddenError;
+      if (!req.body.username || req.body.username === '')
+        throw new ForbiddenError();
       // TODO: Remove this, create secure random password
       //       and send them through email.
       var password = 'password';
