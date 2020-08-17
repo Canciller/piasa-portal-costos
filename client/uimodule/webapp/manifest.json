@@ -104,8 +104,7 @@
         "users": {
           "viewType": "XML",
           "viewLevel": 1,
-          "viewName": "route.admin.ManageUsers",
-          "transition": "show"
+          "viewName": "route.admin.ManageUsers"
         },
         "notFound": {
           "viewName": "route.NotFound",

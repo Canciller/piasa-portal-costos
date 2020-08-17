@@ -21,7 +21,7 @@ function simpleError(error) {
     error: {
       name: error.name,
       message: error.message,
-      details: error.details,
+      status: error.status,
     },
   };
 }
@@ -38,6 +38,7 @@ export default function (error, req, res, next) {
     log(error);
 
     const status = error.status || error.statusCode || 500;
+    error.status = status;
 
     return res.status(status).json(simpleError(error));
   }

@@ -26,6 +26,25 @@
       rows="{users>/users}"
       visibleRowCountMode="Auto"
      >
+				<t:extension>
+					<OverflowToolbar>
+            <Title
+              id="title"
+              text="Usuarios" 
+            />
+						<ToolbarSpacer/>
+						<Button
+              icon="sap-icon://add"
+              text="Crear"
+              press=".handleCreate"
+            />
+						<Button
+							icon="sap-icon://refresh"
+							tooltip="Refrescar"
+              press=".handleRefresh"
+            />
+					</OverflowToolbar>
+				</t:extension>
         <t:columns>
           <t:Column
             sortProperty="username"
@@ -33,8 +52,9 @@
           >
             <Label text="Nombre de usuario" />
             <t:template>
-              <Text
-                text="{users>username}"
+              <Input
+                editable="false"
+                value="{users>username}"
               />
             </t:template>
           </t:Column>
@@ -45,7 +65,7 @@
             <Label text="Email" />
             <t:template>
               <Input
-                editable="false"
+                editable="{users>editable}"
                 value="{users>email}"
               />
             </t:template>
@@ -57,7 +77,7 @@
             <Label text="Nombre" />
             <t:template>
               <Input
-                editable="false"
+                editable="{users>editable}"
                 value="{users>name}"
               />
             </t:template>
@@ -68,7 +88,7 @@
             <Label text="Tipo" />
             <t:template>
               <Select
-                editable="false"
+                editable="{users>editable}"
                 selectedKey="{users>role}"
               >
                 <core:Item key="A" text="{i18n>role.A}" />
@@ -83,7 +103,7 @@
             <Label text="Activo" />
             <t:template>
               <CheckBox
-                editable="false"
+                editable="{users>editable}"
                 selected="{users>isActive}"
               />
             </t:template>

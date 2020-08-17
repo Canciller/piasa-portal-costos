@@ -17,7 +17,7 @@ export default {
       if (isEmail(username)) user = await User.getByEmail(username);
       else user = await User.get(username);
 
-      if (!user || !user.isActive) throw new UnauthorizedError();
+      if (!user || !user.isActive) throw new ForbiddenError();
 
       var validCredentials = await comparePassword(password, user.password);
       if (!validCredentials) throw new UnauthorizedError();

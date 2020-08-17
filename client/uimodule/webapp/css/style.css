@@ -45,3 +45,7 @@
 .tableActionButton {
   margin-left: 0.06rem;
 }
+
+.manageUsersError {
+  max-width: 30rem;
+}

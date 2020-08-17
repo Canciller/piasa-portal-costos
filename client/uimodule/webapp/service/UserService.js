@@ -3,16 +3,11 @@ sap.ui.define(['./APIService'], function (APIService) {
 
   var UserService = APIService.extend('com.piasa.Costos.AuthService', {
     _setUsers: function (users) {
-      users.forEach((user) => (user.edit = false));
+      users.forEach((user) => (user.editable = false));
       this.model.setProperty('/users', users);
     },
     _clearUsers: function () {
       this.model.setProperty('/users', []);
-    },
-    clearAddedUsers: function () {
-      this.model.setProperty('/update', []);
-      this.model.setProperty('/delete', []);
-      this.model.setProperty('/create', []);
     },
     getAll: function () {
       return this.api()
@@ -27,27 +22,18 @@ sap.ui.define(['./APIService'], function (APIService) {
           throw error;
         });
     },
-    saveChanges: function () {
-      // TODO: Save changes to server.
-    },
     addUser: function (user) {
       var users = this.model.getProperty('/users');
       users.push(user);
+      this.model.refresh();
     },
-    addToUpdate: function (username, user) {
-      var users = this.model.getProperty('/update');
-      users.push({
-        username: username,
-        data: user,
-      });
-    },
-    addToDelete: function (username) {
-      var users = this.model.getProperty('/delete');
-      users.push(username);
-    },
-    addToCreate: function (user) {
-      var users = this.model.getProperty('/create');
-      users.push(user);
+    deleteUser: async function (username) {
+      try {
+        await this.api(`/${username}`).delete();
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
     },
     updateUser: async function (username, user) {
       try {
@@ -55,7 +41,9 @@ sap.ui.define(['./APIService'], function (APIService) {
         // TODO: Change this, please.
         var updatedUser = await this.api(`/${username}`).put(user);
         var newUsername = user.username || username;
-        var isActive = await this.api(`/${newUsername}/${user.isActive ? 'activate' : 'deactivate'}`).get();
+        var isActive = await this.api(
+          `/${newUsername}/${user.isActive ? 'activate' : 'deactivate'}`
+        ).get();
         updatedUser.isActive = isActive.isActive;
         return updatedUser;
       } catch (err) {

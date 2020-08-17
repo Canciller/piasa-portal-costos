@@ -165,9 +165,10 @@ export default class User {
       user.role = data.role;
 
       var request = await user.request(username);
+
+      //Line removed from query: username = IsNull(@username, username),
       var res = await request.query(`
         UPDATE users SET
-          username = IsNull(@username, username),
           name = IsNull(@name, name),
           email = IsNull(@email, email),
           password = IsNull(@password, password),

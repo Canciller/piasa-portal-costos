@@ -81,13 +81,30 @@ sap.ui.define(
               // Go to launchpad.
               this.navTo('launchpad', {}, true);
             })
-            .catch(() => {
+            .catch((error) => {
               oErrorMessage.setVisible(true);
-              oErrorMessage.setText(
-                this.getModel('i18n')
-                  .getResourceBundle()
-                  .getText('loginFormBadCredentials')
-              );
+              if (error.status === 401) {
+                // Bad Credentials
+                oErrorMessage.setText(
+                  this.getModel('i18n')
+                    .getResourceBundle()
+                    .getText('loginFormBadCredentials')
+                );
+              } else if (error.status === 403) {
+                // Not Active
+                oErrorMessage.setText(
+                  this.getModel('i18n')
+                    .getResourceBundle()
+                    .getText('loginFormUnactive')
+                );
+              } else {
+                // Server Error
+                oErrorMessage.setText(
+                  this.getModel('i18n')
+                    .getResourceBundle()
+                    .getText('loginFormServerError')
+                );
+              }
             })
             .then(() => {
               this._oLoginModel.setProperty('/password', '');
