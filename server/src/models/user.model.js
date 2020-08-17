@@ -57,8 +57,8 @@ export default class User {
       .input('password', sql.VarChar(80), this.password)
       .input('role', this.role)
       .input('status', this.isActive ? 'A' : 'U')
-      .input('createdAt', sql.DateTime, this.createdAt)
-      .input('updatedAt', sql.DateTime, this.updatedAt)
+      .input('createdAt', sql.SmallDateTime, this.createdAt)
+      .input('updatedAt', sql.SmallDateTime, this.updatedAt)
       .input('current', username);
   }
 
@@ -89,6 +89,62 @@ export default class User {
         return createdUser;
       }
       throw new Error('Error creating user');
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async activate(username) {
+    try {
+      var pool = await getPool();
+      var request = await pool
+        .request()
+        .input('username', username)
+        .input('updatedAt', new Date());
+
+      var res = await request.query(`
+          UPDATE users SET
+            status = 'A',
+            updatedAt = @updatedAt
+          WHERE username = @username
+        `);
+
+      if (hasAffectedRows(res)) {
+        return {
+          username: username,
+          isActive: true,
+        };
+      }
+
+      throw new Error('Error activating user');
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async deactivate(username) {
+    try {
+      var pool = await getPool();
+      var request = await pool
+        .request()
+        .input('username', username)
+        .input('updatedAt', new Date());
+
+      var res = await request.query(`
+          UPDATE users SET
+            status = 'U',
+            updatedAt = @updatedAt
+          WHERE username = @username
+        `);
+
+      if (hasAffectedRows(res)) {
+        return {
+          username: username,
+          isActive: false,
+        };
+      }
+
+      throw new Error('Error activating user');
     } catch (error) {
       throw error;
     }
@@ -238,7 +294,8 @@ export default class User {
         role,
         createdAt,
         updatedAt
-      FROM users`);
+      FROM users
+      ORDER BY updatedAt DESC`);
 
       if (res.recordset && res.recordset.length !== 0) {
         res.recordset.forEach((user) => {

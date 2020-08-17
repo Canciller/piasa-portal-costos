@@ -11,18 +11,8 @@ router
   .put(controller.update)
   .delete(controller.remove);
 
-/*
-router
-  .route('/change/username/:username')
-  .post(controller.changeUsername);
+router.route('/:username/activate').get(controller.activate);
 
-router
-  .route('/change/email/:username')
-  .post(controller.changeEmail);
-
-router
-  .route('/change/password/:username')
-  .post(controller.changePassword);
-  */
+router.route('/:username/deactivate').get(controller.deactivate);
 
 export default router;

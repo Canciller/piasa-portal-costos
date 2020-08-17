@@ -25,7 +25,10 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
           };
         }
 
-        return fetch(base + endpoint, op)
+        var url = base;
+        if (endpoint) url += endpoint;
+
+        return fetch(url, op)
           .then((res) => res.json())
           .then((json) => {
             if (json.error) throw json.error;

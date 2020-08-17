@@ -34,3 +34,14 @@
   position: absolute;
   top: 0;
 }
+
+.tableActionButton .sapMBtnInner,
+.tableActionButton .sapMBtnInner.sapMBtnReject {
+  border: 0;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.tableActionButton {
+  margin-left: 0.06rem;
+}

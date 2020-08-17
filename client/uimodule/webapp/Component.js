@@ -5,6 +5,7 @@ sap.ui.define(
     'com/piasa/Costos/model/models',
     'sap/ui/model/json/JSONModel',
     'sap/ui/core/routing/History',
+    './service/UserService',
     './service/AuthService',
     './service/RoleService',
   ],
@@ -14,6 +15,7 @@ sap.ui.define(
     models,
     JSONModel,
     History,
+    UserService,
     AuthService,
     RoleService
   ) {
@@ -40,6 +42,23 @@ sap.ui.define(
         // Set the device model
         this.setModel(models.createDeviceModel(), 'device');
 
+        // TODO: Move model creation to service class.
+        // TODO: Define service base url inside service class.
+
+        // Users model
+        var oUserModel = new JSONModel({
+          users: [],
+          update: [],
+          create: [],
+          delete: [],
+        });
+
+        this.setModel(oUserModel, 'users');
+
+        UserService.setModel(oUserModel);
+        UserService.setBaseUrl('/api/v1/users');
+
+        // Auth model
         var oAuthModel = new JSONModel({
           username: null,
           email: null,

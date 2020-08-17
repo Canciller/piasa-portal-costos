@@ -24,7 +24,9 @@ export default {
 
       var token = signToken(user);
 
-      res.cookie('token', token, { httpOnly: true });
+      var month = new Date();
+      month.setMonth(month.getMonth() + 1);
+      res.cookie('token', token, { httpOnly: true, expires: month });
       return res.json({
         username: user.username,
         name: user.name,

@@ -38,6 +38,24 @@ export default {
       next(error);
     }
   },
+  activate: async (req, res, next) => {
+    try {
+      var username = req.user.username;
+      var activated = await User.activate(username);
+      return res.json(activated);
+    } catch (error) {
+      next(error);
+    }
+  },
+  deactivate: async (req, res, next) => {
+    try {
+      var username = req.user.username;
+      var deactivated = await User.deactivate(username);
+      return res.json(deactivated);
+    } catch (error) {
+      next(error);
+    }
+  },
   update: async (req, res, next) => {
     try {
       var username = req.user.username;

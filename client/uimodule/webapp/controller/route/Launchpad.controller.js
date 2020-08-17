@@ -31,7 +31,7 @@ sap.ui.define(
         // Load launchpad if coming from other route.
         this.getRouter()
           .getRoute('launchpad')
-          .attachMatched(function() {
+          .attachMatched(function () {
             var role = oUserModel.oData.role;
             if (role) this._loadLaunchpad(role);
           }, this);
