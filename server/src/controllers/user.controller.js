@@ -3,6 +3,7 @@ import User from '../models/user.model';
 import hashPassword from '../util/hashPassword';
 
 import NotFoundError from '../util/error/NotFoundError';
+import ForbiddenError from '../util/error/ForbiddenError';
 
 export default {
   load: async (req, res, next, username) => {
@@ -21,7 +22,13 @@ export default {
   },
   create: async (req, res, next) => {
     try {
-      var password = await hashPassword(req.body.password);
+      if(!req.body.username || req.body.username === '')
+        throw new ForbiddenError;
+      // TODO: Remove this, create secure random password
+      //       and send them through email.
+      var password = 'password';
+      if (req.body.password !== undefined)
+        password = await hashPassword(req.body.password);
 
       var user = new User(
         req.body.username,

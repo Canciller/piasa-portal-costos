@@ -25,6 +25,7 @@
       id="users"
       rows="{users>/users}"
       visibleRowCountMode="Auto"
+      enableColumnReordering="false"
      >
 				<t:extension>
 					<OverflowToolbar>
@@ -44,7 +45,10 @@
               press=".handleRefresh"
             />
 					</OverflowToolbar>
-				</t:extension>
+        </t:extension>
+				<t:rowSettingsTemplate>
+					<t:RowSettings highlight="{= ${users>new} ? 'Success' : (${users>editable} ? 'Information' : 'None') }" />
+				</t:rowSettingsTemplate>
         <t:columns>
           <t:Column
             sortProperty="username"
@@ -53,7 +57,7 @@
             <Label text="Nombre de usuario" />
             <t:template>
               <Input
-                editable="false"
+                editable="{= ${users>new} ? true : false }"
                 value="{users>username}"
               />
             </t:template>
@@ -122,6 +126,24 @@
             <Label text="Fecha de creacion" />
             <t:template>
               <Text text="{users>createdAt}" />
+            </t:template>
+          </t:Column>
+          <t:Column
+            width="5.5rem"
+          >
+            <t:template>
+              <HBox>
+                <Button
+                  icon="{= ${users>editable} ? 'sap-icon://cancel' : 'sap-icon://edit' }"
+                  type="{= ${users>editable} ? 'Reject' : 'Default' }"
+                  class='tableActionButton'
+                />
+                <Button
+                  icon="{= ${users>editable} ? 'sap-icon://save' : 'sap-icon://delete' }"
+                  type="{= ${users>editable} ? 'Default' : 'Reject' }"
+                  class='tableActionButton'
+                />
+              </HBox>
             </t:template>
           </t:Column>
         </t:columns>

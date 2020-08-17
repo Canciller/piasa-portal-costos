@@ -9,6 +9,11 @@ sap.ui.define(['./APIService'], function (APIService) {
     _clearUsers: function () {
       this.model.setProperty('/users', []);
     },
+    addUser: function (user) {
+      var users = this.model.getProperty('/users');
+      users.push(user);
+      this.model.refresh();
+    },
     getAll: function () {
       return this.api()
         .get()
@@ -22,14 +27,18 @@ sap.ui.define(['./APIService'], function (APIService) {
           throw error;
         });
     },
-    addUser: function (user) {
-      var users = this.model.getProperty('/users');
-      users.push(user);
-      this.model.refresh();
-    },
     deleteUser: async function (username) {
       try {
         await this.api(`/${username}`).delete();
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    },
+    createUser: async function (user) {
+      try {
+        var createdUser = await this.api().post(user);
+        return createdUser;
       } catch (err) {
         console.log(err);
         throw err;
