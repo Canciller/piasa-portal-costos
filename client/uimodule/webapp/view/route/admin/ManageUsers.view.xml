@@ -25,7 +25,9 @@
       id="users"
       rows="{users>/users}"
       visibleRowCountMode="Auto"
+      rowHeight="51"
       enableColumnReordering="false"
+      wrapping = "false"
      >
 				<t:extension>
 					<OverflowToolbar>
