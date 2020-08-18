@@ -77,7 +77,6 @@ const checkUpdateUser = [
     .optional()
     .isEmail()
     .withMessage(msg.email.invalid)
-    .normalizeEmail()
     .custom(findUserByEmail),
   body('isActive').isBoolean().withMessage(msg.isActive.required),
   // TODO: Get roles from database.

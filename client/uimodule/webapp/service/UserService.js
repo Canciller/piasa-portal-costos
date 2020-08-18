@@ -5,15 +5,17 @@ sap.ui.define(['./APIService'], function (APIService) {
     _setUsers: function (users) {
       users.forEach((user) => {
         user.editable = false;
-
-        // TODO: Fix this on server side.
-        user.createdAt = new Date(user.createdAt);
-        user.updatedAt = new Date(user.updatedAt);
+        this._setDates(user);
       });
       this.model.setProperty('/users', users);
     },
     _clearUsers: function () {
       this.model.setProperty('/users', []);
+    },
+    _setDates: function(user) {
+        // TODO: Fix this on server side.
+        user.createdAt = new Date(user.createdAt);
+        user.updatedAt = new Date(user.updatedAt);
     },
     hideBusy: function () {
       sap.ui.core.BusyIndicator.hide();
@@ -61,9 +63,8 @@ sap.ui.define(['./APIService'], function (APIService) {
         var createdUser = await this.api().post(user);
         this.hideBusy();
 
-        // TODO: Fix this on server side.
-        createdUser.createdAt = new Date(createdUser.createdAt);
-        createdUser.updatedAt = new Date(createdUser.updatedAt);
+        this._setDates(createdUser);
+
         return createdUser;
       } catch (error) {
         this.hideBusy();
@@ -77,9 +78,7 @@ sap.ui.define(['./APIService'], function (APIService) {
         var updatedUser = await this.api(`/${username}`).put(user);
         this.hideBusy();
 
-        // TODO: Fix this on server side.
-        updatedUser.createdAt = new Date(updatedUser.createdAt);
-        updatedUser.updatedAt = new Date(updatedUser.updatedAt);
+        this._setDates(updatedUser);
 
         return updatedUser;
       } catch (error) {
