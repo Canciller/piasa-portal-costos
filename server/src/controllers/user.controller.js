@@ -93,6 +93,7 @@ export default {
       user.name = req.body.name;
       user.email = req.body.email;
       user.role = req.body.role;
+      user.isActive = req.body.isActive;
 
       var updated = await User.update(username, user);
       delete updated.password;

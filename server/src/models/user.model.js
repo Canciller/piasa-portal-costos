@@ -160,6 +160,7 @@ export default class User {
       user.name = data.name;
       user.email = data.email;
       user.role = data.role;
+      user.isActive = data.isActive
 
       var request = await user.request(username);
 
@@ -170,6 +171,7 @@ export default class User {
           name = IsNull(@name, name),
           email = IsNull(@email, email),
           role = IsNull(@role, role),
+          status = @status,
           updatedAt = @updatedAt
         WHERE username = @current
       `);
