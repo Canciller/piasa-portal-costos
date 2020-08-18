@@ -14,10 +14,10 @@ sap.ui.define(['./APIService'], function (APIService) {
     _clearUsers: function () {
       this.model.setProperty('/users', []);
     },
-    hideBusy: function() {
+    hideBusy: function () {
       sap.ui.core.BusyIndicator.hide();
     },
-    showBusy: function() {
+    showBusy: function () {
       sap.ui.core.BusyIndicator.show();
     },
     saveUser: function (username, user) {

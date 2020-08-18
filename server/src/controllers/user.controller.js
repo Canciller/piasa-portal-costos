@@ -7,11 +7,11 @@ import nodemailer from 'nodemailer';
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
+  service: 'hotmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 export default {
@@ -47,14 +47,17 @@ export default {
 
       try {
         let info = await transporter.sendMail({
-          from: 'emiliolopez.gabriel@hotmail.com',
+          from: process.env.EMAIL_USER,
           to: req.body.email,
           subject: 'Creación de cuenta',
           html: `
           <p>Nombre de usuario: ${req.body.username}</p>
-          <p>Contraseña: ${password}</p>`
+          <p>Contraseña: ${password}</p>
+          <p>
+            <a href="${process.env.DOMAIN}" target="_blank"> ${process.env.DOMAIN} </a>
+          </p>`,
         });
-      } catch(error) {
+      } catch (error) {
         await User.remove(req.body.username);
         throw error;
       }

@@ -11,6 +11,12 @@ const permissions = {
     users: {
       read: true,
     },
+    assignments: {
+      create: true,
+      write: true,
+      read: true,
+      delete: true,
+    },
   },
 };
 

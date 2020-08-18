@@ -1,8 +1,6 @@
-import sql, { Table } from 'mssql';
+import sql from 'mssql';
 import hasAffectedRows from '../util/dbHasAffectedRows';
-import queryResult from '../util/dbQueryResult';
 import getPool from '../util/dbGetPool';
-import hashPassword from '../util/hashPassword';
 import log from '../util/log/error';
 
 /**
