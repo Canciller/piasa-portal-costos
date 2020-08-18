@@ -43,7 +43,7 @@ export default class User {
    * Create request and add inputs.
    * @param {string} username
    */
-  async request(username) {
+  async request() {
     this.updatedAt = new Date();
 
     var pool = await getPool();
@@ -56,8 +56,7 @@ export default class User {
       .input('role', this.role)
       .input('status', this.isActive ? 'A' : 'U')
       .input('createdAt', sql.SmallDateTime, this.createdAt)
-      .input('updatedAt', sql.SmallDateTime, this.updatedAt)
-      .input('current', username);
+      .input('updatedAt', sql.SmallDateTime, this.updatedAt);
   }
 
   /**
@@ -160,9 +159,9 @@ export default class User {
       user.name = data.name;
       user.email = data.email;
       user.role = data.role;
-      user.isActive = data.isActive
+      user.isActive = data.isActive;
 
-      var request = await user.request(username);
+      var request = await user.request();
 
       //Line removed from query: username = IsNull(@username, username),
       //Line removed from query: password = IsNull(@password, password),
@@ -173,11 +172,12 @@ export default class User {
           role = IsNull(@role, role),
           status = @status,
           updatedAt = @updatedAt
-        WHERE username = @current
+        WHERE username = @username
       `);
 
       if (hasAffectedRows(res)) {
-        var updatedUser = await User.get(data.username || username);
+        var updatedUser = await User.get(username);
+        delete updatedUser.password;
         return updatedUser;
       }
 
