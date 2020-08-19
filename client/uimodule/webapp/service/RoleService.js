@@ -1,3 +1,6 @@
+
+// This roles does not override server role verification.
+
 sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
   'use strict';
 
@@ -18,6 +21,9 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
         users: {
           read: true,
         },
+        assignments: {
+          all: true,
+        }
       },
     },
     U: {

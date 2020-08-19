@@ -34,56 +34,38 @@ sap.ui.define(['./APIService'], function (APIService) {
     },
     getAll: async function () {
       try {
-        this.showBusy();
         var users = await this.api().get();
-        this.hideBusy();
         this._setUsers(users);
         return users;
       } catch (error) {
-        this.hideBusy();
         this._clearUsers();
-        console.log(error);
         throw error;
       }
     },
     deleteUser: async function (username) {
       try {
-        this.showBusy();
         await this.api(`/${username}`).delete();
-        this.hideBusy();
       } catch (error) {
-        this.hideBusy();
-        console.log(error);
         throw error;
       }
     },
     createUser: async function (user) {
       try {
-        this.showBusy();
         var createdUser = await this.api().post(user);
-        this.hideBusy();
-
         this._setDates(createdUser);
 
         return createdUser;
       } catch (error) {
-        this.hideBusy();
-        console.log(error);
         throw error;
       }
     },
     updateUser: async function (username, user) {
       try {
-        this.showBusy();
         var updatedUser = await this.api(`/${username}`).put(user);
-        this.hideBusy();
-
         this._setDates(updatedUser);
 
         return updatedUser;
       } catch (error) {
-        this.hideBusy();
-        console.log(error);
         throw error;
       }
     },

@@ -28,11 +28,19 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
         var url = base;
         if (endpoint) url += endpoint;
 
+        sap.ui.core.BusyIndicator.show(); // Show busy indicator
+
         return fetch(url, op)
           .then((res) => res.json())
           .then((json) => {
             if (json.error) throw json.error;
+            sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
             return json;
+          })
+          .catch(error => {
+            sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
+            console.error(error);
+            throw error;
           });
       };
 
