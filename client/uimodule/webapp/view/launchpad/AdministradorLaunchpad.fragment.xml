@@ -6,8 +6,8 @@
   <Page title='{i18n>role.A}'>
     <GenericTile
       class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-      header="{i18n>launchpadAdmin.users.header}"
-      subheader="{i18n>launchpadAdmin.users.subheader}"
+      header="{i18n>launchpadAdmin.tile.users.header}"
+      subheader="{i18n>launchpadAdmin.tile.users.subheader}"
       width="13rem"
       press=".Admin.onPressManageUsers"
     >
