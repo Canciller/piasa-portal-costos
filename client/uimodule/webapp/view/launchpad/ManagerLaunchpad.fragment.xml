@@ -9,7 +9,7 @@
       header="{i18n>launchpadManager.tile.assignments.header}"
       subheader="{i18n>launchpadManager.tile.assignments.subheader}"
       width="13rem"
-      press=".Manager.onPressManageAssignments"
+      press=".Manager.onPressAssignments"
     >
       <TileContent
       >

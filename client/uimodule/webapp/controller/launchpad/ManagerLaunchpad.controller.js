@@ -4,7 +4,7 @@ sap.ui.define(
     'use strict';
 
     return BaseController.extend('com.piasa.Costos.ManagerLaunchpad.controller', {
-      onPressManageUsers: function () {
+      onPressAssignments: function () {
         this.navTo('assignments');
       },
     });

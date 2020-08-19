@@ -88,6 +88,11 @@
           "pattern": "users",
           "name": "users",
           "target": "users"
+        },
+        {
+          "pattern": "assignments",
+          "name": "assignments",
+          "target": "assignments"
         }
       ],
       "targets": {
@@ -105,6 +110,11 @@
           "viewType": "XML",
           "viewLevel": 1,
           "viewName": "route.admin.ManageUsers"
+        },
+        "assignments": {
+          "viewType": "XML",
+          "viewLevel": 1,
+          "viewName": "route.manager.Assignments"
         },
         "notFound": {
           "viewName": "route.NotFound",
