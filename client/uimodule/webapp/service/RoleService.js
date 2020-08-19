@@ -15,7 +15,7 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
       },
     },
     M: {
-      key: 'A',
+      key: 'M',
       name: 'Manager',
       permissions: {
         users: {

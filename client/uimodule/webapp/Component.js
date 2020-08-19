@@ -32,14 +32,14 @@ sap.ui.define(
        * @override
        */
       init: function () {
-        // Call the base component's init function
+        // Call the base component's init function.
         UIComponent.prototype.init.apply(this, arguments);
 
-        // Enable routing
+        // Enable routing.
         var oRouter = this.getRouter();
         oRouter.initialize();
 
-        // Set the device model
+        // Set the device model.
         this.setModel(models.createDeviceModel(), 'device');
 
         // TODO: Move model creation to service class.
@@ -48,9 +48,6 @@ sap.ui.define(
         // Users model
         var oUserModel = new JSONModel({
           users: [],
-          update: [],
-          create: [],
-          delete: [],
           saved: {},
         });
 
@@ -72,6 +69,9 @@ sap.ui.define(
         AuthService.setModel(oAuthModel);
         AuthService.setBaseUrl('/api/v1/auth');
 
+
+        // TODO: Refactor this using a single promise.
+
         // Check if user is logged in.
         oRouter.attachRouteMatched(function (oEvent) {
           var name = oEvent.getParameter('name');
@@ -90,11 +90,15 @@ sap.ui.define(
               AuthService.me()
                 .then((user) => RoleService.getPermissions(user.role))
                 .then((permissions) => {
+                  var assignments = permissions.assignments,
+                    users = permissions.users;
                   var allow = false;
                   switch (name) {
                     case 'users':
-                      var users = permissions.users;
                       if (users.all) allow = true;
+                      break;
+                    case 'assignments':
+                      if (assignments.all && users.read) allow = true;
                       break;
                     default:
                       allow = true;
@@ -115,9 +119,6 @@ sap.ui.define(
               break;
           }
         }, this);
-
-        // TODO: Show busy indicator
-        //sap.ui.core.BusyIndicator.show();
       },
     });
   }
