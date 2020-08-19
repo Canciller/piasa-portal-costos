@@ -9,13 +9,13 @@
       header="{i18n>launchpadManager.tile.assignments.header}"
       subheader="{i18n>launchpadManager.tile.assignments.subheader}"
       width="13rem"
-      press=".Manager.onPressManageAssigments"
+      press=".Manager.onPressManageAssignments"
     >
       <TileContent
       >
         <ImageContent
           class="imageContent"
-          src="sap-icon://user-edit"
+          src="sap-icon://activity-individual"
         />
       </TileContent>
     </GenericTile>
