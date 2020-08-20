@@ -53,7 +53,7 @@ sap.ui.define(
           oBinding.sort(oSorter);
         },
         onRefresh: function () {
-          AssignmentService.get();
+          AssignmentService.getAllForCurrentUser();
         },
         onSave: function () {
           AssignmentService.save()

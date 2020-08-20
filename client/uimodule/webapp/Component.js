@@ -44,19 +44,11 @@ sap.ui.define(
         // Set the device model.
         this.setModel(models.createDeviceModel(), 'device');
 
-        // TODO: Move model creation to service class.
-        // TODO: Define service base url inside service class, see assignments service.
+        // User Service
+        this.setModel(UserService.getModel(), 'users');
 
-        // Users model
-        var oUserModel = new JSONModel({
-          users: [],
-          saved: {},
-        });
-
-        this.setModel(oUserModel, 'users');
-
-        UserService.setModel(oUserModel);
-        UserService.setBaseUrl('/api/v1/users');
+        // Assignment Service
+        this.setModel(AssignmentService.getModel(), 'assignments');
 
         // Auth model
         var oAuthModel = new JSONModel({
@@ -70,8 +62,6 @@ sap.ui.define(
 
         AuthService.setModel(oAuthModel);
         AuthService.setBaseUrl('/api/v1/auth');
-
-        this.setModel(AssignmentService.getModel(), 'assignments');
 
         // TODO: Refactor this using a single promise.
 

@@ -19,7 +19,6 @@ sap.ui.define(
   ) {
     'use strict';
 
-    // TODO: Add refresh button.
     return BaseController.extend(
       'com.piasa.Costos.layout.assignments.Users.controller',
       {
@@ -27,19 +26,6 @@ sap.ui.define(
           this.oView = this.getView();
           this._bDescendingSort = false;
           this.oUsersTable = this.oView.byId('usersTable');
-        },
-        _changeSubtitle: function (user) {
-          AssignmentService.setProperty(
-            '/subtitle',
-            `
-            <p>
-              <strong>Usuario: </strong> ${user.username}
-            </p>
-            <p>
-              <strong>Email: </strong> ${user.email}
-            </p>
-          `
-          );
         },
         onSearch: function (oEvent) {
           var oTableSearchState = [],
@@ -75,8 +61,7 @@ sap.ui.define(
 
           oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsMidExpanded);
 
-          this._changeSubtitle(user);
-          AssignmentService.get(user.username, user);
+          AssignmentService.setCurrentUserAndGetAll(user);
         },
       }
     );

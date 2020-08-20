@@ -6,6 +6,8 @@
 	<f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
 		<f:content>
 			<Table
+				busy="{users>/loading}"
+				busyIndicatorDelay="100"
 				id="usersTable"
 				inset="false"
 				items="{

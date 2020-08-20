@@ -9,7 +9,7 @@ sap.ui.define(
     'use strict';
 
     return BaseController.extend(
-      'com.piasa.Costos.route.manager.Assignments.controller',
+      'com.piasa.Costos.route.manager.ManageAssignments.controller',
       {
         Header: new ToolHeader(this),
         onInit: function () {
@@ -17,7 +17,7 @@ sap.ui.define(
             .getRoute('assignments')
             .attachMatched(function () {
               UserService.getAll();
-              AssignmentService.get();
+              AssignmentService.getAllForCurrentUser();
             }, this);
         },
       }

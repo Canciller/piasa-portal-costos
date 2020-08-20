@@ -8,15 +8,21 @@
 		id="assignmentsPage"
   >
     <title>
-      <DynamicPageTitle>
+      <DynamicPageTitle
+        busy="{users>/user/loading}"
+        busyIndicatorDelay="100"
+        busyIndicatorSize="Small"
+      >
         <heading>
-          <m:Title text="{assignments>/user/name}"/>
+          <m:Title
+            text="{users>/user/name}"
+          />
         </heading>
         <content>
           <m:OverflowToolbar>
             <m:GenericTag
-              text="{= ${assignments>/user/isActive} ? 'Activo' : 'No Activo' }"
-              status="{= ${assignments>/user/isActive} ? 'Success' : 'Error'}"
+              text="{= ${users>/user/isActive} ? 'Activo' : 'No Activo' }"
+              status="{= ${users>/user/isActive} ? 'Success' : 'Error'}"
               design="Full"
               busyIndicatorSize="Large"
             >
@@ -27,16 +33,22 @@
           </m:OverflowToolbar>
         </content>
         <expandedContent>
-            <m:FormattedText htmlText="{assignments>/subtitle}"/>
+            <m:FormattedText
+              htmlText="{assignments>/subtitle}"
+            />
         </expandedContent>
         <snappedContent>
-            <m:FormattedText htmlText="{assignments>/subtitle}"/>
+            <m:FormattedText
+              htmlText="{assignments>/subtitle}"
+            />
         </snappedContent>
       </DynamicPageTitle>
     </title>
     
     <content>
       <m:Table
+        busy="{assignments>/loading}"
+        busyIndicatorDelay="100"
         id="assignmentsTable"
         inset="false"
         items="{
@@ -47,7 +59,7 @@
         mode="MultiSelect"
         selectionChange=".onSelectionChange"
         sticky="HeaderToolbar"
-        showOverlay="{= !${assignments>/user/isActive}}"
+        showOverlay="{= !${users>/user/isActive}}"
       >
         <m:headerToolbar>
           <m:Toolbar>

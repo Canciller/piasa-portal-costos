@@ -1,6 +1,7 @@
-sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
+sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel', './UserService'], function (
   APIService,
-  JSONModel
+  JSONModel,
+  UserService
 ) {
   'use strict';
 
@@ -12,43 +13,72 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setModel(
           new JSONModel({
             assignments: {},
-            link: {},
-            unlink: {},
+            user: {
+              loading: true,
+            },
+            subtitle: '',
           })
         );
       },
-      getUsername: function () {
-        return this.getProperty('/username');
+      setFormattedUser: function (user) {
+        this.setProperty(
+          '/subtitle',
+          `
+          <p>
+            <strong>Usuario: </strong> ${user.username}
+          </p>
+          <p>
+            <strong>Email: </strong> ${user.email}
+          </p>
+        `
+        );
       },
-      get: async function (username, user) {
-        username = username || this.getProperty('/username');
-        user = user || this.getProperty('/user');
-
+      clearFormattedUser: function () {
+        this.setProperty('/subtitle', '');
+      },
+      getUsername: function () {
+        return this.getProperty('/user/username');
+      },
+      setCurrentUserAndGetAll: async function (user) {
+        UserService.setProperty('/user', user);
+        UserService.setProperty('/user/loading', false);
+        return this.getAllForCurrentUser(false);
+      },
+      getAllForCurrentUser: async function (fetchUser = true) {
         try {
-          var all = await this.api(`/${username}/all`).get();
-          this.setProperty('/assignments', all);
-          this.setProperty('/username', username);
-          this.setProperty('/user', user);
-          this.model.refresh(true);
+          var user = UserService.getProperty('/user');
+          var username = user.username;
+
+          if (username) {
+            this.setProperty('/loading', true);
+            this.setFormattedUser(user);
+
+            if (fetchUser) UserService.get(username);
+
+            var all = await this.api(`/${username}/all`).get();
+            this.setProperty('/assignments', all);
+          }
         } catch (error) {
           this.setProperty('/assignments', []);
-          this.setProperty('/username', undefined);
-          this.setProperty('/user', undefined);
-          this.model.refresh(true);
+          UserService.setProperty('/user', {});
+          this.clearFormattedUser();
           throw error;
+        } finally {
+          //this.model.refresh(true);
+          this.setProperty('/loading', false);
         }
       },
       save: async function () {
         var username = this.getUsername();
         if (!username) throw new Error('No hay ningun usuario seleccionado.');
 
+        var assignments = this.getProperty('/assignments');
+        var remove = [],
+          create = [];
+
+        this.setProperty('/loading', true);
+
         try {
-          sap.ui.core.BusyIndicator.show(); // Show busy indicator
-
-          var assignments = this.getProperty('/assignments');
-          var remove = [],
-            create = [];
-
           assignments.forEach((assignment) => {
             if (assignment.username === undefined) {
               if (assignment.selected) {
@@ -56,6 +86,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
                   username: username,
                   kostl: assignment.KOSTL,
                 });
+                //assignment.username = username;
               }
             } else {
               if (assignment.selected !== undefined && !assignment.selected) {
@@ -63,18 +94,21 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
                   username: username,
                   kostl: assignment.KOSTL,
                 });
+                //assignment.username = undefined;
               }
             }
           });
 
-          await this.api('/link', false).post(create);
-          await this.api('/unlink', false).post(remove);
+          if (create.length > 0) await this.api('/link').post(create);
+          if (remove.length > 0) await this.api('/unlink').post(remove);
+
+          if (create.length > 0 || remove.length > 0) await this.get();
 
           return username;
         } catch (error) {
           throw error;
         } finally {
-          sap.ui.core.BusyIndicator.hide(); // Hide busy indicator on error
+          this.setProperty('/loading', false);
         }
       },
     }

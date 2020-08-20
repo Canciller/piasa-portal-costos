@@ -53,7 +53,8 @@ export default {
           to: req.body.email,
           subject: 'Creación de cuenta',
           html: `
-          <p>Nombre de usuario: ${req.body.username}</p>
+          <p>Nombre: ${req.body.name}</p>
+          <p>Usuario: ${req.body.username}</p>
           <p>Contraseña: ${password}</p>
           <p>
             <a href="${process.env.DOMAIN}" target="_blank"> ${process.env.DOMAIN} </a>
@@ -99,6 +100,23 @@ export default {
 
       var updated = await User.update(username, user);
       delete updated.password;
+
+      try {
+        let info = await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: req.body.email,
+          subject: 'Modificación de cuenta',
+          html: `
+          <p>Nombre: ${req.body.name}</p>
+          <p>Usuario: ${req.body.username}</p>
+          <p>
+            <a href="${process.env.DOMAIN}" target="_blank"> ${process.env.DOMAIN} </a>
+          </p>`,
+        });
+      } catch (error) {
+        throw error;
+      }
+
       return res.json(updated);
     } catch (error) {
       next(error);

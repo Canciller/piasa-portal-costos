@@ -1,5 +1,5 @@
  <mvc:View
-  controllerName="com.piasa.Costos.controller.route.manager.Assignments"
+  controllerName="com.piasa.Costos.controller.route.manager.ManageAssignments"
   displayBlock="true"
   xmlns="sap.m"
   xmlns:f="sap.f"

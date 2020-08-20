@@ -29,7 +29,7 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
         }
       }
     },
-    api: function (endpoint, withBusyIndicator = true) {
+    api: function (endpoint) {
       var base = this.base;
 
       var http = function (method, endpoint, data, options) {
@@ -48,17 +48,13 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
         var url = base;
         if (endpoint) url += endpoint;
 
-        if (withBusyIndicator) sap.ui.core.BusyIndicator.show(); // Show busy indicator
-
         return fetch(url, op)
           .then((res) => res.json())
           .then((json) => {
             if (json.error) throw json.error;
-            if (withBusyIndicator) sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
             return json;
           })
           .catch((error) => {
-            if (withBusyIndicator) sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
             console.error(error);
             throw error;
           });

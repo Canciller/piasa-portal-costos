@@ -114,7 +114,7 @@
         "assignments": {
           "viewType": "XML",
           "viewLevel": 1,
-          "viewName": "route.manager.Assignments"
+          "viewName": "route.manager.ManageAssignments"
         },
         "notFound": {
           "viewName": "route.NotFound",

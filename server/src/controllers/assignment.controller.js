@@ -8,6 +8,8 @@ export default {
   },
   create: async (req, res, next) => {
     try {
+      if (req.body.length === 0) return res.json([]);
+
       var created = await Assignment.create(req.body);
       return res.json(created);
     } catch (error) {
@@ -16,6 +18,8 @@ export default {
   },
   remove: async (req, res, next) => {
     try {
+      if (req.body.length === 0) return res.json([]);
+
       var deleted = await Assignment.remove(req.body);
       return res.json(deleted);
     } catch (error) {
