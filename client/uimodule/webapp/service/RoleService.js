@@ -1,4 +1,3 @@
-
 // This roles does not override server role verification.
 
 sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
@@ -23,7 +22,7 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
         },
         assignments: {
           all: true,
-        }
+        },
       },
     },
     U: {

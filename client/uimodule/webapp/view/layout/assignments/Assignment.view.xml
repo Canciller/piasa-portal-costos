@@ -1,0 +1,109 @@
+<mvc:View
+  controllerName="com.piasa.Costos.controller.layout.assignments.Assignment"
+  xmlns="sap.f"
+  xmlns:m="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+>
+	<DynamicPage
+		id="assignmentsPage"
+  >
+    <title>
+      <DynamicPageTitle>
+        <heading>
+          <m:Title text="{assignments>/user/name}"/>
+        </heading>
+        <content>
+          <m:OverflowToolbar>
+            <m:GenericTag
+              text="{= ${assignments>/user/isActive} ? 'Activo' : 'No Activo' }"
+              status="{= ${assignments>/user/isActive} ? 'Success' : 'Error'}"
+              design="Full"
+              busyIndicatorSize="Large"
+            >
+              <m:layoutData>
+                <m:OverflowToolbarLayoutData shrinkable="false" minWidth="7rem"/>
+              </m:layoutData>
+            </m:GenericTag>
+          </m:OverflowToolbar>
+        </content>
+        <expandedContent>
+            <m:FormattedText htmlText="{assignments>/subtitle}"/>
+        </expandedContent>
+        <snappedContent>
+            <m:FormattedText htmlText="{assignments>/subtitle}"/>
+        </snappedContent>
+      </DynamicPageTitle>
+    </title>
+    
+    <content>
+      <m:Table
+        id="assignmentsTable"
+        inset="false"
+        items="{
+          path: 'assignments>/assignments'
+        }"
+        class="sapFDynamicPageAlignContent"
+        width="auto"
+        mode="MultiSelect"
+        selectionChange=".onSelectionChange"
+        sticky="HeaderToolbar"
+        showOverlay="{= !${assignments>/user/isActive}}"
+      >
+        <m:headerToolbar>
+          <m:Toolbar>
+            <m:Title text="Centros de Costo" level="H2"/>
+					  <m:ToolbarSpacer/>
+            <m:SearchField
+              search=".onSearch"
+              width="17.5rem"
+            />
+            <m:OverflowToolbarButton
+              icon="sap-icon://sort"
+              text="Sort"
+              type="Transparent" press=".onSort"
+            />
+            <m:OverflowToolbarButton
+              icon="sap-icon://save"
+              text="Guardar"
+              type="Transparent" press=".onSave"
+            />
+            <m:OverflowToolbarButton
+              icon="sap-icon://refresh"
+              text="Refrescar"
+              type="Transparent"
+              press=".onRefresh"
+            />
+          </m:Toolbar>
+        </m:headerToolbar>
+        <m:columns>
+          <m:Column>
+            <m:Text text="Centro de costos"/>
+          </m:Column>
+          <m:Column>
+            <m:Text text="Descripción"/>
+          </m:Column>
+        </m:columns>
+        <m:items>
+          <m:ColumnListItem
+            selected="{= ${assignments>username} ? true : false }"
+            press=".onListItemPress"
+          >
+            <m:cells>
+              <m:Text text="{
+                  path : 'assignments>KOSTL', 
+                  type : 'sap.ui.model.odata.type.String', 
+                  constraints: { 
+                      isDigitSequence : true,
+                      maxLength : 10
+                  }
+              }"/>
+              <m:Text
+                text="{assignments>LTEXT}"
+              />
+            </m:cells>
+          </m:ColumnListItem>
+        </m:items>
+      </m:Table>
+    </content>
+	</DynamicPage>
+</mvc:View>

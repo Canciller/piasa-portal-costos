@@ -9,7 +9,27 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
     setModel: function (model) {
       this.model = model;
     },
-    api: function (endpoint) {
+    getModel: function (model) {
+      return this.model;
+    },
+    setProperty: function (property, value) {
+      if (this.model) this.model.setProperty(property, value);
+    },
+    getProperty: function (property, defaultValue) {
+      if (this.model) {
+        var value = this.model.getProperty(property);
+        if (
+          (value === undefined || value === null) &&
+          (defaultValue !== undefined || defaultValue !== null)
+        ) {
+          this.setProperty(property, defaultValue);
+          return this.model.getProperty(property);
+        } else {
+          return value;
+        }
+      }
+    },
+    api: function (endpoint, withBusyIndicator = true) {
       var base = this.base;
 
       var http = function (method, endpoint, data, options) {
@@ -28,17 +48,17 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
         var url = base;
         if (endpoint) url += endpoint;
 
-        sap.ui.core.BusyIndicator.show(); // Show busy indicator
+        if (withBusyIndicator) sap.ui.core.BusyIndicator.show(); // Show busy indicator
 
         return fetch(url, op)
           .then((res) => res.json())
           .then((json) => {
             if (json.error) throw json.error;
-            sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
+            if (withBusyIndicator) sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
             return json;
           })
-          .catch(error => {
-            sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
+          .catch((error) => {
+            if (withBusyIndicator) sap.ui.core.BusyIndicator.hide(); // Hide busy indicator
             console.error(error);
             throw error;
           });

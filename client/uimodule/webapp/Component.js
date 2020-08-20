@@ -8,6 +8,7 @@ sap.ui.define(
     './service/UserService',
     './service/AuthService',
     './service/RoleService',
+    './service/AssignmentService',
   ],
   function (
     UIComponent,
@@ -17,7 +18,8 @@ sap.ui.define(
     History,
     UserService,
     AuthService,
-    RoleService
+    RoleService,
+    AssignmentService
   ) {
     'use strict';
 
@@ -43,7 +45,7 @@ sap.ui.define(
         this.setModel(models.createDeviceModel(), 'device');
 
         // TODO: Move model creation to service class.
-        // TODO: Define service base url inside service class.
+        // TODO: Define service base url inside service class, see assignments service.
 
         // Users model
         var oUserModel = new JSONModel({
@@ -69,6 +71,7 @@ sap.ui.define(
         AuthService.setModel(oAuthModel);
         AuthService.setBaseUrl('/api/v1/auth');
 
+        this.setModel(AssignmentService.getModel(), 'assignments');
 
         // TODO: Refactor this using a single promise.
 

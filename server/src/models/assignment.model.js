@@ -95,19 +95,38 @@ export default class Assignment {
   }
 
   /**
-   * Get assignments of username from database.
+   * Get KOSTL linked to username from database.
    * @param {string} username
    */
-  static async get(username) {
+  static async getLinked(username) {
     try {
       var pool = await getPool();
       var request = await pool
         .request()
         .input('username', sql.VarChar(30), username);
 
-      var res = await request.query(`
-        SELECT * FROM assignments WHERE username = @username
-      `);
+      var res = await request.execute('getLinkedAssignments');
+
+      if (res.recordset && res.recordset.length !== 0) return res.recordset;
+
+      return [];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Get KOSTL not linked to username from database.
+   * @param {string} username
+   */
+  static async getUnlinked(username) {
+    try {
+      var pool = await getPool();
+      var request = await pool
+        .request()
+        .input('username', sql.VarChar(30), username);
+
+      var res = await request.execute('getUnlinkedAssignments');
 
       if (res.recordset && res.recordset.length !== 0) return res.recordset;
 

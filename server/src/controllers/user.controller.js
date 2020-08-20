@@ -1,7 +1,9 @@
 import User from '../models/user.model';
+import Assignment from '../models/assignment.model';
 import generatePassword from '../util/generatePassword';
 import hashPassword from '../util/hashPassword';
 import NotFoundError from '../util/error/NotFoundError';
+import ValidationError from '../util/error/ValidationError';
 import nodemailer from 'nodemailer';
 
 require('dotenv').config();
@@ -105,6 +107,12 @@ export default {
   remove: async (req, res, next) => {
     try {
       var username = req.user.username;
+      var exists = await Assignment.exists(username);
+      if (exists)
+        throw new ValidationError(
+          'No se puede eliminar el usuario sin antes eliminar sus asignaciones de centros de costo.'
+        );
+
       var removed = await User.remove(username);
       return res.json(removed);
     } catch (error) {

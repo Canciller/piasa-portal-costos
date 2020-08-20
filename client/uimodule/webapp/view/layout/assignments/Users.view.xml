@@ -1,0 +1,65 @@
+<mvc:View
+  controllerName="com.piasa.Costos.controller.layout.assignments.Users"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:mvc="sap.ui.core.mvc">
+	<f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
+		<f:content>
+			<Table
+				id="usersTable"
+				inset="false"
+				items="{
+					path: 'users>/users',
+					sorter: {
+						path: 'username'
+					}
+				}"
+				class="sapFDynamicPageAlignContent"
+				width="auto"
+        sticky="HeaderToolbar"
+			>
+				<headerToolbar>
+					<Toolbar>
+						<Title text="Usuarios" level="H2"/>
+						<ToolbarSpacer/>
+						<SearchField
+							search=".onSearch"
+							width="12rem"
+						/>
+						<OverflowToolbarButton
+							icon="sap-icon://sort"
+							text="Sort"
+							type="Transparent" press=".onSort"
+						/>
+						<OverflowToolbarButton
+							icon="sap-icon://refresh"
+							text="Refrescar"
+							type="Transparent"
+							press=".onRefresh"
+						/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column>
+						<Text text="Nombre"/>
+					</Column>
+					<Column>
+						<Text text="Nombre de usuario"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation" press=".onListItemPress">
+						<cells>
+							<Text
+								text="{users>name}"
+							/>
+							<Text
+								text="{users>username}"
+							/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

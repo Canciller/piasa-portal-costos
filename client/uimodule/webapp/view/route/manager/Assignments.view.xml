@@ -1,5 +1,5 @@
  <mvc:View
-  controllerName="com.piasa.Costos.controller.route.admin.ManageUsers"
+  controllerName="com.piasa.Costos.controller.route.manager.Assignments"
   displayBlock="true"
   xmlns="sap.m"
   xmlns:f="sap.f"
@@ -21,6 +21,23 @@
       showNavButton="true"
       navButtonPress=".onNavBack"
      >
+      <f:FlexibleColumnLayout
+        id="assignments"
+        backgroundDesign="Solid"
+      >
+        <f:beginColumnPages>
+          <mvc:XMLView
+            id="beginView"
+            viewName="com.piasa.Costos.view.layout.assignments.Users"
+          />
+        </f:beginColumnPages>
+        <f:midColumnPages>
+          <mvc:XMLView
+            id="detailView"
+            viewName="com.piasa.Costos.view.layout.assignments.Assignment"
+          />
+        </f:midColumnPages>
+      </f:FlexibleColumnLayout>
      </Page>
    </content>
  </Page>

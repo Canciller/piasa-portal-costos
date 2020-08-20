@@ -32,13 +32,30 @@ export default {
       next(error);
     }
   },
-  get: async (req, res) => {
+  getLinked: async (req, res) => {
     try {
-      var all = await Assignment.get(req.username);
+      var linked = await Assignment.getLinked(req.username);
 
-      if (all) return res.json(all);
+      return res.json(linked);
+    } catch (error) {
+      next(error);
+    }
+  },
+  getUnlinked: async (req, res) => {
+    try {
+      var unlinked = await Assignment.getUnlinked(req.username);
 
-      throw new NotFoundError();
+      return res.json(unlinked);
+    } catch (error) {
+      next(error);
+    }
+  },
+  getLinkedAndUnlinked: async (req, res) => {
+    try {
+      var linked = await Assignment.getLinked(req.username),
+        unlinked = await Assignment.getUnlinked(req.username);
+
+      return res.json(linked.concat(unlinked));
     } catch (error) {
       next(error);
     }

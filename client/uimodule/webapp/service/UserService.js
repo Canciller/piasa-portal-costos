@@ -1,7 +1,7 @@
 sap.ui.define(['./APIService'], function (APIService) {
   'use strict';
 
-  var UserService = APIService.extend('com.piasa.Costos.AuthService', {
+  var UserService = APIService.extend('com.piasa.Costos.UserService', {
     _setUsers: function (users) {
       users.forEach((user) => {
         user.editable = false;
@@ -12,16 +12,10 @@ sap.ui.define(['./APIService'], function (APIService) {
     _clearUsers: function () {
       this.model.setProperty('/users', []);
     },
-    _setDates: function(user) {
-        // TODO: Fix this on server side.
-        user.createdAt = new Date(user.createdAt);
-        user.updatedAt = new Date(user.updatedAt);
-    },
-    hideBusy: function () {
-      sap.ui.core.BusyIndicator.hide();
-    },
-    showBusy: function () {
-      sap.ui.core.BusyIndicator.show();
+    _setDates: function (user) {
+      // TODO: Fix this on server side.
+      user.createdAt = new Date(user.createdAt);
+      user.updatedAt = new Date(user.updatedAt);
     },
     saveUser: function (username, user) {
       var saved = this.model.getProperty('/saved');
