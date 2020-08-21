@@ -4,8 +4,11 @@ sap.ui.define(['com/piasa/Costos/controller/BaseController'], function (
   'use strict';
 
   return BaseController.extend('com.piasa.Costos.ManagerLaunchpad.controller', {
-    onPressAssignments: function () {
+    onPressManageAssignments: function () {
       this.navTo('assignments');
+    },
+    onPressLoadBudget: function () {
+      this.navTo('presupuesto');
     },
   });
 });

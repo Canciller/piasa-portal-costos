@@ -1,5 +1,7 @@
-sap.ui.define(['./APIService',
-'sap/ui/model/json/JSONModel'], function (APIService, JSONModel) {
+sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
+  APIService,
+  JSONModel
+) {
   'use strict';
 
   var UserService = APIService.extend('com.piasa.Costos.UserService', {

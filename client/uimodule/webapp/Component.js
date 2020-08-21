@@ -9,6 +9,7 @@ sap.ui.define(
     './service/AuthService',
     './service/RoleService',
     './service/AssignmentService',
+    './service/BudgetService',
   ],
   function (
     UIComponent,
@@ -19,7 +20,8 @@ sap.ui.define(
     UserService,
     AuthService,
     RoleService,
-    AssignmentService
+    AssignmentService,
+    BudgetService
   ) {
     'use strict';
 
@@ -49,6 +51,9 @@ sap.ui.define(
 
         // Assignment Service
         this.setModel(AssignmentService.getModel(), 'assignments');
+
+        // Budget Service
+        this.setModel(BudgetService.getModel(), 'budget');
 
         // Auth model
         var oAuthModel = new JSONModel({

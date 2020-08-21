@@ -30,5 +30,7 @@
       "ui5-middleware-simpleproxy"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "xlsx": "^0.16.6"
+  }
 }

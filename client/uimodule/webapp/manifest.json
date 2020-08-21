@@ -93,6 +93,11 @@
           "pattern": "assignments",
           "name": "assignments",
           "target": "assignments"
+        },
+        {
+          "pattern": "presupuesto",
+          "name": "presupuesto",
+          "target": "presupuesto"
         }
       ],
       "targets": {
@@ -115,6 +120,11 @@
           "viewType": "XML",
           "viewLevel": 1,
           "viewName": "route.manager.ManageAssignments"
+        },
+        "presupuesto": {
+          "viewType": "XML",
+          "viewLevel": 1,
+          "viewName": "route.manager.LoadBudget"
         },
         "notFound": {
           "viewName": "route.NotFound",

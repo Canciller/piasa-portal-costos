@@ -2,6 +2,8 @@
 
 ## file extensions
 
+libs
+
 *.*
 !*.css
 !*.js
