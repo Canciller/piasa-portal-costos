@@ -23,6 +23,7 @@
             <m:GenericTag
               text="{= ${users>/user/isActive} ? 'Activo' : 'No Activo' }"
               status="{= ${users>/user/isActive} ? 'Success' : 'Error'}"
+              visible="{= !!${users>/user/username}}"
               design="Full"
               busyIndicatorSize="Large"
             >
@@ -56,8 +57,6 @@
         }"
         class="sapFDynamicPageAlignContent"
         width="auto"
-        mode="MultiSelect"
-        selectionChange=".onSelectionChange"
         sticky="HeaderToolbar"
         showOverlay="{= !${users>/user/isActive}}"
       >
@@ -88,6 +87,14 @@
           </m:Toolbar>
         </m:headerToolbar>
         <m:columns>
+          <m:Column
+            width="4rem"
+          >
+            <m:CheckBox
+              selected="{assignments>/allSelected}"
+              select=".onSelectAll"
+            />
+          </m:Column>
           <m:Column>
             <m:Text text="Centro de costos"/>
           </m:Column>
@@ -97,10 +104,14 @@
         </m:columns>
         <m:items>
           <m:ColumnListItem
-            selected="{= ${assignments>username} ? true : false }"
+            highlight="{assignments>status}"
             press=".onListItemPress"
           >
             <m:cells>
+              <m:CheckBox
+                selected="{assignments>selected}"
+                select=".onSelect"
+              />
               <m:Text text="{
                   path : 'assignments>KOSTL', 
                   type : 'sap.ui.model.odata.type.String', 

@@ -18,8 +18,7 @@ sap.ui.define(
     MessageBox,
     MessageToast,
     JSONModel,
-    AssignmentService,
-    UserService
+    AssignmentService
   ) {
     'use strict';
 
@@ -30,6 +29,46 @@ sap.ui.define(
           this.oView = this.getView();
           this._bDescendingSort = false;
           this.oAssignmentsTable = this.oView.byId('assignmentsTable');
+
+          AssignmentService.setOnChangeAssignmentsCallback(
+            this.verifyAllSelected.bind(this)
+          );
+        },
+        onSort: function () {
+          this._bDescendingSort = !this._bDescendingSort;
+          var oBinding = this.oAssignmentsTable.getBinding('items'),
+            oSorter = new Sorter('KOSTL', this._bDescendingSort);
+
+          oBinding.sort(oSorter);
+        },
+        onRefresh: function () {
+          const clearSorters = Promise.resolve({
+            then: function(onFullfill) {
+              this._bDescendingSort = false;
+              var oBinding = this.oAssignmentsTable.getBinding('items');
+              oBinding.aSorters = null;
+              onFullfill();
+            }.bind(this)
+          });
+
+          clearSorters.then(() => AssignmentService.getAll())
+            .catch(error => {
+              MessageBox.error(error.message);
+            });
+        },
+        onSelect: function (oEvent) {
+          var selected = oEvent.getParameter('selected');
+          var oSource = oEvent.getSource();
+
+          var path = oSource.getBindingContext('assignments').getPath();
+          AssignmentService.setSelectedAndStatus(path, selected);
+
+          if (!selected) AssignmentService.setAllSelected(false);
+          else this.verifyAllSelected();
+        },
+        onSelectAll: function (oEvent) {
+          var selected = oEvent.getParameter('selected');
+          this.setAllSelected(selected);
         },
         onSearch: function (oEvent) {
           var oTableSearchState = [],
@@ -44,16 +83,46 @@ sap.ui.define(
           this.oAssignmentsTable
             .getBinding('items')
             .filter(oTableSearchState, 'KOSTL');
-        },
-        onSort: function () {
-          this._bDescendingSort = !this._bDescendingSort;
-          var oBinding = this.oAssignmentsTable.getBinding('items'),
-            oSorter = new Sorter('KOSTL', this._bDescendingSort);
 
-          oBinding.sort(oSorter);
+          this.verifyAllSelected();
         },
-        onRefresh: function () {
-          AssignmentService.getAllForCurrentUser();
+        verifyAllSelected: function () {
+          if (!this.oAssignmentsTable) return;
+
+          var oContexts = this.oAssignmentsTable
+            .getBinding('items')
+            .getCurrentContexts();
+
+          var allSelected = true;
+          for (var i = oContexts.length; i--; ) {
+            var oContext = oContexts[i],
+              path = oContext.getPath();
+
+            var selected = AssignmentService.getProperty(path + '/selected');
+            allSelected = allSelected && selected;
+          }
+
+          AssignmentService.setAllSelected(allSelected);
+        },
+        setAllSelected: function (selected) {
+          var oContexts = this.oAssignmentsTable
+            .getBinding('items')
+            .getCurrentContexts();
+
+          for (var i = oContexts.length; i--; ) {
+            var oContext = oContexts[i],
+              path = oContext.getPath();
+
+            var username = AssignmentService.getProperty(path + '/username');
+            var status = AssignmentService.getStatus(
+              selected,
+              username !== undefined
+            );
+            AssignmentService.setProperty(path + '/status', status);
+            AssignmentService.setProperty(path + '/selected', selected);
+          }
+
+          AssignmentService.setAllSelected(selected);
         },
         onSave: function () {
           AssignmentService.save()
@@ -67,16 +136,6 @@ sap.ui.define(
                 styleClass: 'manageUsersError',
               });
             });
-        },
-        onSelectionChange: function (oEvent) {
-          var selected = oEvent.getParameter('selected');
-          var oItems = oEvent.getParameter('listItems');
-
-          oItems.forEach((oItem) => {
-            var oContext = oItem.getBindingContext('assignments');
-            var path = oContext.getPath();
-            AssignmentService.setProperty(path + '/selected', selected);
-          });
         },
       }
     );

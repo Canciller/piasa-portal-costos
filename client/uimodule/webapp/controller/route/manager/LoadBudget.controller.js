@@ -47,7 +47,7 @@ sap.ui.define(
             } catch (error) {
               MessageBox.error(error.message);
               console.error(error);
-            }  finally {
+            } finally {
               BudgetService.setProperty('/loading', false);
             }
           };

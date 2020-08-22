@@ -157,6 +157,19 @@ sap.ui.define(
         },
         _handleSave: function (bindingContextPath) {
           var user = this._oUserModel.getProperty(bindingContextPath);
+
+          var showErrorMessage = function (error) {
+            var msg = error.message;
+            if (error.details)
+              error.details.errors.forEach(
+                (detail) => (msg += '\n* ' + detail.msg)
+              );
+
+            MessageBox.error(msg, {
+              styleClass: 'manageUsersError',
+            });
+          };
+
           if (user.new) {
             // Create user.
             UserService.createUser(user)
@@ -167,11 +180,7 @@ sap.ui.define(
                   `El usuario '${createdUser.username}' fue creado exitosamente.`
                 );
               })
-              .catch((error) => {
-                MessageBox.error(error.message, {
-                  styleClass: 'manageUsersError',
-                });
-              });
+              .catch(showErrorMessage);
           } else {
             // Update user.
             UserService.updateUser(user.username, user)
@@ -182,11 +191,7 @@ sap.ui.define(
                   `Informacion de usuario '${user.username}' actualizada.`
                 );
               })
-              .catch((error) => {
-                MessageBox.error(error.message, {
-                  styleClass: 'manageUsersError',
-                });
-              });
+              .catch(showErrorMessage);
           }
         },
       }

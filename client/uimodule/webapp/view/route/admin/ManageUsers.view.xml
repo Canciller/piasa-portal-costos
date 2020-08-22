@@ -24,6 +24,8 @@
      <t:Table
       id="users"
       rows="{users>/users}"
+      busy="{users>/loading}"
+      busyIndicatorDelay="100"
       visibleRowCountMode="Auto"
       rowHeight="51"
       enableColumnReordering="false"

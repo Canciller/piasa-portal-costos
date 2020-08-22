@@ -2,3 +2,4 @@ templates/
 deployer/resources/
 node_modules/
 approuter/webapp/
+lib

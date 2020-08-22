@@ -2,10 +2,17 @@ sap.ui.define(
   [
     'com/piasa/Costos/controller/BaseController',
     'com/piasa/Costos/controller/layout/ToolHeader.controller',
+    'sap/m/MessageBox',
     '../../../service/UserService',
     '../../../service/AssignmentService',
   ],
-  function (BaseController, ToolHeader, UserService, AssignmentService) {
+  function (
+    BaseController,
+    ToolHeader,
+    MessageBox,
+    UserService,
+    AssignmentService
+  ) {
     'use strict';
 
     return BaseController.extend(
@@ -16,8 +23,11 @@ sap.ui.define(
           this.getRouter()
             .getRoute('assignments')
             .attachMatched(function () {
-              UserService.getAll();
-              AssignmentService.getAllForCurrentUser();
+              UserService.getAll()
+                .then(() => AssignmentService.getAll())
+                .catch((error) => {
+                  MessageBox.error(error.message);
+                });
             }, this);
         },
       }

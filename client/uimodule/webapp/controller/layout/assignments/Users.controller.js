@@ -4,6 +4,7 @@ sap.ui.define(
     'sap/ui/model/Filter',
     'sap/ui/model/FilterOperator',
     'sap/ui/model/Sorter',
+    'sap/m/MessageBox',
     '../../../service/AssignmentService',
     '../../../service/UserService',
     'sap/f/library',
@@ -13,6 +14,7 @@ sap.ui.define(
     Filter,
     FilterOperator,
     Sorter,
+    MessageBox,
     AssignmentService,
     UserService,
     fioriLibrary
@@ -50,7 +52,9 @@ sap.ui.define(
           oBinding.sort(oSorter);
         },
         onRefresh: function () {
-          UserService.getAll();
+          UserService.getAll().catch((error) => {
+            MessageBox.error(error.message);
+          });
         },
         onListItemPress: function (oEvent) {
           var oSource = oEvent.getSource();
@@ -61,7 +65,9 @@ sap.ui.define(
 
           oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsMidExpanded);
 
-          AssignmentService.setCurrentUserAndGetAll(user);
+          AssignmentService.setCurrentUserAndGetAll(user).catch((error) => {
+            MessageBox.error(error.message);
+          });
         },
       }
     );

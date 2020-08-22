@@ -9,7 +9,7 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
     setModel: function (model) {
       this.model = model;
     },
-    getModel: function (model) {
+    getModel: function () {
       return this.model;
     },
     setProperty: function (property, value) {
@@ -28,6 +28,7 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
           return value;
         }
       }
+      return null;
     },
     api: function (endpoint) {
       var base = this.base;

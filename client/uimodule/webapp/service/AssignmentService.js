@@ -34,15 +34,63 @@ sap.ui.define(
         clearFormattedUser: function () {
           this.setProperty('/subtitle', '');
         },
+        getAssignments: function () {
+          return this.getProperty('/assignments');
+        },
+        setAssignments: function (assignments) {
+          this.setProperty('/assignments', assignments);
+        },
         getUsername: function () {
-          return this.getProperty('/user/username');
+          return UserService.getProperty('/user/username');
+        },
+        getStatus: function (selected, withUsername) {
+          if (withUsername && !selected) return sap.ui.core.MessageType.Error;
+          else if (withUsername && selected)
+            return sap.ui.core.MessageType.Information;
+          else if (selected) return sap.ui.core.MessageType.Success;
+          else return sap.ui.core.MessageType.None;
+        },
+        setAllSelected: function (allSelected) {
+          this.setProperty('/allSelected', allSelected);
+        },
+        setSelectedAndStatus: function (path, selected) {
+          var assignment = this.getProperty(path);
+
+          if (assignment) {
+            assignment.selected = selected;
+            assignment.status = this.getStatus(
+              selected,
+              assignment.username !== undefined
+            );
+            this.setProperty(path, assignment);
+          }
+        },
+        setAllInitialSelectedAndStatus: function () {
+          var assignments = this.getProperty('/assignments');
+
+          var allSelected = true;
+          for (var i = assignments.length; i--; ) {
+            var assignment = assignments[i];
+            if (assignment.username) {
+              assignment.selected = true;
+              assignment.status = sap.ui.core.MessageType.Information;
+            } else {
+              assignment.selected = false;
+            }
+
+            this.setProperty('/assignments/' + i, assignment);
+
+            allSelected = allSelected && assignment.selected;
+          }
+
+          this.setAllSelected(allSelected);
         },
         setCurrentUserAndGetAll: async function (user) {
           UserService.setProperty('/user', user);
           UserService.setProperty('/user/loading', false);
-          return this.getAllForCurrentUser(false);
+          return this.getAllForCurrentUser();
         },
-        getAllForCurrentUser: async function (fetchUser = true) {
+        getAllForCurrentUser: async function () {
           try {
             var user = UserService.getProperty('/user');
             var username = user.username;
@@ -51,19 +99,43 @@ sap.ui.define(
               this.setProperty('/loading', true);
               this.setFormattedUser(user);
 
-              if (fetchUser) UserService.get(username);
-
-              var all = await this.api(`/${username}/all`).get();
-              this.setProperty('/assignments', all);
+              var assignments = await this.api(`/${username}/all`).get();
+              this.setAssignments(assignments);
+              this.setAllInitialSelectedAndStatus();
             }
           } catch (error) {
-            this.setProperty('/assignments', []);
-            UserService.setProperty('/user', {});
-            this.clearFormattedUser();
+            this.setAssignments([]);
             throw error;
           } finally {
-            this.model.refresh(true);
+            this.model.refresh();
             this.setProperty('/loading', false);
+            this._callOnChangeAssignmentsCallback();
+          }
+        },
+        getAll: async function () {
+          try {
+            this.setProperty('/loading', true);
+
+            var user = UserService.getProperty('/user');
+            var username = user.username;
+
+            if (username) {
+              await UserService.get(username);
+
+              user = UserService.getProperty('/user');
+              this.setFormattedUser(user);
+
+              var assignments = await this.api(`/${username}/all`).get();
+              this.setAssignments(assignments);
+              this.setAllInitialSelectedAndStatus();
+            }
+          } catch (error) {
+            this.setAssignments([]);
+            throw error;
+          } finally {
+            this.model.refresh();
+            this.setProperty('/loading', false);
+            this._callOnChangeAssignmentsCallback();
           }
         },
         save: async function () {
@@ -77,14 +149,14 @@ sap.ui.define(
           this.setProperty('/loading', true);
 
           try {
-            assignments.forEach((assignment) => {
+            for (var i = assignments.length; i--; ) {
+              var assignment = assignments[i];
               if (assignment.username === undefined) {
                 if (assignment.selected) {
                   create.push({
                     username: username,
                     kostl: assignment.KOSTL,
                   });
-                  //assignment.username = username;
                 }
               } else {
                 if (assignment.selected !== undefined && !assignment.selected) {
@@ -92,15 +164,16 @@ sap.ui.define(
                     username: username,
                     kostl: assignment.KOSTL,
                   });
-                  //assignment.username = undefined;
                 }
               }
-            });
+            }
 
+            // TODO: Create a single api call for this.
             if (create.length > 0) await this.api('/link').post(create);
             if (remove.length > 0) await this.api('/unlink').post(remove);
 
-            if (create.length > 0 || remove.length > 0) await this.get();
+            if (create.length > 0 || remove.length > 0)
+              await this.getAllForCurrentUser();
 
             return username;
           } catch (error) {
@@ -108,6 +181,13 @@ sap.ui.define(
           } finally {
             this.setProperty('/loading', false);
           }
+        },
+        setOnChangeAssignmentsCallback: function (onChange) {
+          this._onChangeAssignmentsCallback = onChange;
+        },
+        _callOnChangeAssignmentsCallback: function () {
+          if (this._onChangeAssignmentsCallback instanceof Function)
+            this._onChangeAssignmentsCallback();
         },
       }
     );
