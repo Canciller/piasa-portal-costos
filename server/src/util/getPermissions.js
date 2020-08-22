@@ -17,6 +17,12 @@ const permissions = {
       read: true,
       delete: true,
     },
+    budget: {
+      create: true,
+      write: true,
+      read: true,
+      delete: true,
+    },
   },
 };
 

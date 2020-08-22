@@ -3,9 +3,10 @@ sap.ui.define(
     'com/piasa/Costos/controller/BaseController',
     'com/piasa/Costos/controller/layout/ToolHeader.controller',
     'sap/m/MessageBox',
+    'sap/m/MessageToast',
     '../../../service/BudgetService',
   ],
-  function (BaseController, ToolHeader, MessageBox, BudgetService) {
+  function (BaseController, ToolHeader, MessageBox, MessageToast, BudgetService) {
     'use strict';
 
     return BaseController.extend(
@@ -13,6 +14,24 @@ sap.ui.define(
       {
         Header: new ToolHeader(this),
         onInit: function () {
+          this.template = [
+            'KOSTL',
+            'HKONT',
+            'GJAHR',
+            'P1',
+            'P2',
+            'P3',
+            'P4',
+            'P5',
+            'P6',
+            'P7',
+            'P8',
+            'P9',
+            'P10',
+            'P11',
+            'P12',
+          ];
+
           this.getRouter()
             .getRoute('presupuesto')
             .attachMatched(function () {
@@ -25,24 +44,47 @@ sap.ui.define(
           BudgetService.setProperty('/budget', []);
           BaseController.prototype.onNavBack.call(this);
         },
+        onUploadToServer: async function () {
+          try {
+            await BudgetService.upload();
+            MessageToast.show('Presupuesto actualizado exitosamente.');
+          } catch (error) {
+            MessageBox.error(error.message);
+          }
+        },
         onUpload: function (oEvent) {
           const oFile = oEvent.getParameter('files')[0];
+          if (!oFile) return;
+
+          BudgetService.setProperty('/loading', true);
           var oReader = new FileReader();
 
           oReader.onload = function (e) {
             try {
-              var data = e.target.result;
-              var workbook = XLSX.read(data, {
+              var budget = e.target.result;
+              var workbook = XLSX.read(budget, {
                 type: 'binary',
               });
 
               if (workbook.SheetNames[0].length > 0) {
                 var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-                BudgetService.setProperty(
-                  '/budget',
-                  XLSX.utils.sheet_to_json(worksheet)
-                );
+                var ws = workbook.Sheets[firstSheetName];
+
+                var range = XLSX.utils.decode_range(ws['!ref']);
+                for (
+                  var c = range.s.c, i = 0;
+                  c <= range.e.c && i < this.template.length;
+                  ++c, ++i
+                ) {
+                  var header = XLSX.utils.encode_col(c) + '1';
+                  if (!ws[header])
+                    throw new Error('El archivo no esta en un formato valido.');
+                  ws[header].v = this.template[i];
+                  ws[header].w = this.template[i];
+                }
+                var budget = XLSX.utils.sheet_to_json(ws, { raw: true });
+
+                BudgetService.setProperty('/budget', budget);
               }
             } catch (error) {
               MessageBox.error(error.message);
@@ -50,9 +92,8 @@ sap.ui.define(
             } finally {
               BudgetService.setProperty('/loading', false);
             }
-          };
+          }.bind(this);
 
-          BudgetService.setProperty('/loading', true);
           oReader.readAsBinaryString(oFile);
         },
       }

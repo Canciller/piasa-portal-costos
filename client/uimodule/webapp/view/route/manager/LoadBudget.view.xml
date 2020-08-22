@@ -50,53 +50,148 @@
               <Button
                 icon="sap-icon://upload"
                 text="Subir"
-                press=".handleUploadToServer"
+                press=".onUploadToServer"
               />
             </OverflowToolbar>
           </t:extension>
           <t:columns>
             <t:Column
+              width="10rem"
             >
-              <Label text="c1" />
+              <Label text="Centro de costos" />
               <t:template>
                 <Text 
-                  text="{budget>c1}"
+                  text="{budget>KOSTL}"
                 />
               </t:template>
             </t:Column>
             <t:Column
             >
-              <Label text="c2" />
+              <Label text="Cuenta" />
               <t:template>
                 <Text 
-                  text="{budget>c2}"
+                  text="{budget>HKONT}"
                 />
               </t:template>
             </t:Column>
             <t:Column
             >
-              <Label text="c3" />
+              <Label text="Año" />
               <t:template>
                 <Text 
-                  text="{budget>c3}"
+                  text="{budget>GJAHR}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column>
+              <Label text="Enero" />
+              <t:template>
+                <Text 
+                  text="{
+                    path: 'budget>P1',
+                    type: 'sap.ui.model.type.CurrencyType',
+                    formatOptions: {
+                    }
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
             >
-              <Label text="c4" />
+              <Label text="Febrero" />
               <t:template>
                 <Text 
-                  text="{budget>c4}"
+                  text="{budget>P2}"
                 />
               </t:template>
             </t:Column>
             <t:Column
             >
-              <Label text="c5" />
+              <Label text="Marzo" />
               <t:template>
                 <Text 
-                  text="{budget>c5}"
+                  text="{budget>P3}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Abril" />
+              <t:template>
+                <Text 
+                  text="{budget>P4}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Mayo" />
+              <t:template>
+                <Text 
+                  text="{budget>P5}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Junio" />
+              <t:template>
+                <Text 
+                  text="{budget>P6}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Julio" />
+              <t:template>
+                <Text 
+                  text="{budget>P7}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Agosto" />
+              <t:template>
+                <Text 
+                  text="{budget>P8}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Septiembre" />
+              <t:template>
+                <Text 
+                  text="{budget>P9}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Octubre" />
+              <t:template>
+                <Text 
+                  text="{budget>P10}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Noviembre" />
+              <t:template>
+                <Text 
+                  text="{budget>P11}"
+                />
+              </t:template>
+            </t:Column>
+            <t:Column
+            >
+              <Label text="Diciembre" />
+              <t:template>
+                <Text 
+                  text="{budget>P12}"
                 />
               </t:template>
             </t:Column>

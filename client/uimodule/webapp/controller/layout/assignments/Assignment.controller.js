@@ -43,16 +43,17 @@ sap.ui.define(
         },
         onRefresh: function () {
           const clearSorters = Promise.resolve({
-            then: function(onFullfill) {
+            then: function (onFullfill) {
               this._bDescendingSort = false;
               var oBinding = this.oAssignmentsTable.getBinding('items');
               oBinding.aSorters = null;
               onFullfill();
-            }.bind(this)
+            }.bind(this),
           });
 
-          clearSorters.then(() => AssignmentService.getAll())
-            .catch(error => {
+          clearSorters
+            .then(() => AssignmentService.getAll())
+            .catch((error) => {
               MessageBox.error(error.message);
             });
         },

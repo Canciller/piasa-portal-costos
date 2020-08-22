@@ -32,8 +32,7 @@ sap.ui.define(
         _populateTable: function () {
           this._newFinished = true;
           return UserService.getAll().catch((error) => {
-            // TODO: Change error toast style.
-            MessageToast.show(error.message);
+            MessageBox.error(error.message);
           });
         },
         handleCreate: function () {

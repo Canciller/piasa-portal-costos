@@ -7,7 +7,6 @@
     <GenericTile
       class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
       header="{i18n>launchpadManager.tile.manageAssignments.header}"
-      subheader="{i18n>launchpadManager.tile.manageAssignments.subheader}"
       width="13rem"
       press=".Manager.onPressManageAssignments"
     >
