@@ -31,6 +31,8 @@
         rowHeight="40"
         enableColumnReordering="false"
         selectionMode="None"
+        fixedColumnCount="3"
+        alternateRowColors="true"
       >
           <t:extension>
             <OverflowToolbar>
@@ -75,6 +77,7 @@
               </t:template>
             </t:Column>
             <t:Column
+              width="6rem"
             >
               <Label text="Año" />
               <t:template>
@@ -83,115 +86,171 @@
                 />
               </t:template>
             </t:Column>
-            <t:Column>
+            <t:Column
+              width="7rem"
+              hAlign="End"
+            >
               <Label text="Enero" />
               <t:template>
                 <Text 
                   text="{
                     path: 'budget>P1',
-                    type: 'sap.ui.model.type.CurrencyType',
-                    formatOptions: {
-                    }
+                    formatter: '.formatCurrency'
                   }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Febrero" />
               <t:template>
                 <Text 
-                  text="{budget>P2}"
+                  text="{
+                    path: 'budget>P2',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Marzo" />
               <t:template>
                 <Text 
-                  text="{budget>P3}"
+                  text="{
+                    path: 'budget>P3',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Abril" />
               <t:template>
                 <Text 
-                  text="{budget>P4}"
+                  text="{
+                    path: 'budget>P4',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Mayo" />
               <t:template>
                 <Text 
-                  text="{budget>P5}"
+                  text="{
+                    path: 'budget>P5',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Junio" />
               <t:template>
                 <Text 
-                  text="{budget>P6}"
+                  text="{
+                    path: 'budget>P6',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Julio" />
               <t:template>
                 <Text 
-                  text="{budget>P7}"
+                  text="{
+                    path: 'budget>P7',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Agosto" />
               <t:template>
                 <Text 
-                  text="{budget>P8}"
+                  text="{
+                    path: 'budget>P8',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Septiembre" />
               <t:template>
                 <Text 
-                  text="{budget>P9}"
+                  text="{
+                    path: 'budget>P9',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Octubre" />
               <t:template>
                 <Text 
-                  text="{budget>P10}"
+                  text="{
+                    path: 'budget>P10',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Noviembre" />
               <t:template>
                 <Text 
-                  text="{budget>P11}"
+                  text="{
+                    path: 'budget>P11',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>
             <t:Column
+              width="7rem"
+              hAlign="End"
             >
               <Label text="Diciembre" />
               <t:template>
                 <Text 
-                  text="{budget>P12}"
+                  text="{
+                    path: 'budget>P12',
+                    formatter: '.formatCurrency'
+                  }"
                 />
               </t:template>
             </t:Column>

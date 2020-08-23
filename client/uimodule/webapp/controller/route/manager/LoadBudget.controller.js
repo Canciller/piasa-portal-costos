@@ -4,15 +4,27 @@ sap.ui.define(
     'com/piasa/Costos/controller/layout/ToolHeader.controller',
     'sap/m/MessageBox',
     'sap/m/MessageToast',
+    "sap/ui/core/format/NumberFormat",
     '../../../service/BudgetService',
   ],
-  function (BaseController, ToolHeader, MessageBox, MessageToast, BudgetService) {
+  function (
+    BaseController,
+    ToolHeader,
+    MessageBox,
+    MessageToast,
+    NumberFormat,
+    BudgetService
+    ) {
     'use strict';
 
     return BaseController.extend(
       'com.piasa.Costos.route.manager.ManageAssignments.controller',
       {
         Header: new ToolHeader(this),
+        formatCurrency: function(value) {
+          var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+          return oCurrencyFormat.format(value);
+        },
         onInit: function () {
           this.template = [
             'KOSTL',
@@ -57,6 +69,7 @@ sap.ui.define(
           if (!oFile) return;
 
           BudgetService.setProperty('/loading', true);
+          console.log('test');
           var oReader = new FileReader();
 
           oReader.onload = function (e) {
