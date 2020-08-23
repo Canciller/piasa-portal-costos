@@ -69,7 +69,6 @@ sap.ui.define(
           if (!oFile) return;
 
           BudgetService.setProperty('/loading', true);
-          console.log('test');
           var oReader = new FileReader();
 
           oReader.onload = function (e) {

@@ -45,9 +45,8 @@
                 id="uploadButton"
                 icon="sap-icon://add-document"
                 buttonText="Cargar..."
-                uploadStart=".onUploadStart"
-                uploadComplete=".onUploadComplete"
                 change=".onUpload"
+                sameFilenameAllowed="true"
               />
               <Button
                 icon="sap-icon://upload"
