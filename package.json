@@ -11,7 +11,7 @@
     "test:client": "cd client && npm run test",
     "test:server": "cd server && npm run test",
     "test": "npm-run-all test:client test:server",
-    "build:client": "cd client && build",
+    "build:client": "cd client && npm run build",
     "dev:client": "cd client && npm start",
     "dev:server": "cd server && npm run watch:dev",
     "dev": "concurrently -n \"client,server\" \"npm:dev:client\" \"npm:dev:server\"",
