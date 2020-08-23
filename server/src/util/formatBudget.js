@@ -49,7 +49,7 @@ export default async function (budget) {
       var value = row[key];
       if(!value) throw new ValidationError(`El valor del mes ${month} no esta definido.`);
 
-      formattedRow.PERIOD = month;
+      formattedRow.PERIOD = String(month).padStart(2, '0');
       formattedRow.DMBTR = value;
       formatted.push(Object.assign({}, formattedRow));
     }
