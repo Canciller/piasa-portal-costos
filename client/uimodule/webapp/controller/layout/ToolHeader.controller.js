@@ -1,9 +1,16 @@
 sap.ui.define(
-  ['com/piasa/Costos/controller/BaseController', 'sap/ui/core/Fragment'],
-  function (BaseController, Fragment) {
+  [
+    'com/piasa/Costos/controller/BaseController',
+    'sap/ui/core/Fragment',
+    '../../service/AuthService',
+  ],
+  function (BaseController, Fragment, AuthService) {
     'use strict';
 
     return BaseController.extend('com.piasa.Costos.ToolHeader.controller', {
+      onHomePress: function () {
+        this.navTo('launchpad');
+      },
       onUsernamePress: function (oEvent) {
         var oUsername = oEvent.getSource();
 
@@ -26,11 +33,14 @@ sap.ui.define(
         }
       },
       onLogoutPress: function () {
-        fetch('/api/v1/auth/logout')
+        AuthService.logout()
           .catch()
-          .then(() => {
+          .then(function() {
             this.navTo('login', {}, true);
-          });
+          }.bind(this));
+      },
+      onSettingsPress: function () {
+        this.navTo('settings');
       },
     });
   }

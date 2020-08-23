@@ -10,8 +10,16 @@
   >
     <content>
       <tnt:NavigationList>
-        <tnt:NavigationListItem text="{i18n>userPopover.settings}" icon="sap-icon://user-settings" />
-        <tnt:NavigationListItem text="{i18n>userPopover.logout}" select=".Header.onLogoutPress" icon="sap-icon://log" />
+        <tnt:NavigationListItem
+          text="{i18n>userPopover.settings}"
+          select=".Header.onSettingsPress"
+          icon="sap-icon://user-settings"
+        />
+        <tnt:NavigationListItem
+          text="{i18n>userPopover.logout}"
+          select=".Header.onLogoutPress"
+          icon="sap-icon://log"
+        />
       </tnt:NavigationList>
     </content>
 	</Popover>

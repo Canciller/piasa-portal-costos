@@ -17,7 +17,7 @@ const P = [
 ];
 
 function isEmptyString(str) {
-  return typeof(str) === 'string' && str.length !== 0;
+  return typeof str === 'string' && str.length !== 0;
 }
 
 export default async function (budget) {
@@ -47,7 +47,10 @@ export default async function (budget) {
       var month = j + 1;
       var key = P[j];
       var value = row[key];
-      if(!value) throw new ValidationError(`El valor del mes ${month} no esta definido.`);
+      if (!value)
+        throw new ValidationError(
+          `El valor del mes ${month} no esta definido.`
+        );
 
       formattedRow.PERIOD = String(month).padStart(2, '0');
       formattedRow.DMBTR = value;

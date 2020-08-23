@@ -4,7 +4,7 @@ sap.ui.define(
     'com/piasa/Costos/controller/layout/ToolHeader.controller',
     'sap/m/MessageBox',
     'sap/m/MessageToast',
-    "sap/ui/core/format/NumberFormat",
+    'sap/ui/core/format/NumberFormat',
     '../../../service/BudgetService',
   ],
   function (
@@ -14,14 +14,14 @@ sap.ui.define(
     MessageToast,
     NumberFormat,
     BudgetService
-    ) {
+  ) {
     'use strict';
 
     return BaseController.extend(
       'com.piasa.Costos.route.manager.ManageAssignments.controller',
       {
         Header: new ToolHeader(this),
-        formatCurrency: function(value) {
+        formatCurrency: function (value) {
           var oCurrencyFormat = NumberFormat.getCurrencyInstance();
           return oCurrencyFormat.format(value);
         },

@@ -85,6 +85,11 @@
           "target": "launchpad"
         },
         {
+          "pattern": "settings",
+          "name": "settings",
+          "target": "settings"
+        },
+        {
           "pattern": "users",
           "name": "users",
           "target": "users"
@@ -110,6 +115,11 @@
           "viewType": "XML",
           "viewLevel": 1,
           "viewName": "route.Launchpad"
+        },
+        "settings": {
+          "viewType": "XML",
+          "viewLevel": 1,
+          "viewName": "route.Settings"
         },
         "users": {
           "viewType": "XML",

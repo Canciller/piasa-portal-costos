@@ -1,0 +1,29 @@
+ <mvc:View
+  controllerName="com.piasa.Costos.controller.route.Settings"
+  displayBlock="true"
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+>
+ <Page
+ >
+   <customHeader>
+    <core:Fragment
+      id="toolHeader"
+      fragmentName="com.piasa.Costos.view.layout.ToolHeader" type="XML"
+    />
+   </customHeader>
+   <content>
+     <Page
+      id="main"
+      title="Preferencias"
+      showNavButton="true"
+      navButtonPress=".onNavBack"
+     >
+
+     </Page>
+   </content>
+ </Page>
+</mvc:View>

@@ -41,6 +41,6 @@ export default {
     }
   },
   logout: async (req, res) => {
-    return res.clearCookie('token').sendStatus(200);
+    return res.clearCookie('token').json({});
   },
 };
