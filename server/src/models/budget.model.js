@@ -14,10 +14,10 @@ export default class Budget {
    */
   static createTable(budget) {
     var tvp = new sql.Table();
-    tvp.columns.add('KOSTL', sql.Char(10), {
+    tvp.columns.add('HKONT', sql.Char(10), {
       nullable: false,
     });
-    tvp.columns.add('HKONT', sql.Char(10), {
+    tvp.columns.add('KOSTL', sql.Char(10), {
       nullable: false,
     });
     tvp.columns.add('GJAHR', sql.Char(4), {
@@ -32,7 +32,7 @@ export default class Budget {
 
     if (budget instanceof Array)
       budget.forEach((row) =>
-        tvp.rows.add(row.KOSTL, row.HKONT, row.GJAHR, row.PERIOD, row.DMBTR)
+        tvp.rows.add(row.HKONT, row.KOSTL, row.GJAHR, row.PERIOD, row.DMBTR)
       );
 
     return tvp;
