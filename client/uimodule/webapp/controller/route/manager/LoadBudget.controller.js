@@ -23,7 +23,9 @@ sap.ui.define(
         Header: new ToolHeader(this),
         formatCurrency: function (value) {
           var oCurrencyFormat = NumberFormat.getCurrencyInstance();
-          return oCurrencyFormat.format(value);
+          var result = oCurrencyFormat.format(value);
+          if (result.length === 0) return `'${value}'!`;
+          return result;
         },
         onInit: function () {
           this.template = [
@@ -61,7 +63,10 @@ sap.ui.define(
             await BudgetService.upload();
             MessageToast.show('Presupuesto actualizado exitosamente.');
           } catch (error) {
-            MessageBox.error(error.message);
+            var msg = error.message;
+            if (error.details && error.details instanceof Array)
+              error.details.forEach((detail) => (msg += '\n* ' + detail.msg));
+            MessageBox.error(msg);
           }
         },
         onUpload: function (oEvent) {
@@ -96,7 +101,7 @@ sap.ui.define(
                 }
                 var budget = XLSX.utils.sheet_to_json(ws, { raw: true });
 
-                BudgetService.setProperty('/budget', budget);
+                BudgetService.setBudget(budget);
               }
             } catch (error) {
               MessageBox.error(error.message);

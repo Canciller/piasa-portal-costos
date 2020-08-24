@@ -35,9 +35,11 @@ sap.ui.define(
       onLogoutPress: function () {
         AuthService.logout()
           .catch()
-          .then(function() {
-            this.navTo('login', {}, true);
-          }.bind(this));
+          .then(
+            function () {
+              this.navTo('login', {}, true);
+            }.bind(this)
+          );
       },
       onSettingsPress: function () {
         this.navTo('settings');

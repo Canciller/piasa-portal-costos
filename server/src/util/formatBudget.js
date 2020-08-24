@@ -45,11 +45,18 @@ export default async function (budget) {
     formattedRow.GJAHR = row.GJAHR;
     for (var j = P.length; j--; ) {
       var month = j + 1;
+      var forLine = `[${row.KOSTL}, ${row.HKONT}, ${row.GJAHR}, Mes ${month}]`;
+
       var key = P[j];
       var value = row[key];
       if (!value)
         throw new ValidationError(
-          `El valor del mes ${month} no esta definido.`
+          `El valor del mes ${month} no esta definido, para ${forLine}.`
+        );
+      value = parseInt(value);
+      if (isNaN(value))
+        throw new ValidationError(
+          `El valor '${row[key]}' es invalido, para ${forLine}.`
         );
 
       formattedRow.PERIOD = String(month).padStart(2, '0');

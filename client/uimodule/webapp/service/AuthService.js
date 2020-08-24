@@ -30,8 +30,9 @@ sap.ui.define(['./APIService'], function (APIService) {
         });
     },
     logout: function () {
-      return this.api('/logout').get()
-        .catch(error => {
+      return this.api('/logout')
+        .get()
+        .catch((error) => {
           throw error;
         });
     },
