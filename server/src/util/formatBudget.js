@@ -62,7 +62,8 @@ export default async function (budget) {
           `El valor '${row[key]}' es invalido, para ${forLine}.`
         );
 
-      month = String(month).substr(0, 2);
+      month = String(month);
+      if(month.length > 2) month = month.substr(0, 2);
       formattedRow.PERIOD = month.padStart(2, '0');
       formattedRow.DMBTR = value;
       formatted.push(Object.assign({}, formattedRow));
