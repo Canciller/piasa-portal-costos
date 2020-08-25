@@ -1,0 +1,27 @@
+ <mvc:View
+  controllerName="com.piasa.Costos.controller.route.user.Reporte1"
+  displayBlock="true"
+  xmlns="sap.m"
+  xmlns:f="sap.f"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+>
+ <Page>
+   <customHeader>
+    <core:Fragment
+      id="toolHeader"
+      fragmentName="com.piasa.Costos.view.layout.ToolHeader" type="XML"
+    />
+   </customHeader>
+   <content>
+     <Page
+      id="main"
+      title="Reporte 1"
+      showNavButton="true"
+      navButtonPress=".onNavBack"
+     >
+     </Page>
+   </content>
+ </Page>
+</mvc:View>

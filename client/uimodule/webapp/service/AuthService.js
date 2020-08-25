@@ -14,6 +14,13 @@ sap.ui.define(['./APIService'], function (APIService) {
       this.model.setProperty('/email', null);
       this.model.setProperty('/role', null);
     },
+    changePassword: function () {
+      var oldPassword = this.getProperty('/oldPassword'),
+        newPassword = this.getProperty('/newPassword'),
+        newPasswordRepeat = this.getProperty('/newPasswordRepeat');
+
+      console.log(oldPassword, newPassword, newPasswordRepeat);
+    },
     login: function (username, password) {
       return this.api('/login')
         .post({

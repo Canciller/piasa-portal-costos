@@ -4,6 +4,7 @@ sap.ui.define(
     'com/piasa/Costos/controller/layout/ToolHeader.controller',
     'com/piasa/Costos/controller/launchpad/AdministradorLaunchpad.controller',
     'com/piasa/Costos/controller/launchpad/ManagerLaunchpad.controller',
+    'com/piasa/Costos/controller/launchpad/UserLaunchpad.controller',
     'sap/ui/core/Fragment',
     '../../service/RoleService',
   ],
@@ -12,6 +13,7 @@ sap.ui.define(
     ToolHeader,
     AdministradorLaunchpad,
     ManagerLaunchpad,
+    UserLaunchpad,
     Fragment,
     RoleService
   ) {
@@ -21,6 +23,7 @@ sap.ui.define(
       Header: new ToolHeader(this),
       Admin: new AdministradorLaunchpad(this),
       Manager: new ManagerLaunchpad(this),
+      User: new UserLaunchpad(this),
       onInit: function () {
         // Load launchpad when role changes.
         var oUserModel = this.getOwnerComponent().getModel('user');

@@ -40,7 +40,7 @@ export default class Budget {
 
   static padZeros(str) {
     var value = typeof str === 'string' ? str : String(str);
-    if(value.length > 10) {
+    if (value.length > 10) {
       var len = value.length;
       value = value.substr(len - 10, len);
     }

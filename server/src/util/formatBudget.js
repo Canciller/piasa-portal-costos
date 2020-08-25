@@ -33,8 +33,7 @@ export default async function (budget) {
     row.HKONT = String(row.HKONT);
     row.GJAHR = String(row.GJAHR);
 
-    if(row.GJAHR.length > 4)
-      row.GJAHR = row.GJAHR.substr(0, 4);
+    if (row.GJAHR.length > 4) row.GJAHR = row.GJAHR.substr(0, 4);
 
     if (!isEmptyString(row.KOSTL))
       throw new ValidationError('El centro de costos no puede estar vacio.');
@@ -63,7 +62,7 @@ export default async function (budget) {
         );
 
       month = String(month);
-      if(month.length > 2) month = month.substr(0, 2);
+      if (month.length > 2) month = month.substr(0, 2);
       formattedRow.PERIOD = month.padStart(2, '0');
       formattedRow.DMBTR = value;
       formatted.push(Object.assign({}, formattedRow));

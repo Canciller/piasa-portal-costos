@@ -103,6 +103,16 @@
           "pattern": "presupuesto",
           "name": "presupuesto",
           "target": "presupuesto"
+        },
+        {
+          "pattern": "reporte_1",
+          "name": "reporte_1",
+          "target": "reporte_1"
+        },
+        {
+          "pattern": "reporte_2",
+          "name": "reporte_2",
+          "target": "reporte_2"
         }
       ],
       "targets": {
@@ -135,6 +145,16 @@
           "viewType": "XML",
           "viewLevel": 1,
           "viewName": "route.manager.LoadBudget"
+        },
+        "reporte_1": {
+          "viewType": "XML",
+          "viewLevel": 1,
+          "viewName": "route.user.Reporte1"
+        },
+        "reporte_2": {
+          "viewType": "XML",
+          "viewLevel": 1,
+          "viewName": "route.user.Reporte2"
         },
         "notFound": {
           "viewName": "route.NotFound",

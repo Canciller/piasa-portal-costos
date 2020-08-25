@@ -7,7 +7,7 @@
 		<f:Form id="FormChange354"
 			editable="true">
 			<f:title>
-				<core:Title text="Address" />
+				<core:Title text="General" />
 			</f:title>
 			<f:layout>
 				<f:ResponsiveGridLayout
@@ -26,42 +26,93 @@
 					singleContainerFullSize="false" />
 			</f:layout>
 			<f:formContainers>
-				<f:FormContainer>
+				<f:FormContainer
+					id="form"
+				>
 					<f:formElements>
-						<f:FormElement label="Name">
+						<f:FormElement label="Nombre">
 							<f:fields>
-								<Input value="{SupplierName}" id="name"/>
+								<Input value="{user>/name}" id="name"/>
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="Street">
+						<f:FormElement label="Usuario">
 							<f:fields>
-								<Input value="{Street}" />
-								<Input value="{HouseNumber}">
-									<layoutData>
-										<l:GridData span="XL1 L2 M2 S4" />
-									</layoutData>
-								</Input>
+								<Input value="{user>/username}" id="username" />
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="ZIP Code/City">
+						<f:FormElement label="Email">
 							<f:fields>
-								<Input value="{ZIPCode}">
-									<layoutData>
-										<l:GridData span="XL1 L2 M2 S4" />
-									</layoutData>
-								</Input>
-								<Input value="{City}" />
+								<Input value="{user>/email}" />
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="Country">
+						<f:FormElement
+							label=""
+						>
 							<f:fields>
-								<Select id="country" selectedKey="{Country}">
-									<items>
-										<core:Item text="England" key="England"/>
-										<core:Item text="Germany" key="Germany"/>
-										<core:Item text="USA" key="USA"/>
-									</items>
-								</Select>
+								<Button
+									icon="sap-icon://key"
+									text="Cambiar contraseña"
+									press=".onChangePassword"
+									enabled="{= !${user>/changePassword}}"
+								/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement
+							label="Contraseña actual"
+							visible="{= !!${user>/changePassword}}"
+						>
+							<f:fields>
+								<Input
+									type="Password"
+									value="{user>/oldPassword}"
+								/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement
+							label="Contraseña nueva"
+							visible="{= !!${user>/changePassword}}"
+						>
+							<f:fields>
+								<Input
+									id="newPassword"
+									type="Password"
+									value="{user>/newPassword}"
+								/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement
+							label="Repetir Contraseña nueva"
+							visible="{= !!${user>/changePassword}}"
+						>
+							<f:fields>
+								<Input
+									id="newPasswordRepeat"
+									type="Password"
+									value="{user>/newPasswordRepeat}"
+								/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement
+							label=""
+							visible="{= !!${user>/changePassword}}"
+						>
+							<f:fields>
+								<HBox
+									justifyContent="End"
+								>
+									<Button
+										icon="sap-icon://decline"
+										text="Cancelar"
+										type="Reject"
+										class="sapUiTinyMarginEnd"
+										press=".onCancelChangePassword"
+									/>
+									<Button
+										icon="sap-icon://locked"
+										text="Cambiar Contraseña"
+										press=".onSaveChangePassword"
+									/>
+								</HBox>
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>

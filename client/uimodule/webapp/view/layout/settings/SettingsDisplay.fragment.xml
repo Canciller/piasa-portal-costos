@@ -7,7 +7,7 @@
 		<f:Form id="FormDisplay354"
 			editable="false">
 			<f:title>
-				<core:Title text="Address" />
+				<core:Title text="General" />
 			</f:title>
 			<f:layout>
 				<f:ResponsiveGridLayout
@@ -26,26 +26,22 @@
 					singleContainerFullSize="false" />
 			</f:layout>
 			<f:formContainers>
-				<f:FormContainer>
+				<f:FormContainer
+				>
 					<f:formElements>
-						<f:FormElement label="Name">
+						<f:FormElement label="Nombre">
 							<f:fields>
-								<Text text="{SupplierName}" id="nameText"  />
+								<Text text="{user>/name}" id="nameText"  />
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="Street">
+						<f:FormElement label="Usuario">
 							<f:fields>
-								<Text text="{Street} {HouseNumber}" />
+								<Text text="{user>/username}" />
 							</f:fields>
 						</f:FormElement>
-						<f:FormElement label="ZIP Code/City">
+						<f:FormElement label="Email">
 							<f:fields>
-								<Text text="{ZIPCode} {City}" />
-							</f:fields>
-						</f:FormElement>
-						<f:FormElement label="Country">
-							<f:fields>
-								<Text text="{Country}" id="countryText" />
+								<Text text="{user>/email}" />
 							</f:fields>
 						</f:FormElement>
 					</f:formElements>
