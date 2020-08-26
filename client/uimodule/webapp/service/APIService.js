@@ -30,6 +30,9 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
       }
       return null;
     },
+    refresh: function () {
+      if (this.model) this.model.refresh();
+    },
     api: function (endpoint) {
       var base = this.base;
 

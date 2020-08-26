@@ -28,20 +28,10 @@
         <f:title>
           <f:DynamicPageTitle>
             <f:heading>
-              <HBox
-                alignItems="Center"
-              >
-                <Button 
-                  icon="sap-icon://nav-back"
-                  type="Transparent"
-                  class="sapUiTinyMarginEnd navBackButton"
-                  press=".onNavBack"
-                />
-                <Title
-                  text="Reporte 1"
-                  class="reportTitle"
-                />
-              </HBox>
+              <Title
+                text="Reporte 1"
+                class="reportTitle"
+              />
             </f:heading>
             <f:actions>
               <ToolbarSpacer/>
@@ -53,7 +43,7 @@
         <f:header>
           <f:DynamicPageHeader pinnable="true">
             <c:Fragment
-              id="reporte1Form"
+              id="form"
               fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1Form"
               type="XML"
             />
@@ -62,9 +52,8 @@
 
         <f:content>
           <t:Table
-              title="Reporte 1"
               rows="{/ProductCollection}"
-              selectionMode="MultiToggle"
+              selectionMode="None"
               alternateRowColors="true"
               busy="{reporte1>/loading}"
               busyIndicatorDelay="100"

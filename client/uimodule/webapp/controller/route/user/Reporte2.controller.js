@@ -11,7 +11,7 @@ sap.ui.define(
     ToolHeader,
     MessageBox,
     MessageToast,
-    NumberFormat,
+    NumberFormat
   ) {
     'use strict';
 
@@ -22,8 +22,7 @@ sap.ui.define(
         onInit: function () {
           this.getRouter()
             .getRoute('reporte_2')
-            .attachMatched(function () {
-            }, this);
+            .attachMatched(function () {}, this);
         },
       }
     );

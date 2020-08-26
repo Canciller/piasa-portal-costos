@@ -12,10 +12,21 @@
       <Text
         text="Centros de costos"
       />
-      <Input
-        showValueHelp="true"
-        id="report1KOSTL"
-      />
+      <MultiComboBox
+        id="multiComboBox"
+        busy="{reportes>/kostl/loading}"
+        busyIndicatorDelay="100"
+        width="26rem"
+        showSecondaryValues="true"
+        items="{
+          path: 'reportes>/kostl/data',
+          sorter: {
+            path: 'reportes>KOSTL'
+          }
+        }"
+      >
+        <core:ListItem key="{reportes>KOSTL}" text="{reportes>KOSTL}" additionalText="{reportes>LTEXT}" />
+      </MultiComboBox>
     </VBox>
     <VBox
       class="sapUiSmallMarginEnd"
@@ -24,14 +35,14 @@
         text="Año/mes"
       />
       <DatePicker
+        id="datePicker"
         class="sapUiSmallMarginEnd"
-        id="report1Date"
         displayFormat="yyyy/MM"
       />
     </VBox>
     <Button 
       type="Emphasized"
-      press=".onLoad"
+      press=".onReady"
       text="Listo"
       icon="sap-icon://accept"
     />
