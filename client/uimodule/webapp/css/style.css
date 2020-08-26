@@ -41,11 +41,18 @@
   border-radius: 50%;
   background-color: transparent;
 }
-
 .tableActionButton {
   margin-left: 0.06rem;
 }
 
 .manageUsersError {
   max-width: 30rem;
+}
+
+.reportTitle {
+  display: flex;
+}
+
+.sapFDynamicPageContentFitContainer {
+  padding: 1rem 0 0 0 !important;
 }

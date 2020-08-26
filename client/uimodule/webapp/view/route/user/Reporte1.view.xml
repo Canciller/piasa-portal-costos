@@ -1,27 +1,123 @@
- <mvc:View
-  controllerName="com.piasa.Costos.controller.route.user.Reporte1"
-  displayBlock="true"
-  xmlns="sap.m"
-  xmlns:f="sap.f"
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns:core="sap.ui.core"
-  xmlns:t="sap.ui.table"
+<mvc:View
+    controllerName="com.piasa.Costos.controller.route.user.Reporte1"
+		xmlns:c="sap.ui.core"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:u="sap.ui.unified"
+		xmlns="sap.m"
+		xmlns:t="sap.ui.table"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+		xmlns:layout="sap.ui.layout"
+    height="100%"
 >
- <Page>
-   <customHeader>
-    <core:Fragment
-      id="toolHeader"
-      fragmentName="com.piasa.Costos.view.layout.ToolHeader" type="XML"
-    />
-   </customHeader>
-   <content>
-     <Page
-      id="main"
-      title="Reporte 1"
-      showNavButton="true"
-      navButtonPress=".onNavBack"
-     >
-     </Page>
-   </content>
- </Page>
+  <Page>
+    <customHeader>
+      <c:Fragment
+        id="toolHeader"
+        fragmentName="com.piasa.Costos.view.layout.ToolHeader" type="XML"
+      />
+    </customHeader>
+    <content>
+      <f:DynamicPage
+        id="pageReporte1"
+        preserveHeaderStateOnScroll="true"
+        headerExpanded="{reporte1/headerExpanded}"
+        fitContent="true"
+      >
+        <!-- DynamicPage Title -->
+        <f:title>
+          <f:DynamicPageTitle>
+            <f:heading>
+              <HBox
+                alignItems="Center"
+              >
+                <Button 
+                  icon="sap-icon://nav-back"
+                  type="Transparent"
+                  class="sapUiTinyMarginEnd navBackButton"
+                  press=".onNavBack"
+                />
+                <Title
+                  text="Reporte 1"
+                  class="reportTitle"
+                />
+              </HBox>
+            </f:heading>
+            <f:actions>
+              <ToolbarSpacer/>
+            </f:actions>
+          </f:DynamicPageTitle>
+        </f:title>
+
+        <!-- DynamicPage Header -->
+        <f:header>
+          <f:DynamicPageHeader pinnable="true">
+            <c:Fragment
+              id="reporte1Form"
+              fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1Form"
+              type="XML"
+            />
+          </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+          <t:Table
+              title="Reporte 1"
+              rows="{/ProductCollection}"
+              selectionMode="MultiToggle"
+              alternateRowColors="true"
+              busy="{reporte1>/loading}"
+              busyIndicatorDelay="100"
+              rowHeight="40px"
+              visibleRowCountMode="Auto"
+              fixedColumnCount="2"
+          >
+            <t:columns>
+              <t:Column width="11rem">
+                <Label
+                  text="Centro de costos"
+                />
+                <t:template>
+                  <Text text="{reporte1>KOSTL}" wrapping="false" />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="11rem"
+              >
+                <Label text="Cuenta" />
+                <t:template>
+                  <Input value="{reporte1>HKONT}"/>
+                </t:template>
+              </t:Column>
+              <t:Column width="9rem">
+                <Label text="Real" />
+                <t:template>
+                  <u:Currency value="{reporte1>ACTUAL}" currency="{reporte1>CURRENCY}"/>
+                </t:template>
+              </t:Column>
+              <t:Column width="9rem">
+                <Label text="Presupuesto" />
+                <t:template>
+                  <u:Currency value="{reporte1>BUDGET}" currency="{reporte1>CURRENCY}"/>
+                </t:template>
+              </t:Column>
+            </t:columns>
+          </t:Table>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+          <OverflowToolbar>
+            <Button icon="sap-icon://message-popup"
+                text="{/messagesLength}"
+                type="Emphasized"
+                press="onMessageButtonPress"
+                visible="{= !!${/messagesLength}}"/>
+            <ToolbarSpacer/>
+            <Button type="Accept" text="Accept"/>
+            <Button type="Reject" text="Reject"/>
+          </OverflowToolbar>
+        </f:footer>
+      </f:DynamicPage>
+    </content>
+  </Page>
 </mvc:View>
