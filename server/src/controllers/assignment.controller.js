@@ -72,4 +72,12 @@ export default {
       next(error);
     }
   },
+  matchKOSTL: async (req, res, next) => {
+    try {
+      var match = Assignment.matchKOSTL(req.body.username, req.body.kostl);
+      return res.json(match);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

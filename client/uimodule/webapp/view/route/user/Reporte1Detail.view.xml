@@ -1,0 +1,162 @@
+<mvc:View
+    controllerName="com.piasa.Costos.controller.route.user.Reporte1Detail"
+		xmlns:c="sap.ui.core"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns="sap.m"
+		xmlns:t="sap.ui.table"
+    height="100%"
+>
+  <Page>
+    <customHeader>
+      <c:Fragment
+        id="toolHeader"
+        fragmentName="com.piasa.Costos.view.layout.ToolHeader" type="XML"
+      />
+    </customHeader>
+    <content>
+     <Page
+      id="main"
+      title="Detalle Reporte 1"
+      showNavButton="true"
+      navButtonPress=".onNavBack"
+      class="sapUiResponsivePadding"
+     >
+        <content>
+          <t:Table
+            rows="{reportes>/reporte1Detail/data}"
+            selectionMode="None"
+            alternateRowColors="true"
+            busy="{reportes>/reporte1Detail/loading}"
+            busyIndicatorDelay="100"
+            rowHeight="30px"
+            visibleRowCountMode="Auto"
+            id="table"
+            cellClick=".onCellClick"
+          >
+            <t:columns>
+              <t:Column
+                width="8rem"
+                filterProperty="KOSTL"
+                sortProperty="KOSTL"
+              >
+                <Label
+                  text="Año/mes"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>/reporte1Detail/date}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="KOSTL"
+                sortProperty="KOSTL"
+              >
+                <Label
+                  text="Centro de costo"
+                />
+                <t:template>
+                  <Text
+                    text="{
+                        path : 'reportes>KOSTL', 
+                        type : 'sap.ui.model.odata.type.String', 
+                        constraints: { 
+                            isDigitSequence : true,
+                            maxLength : 10
+                        }
+                      }"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="LTEXT"
+                sortProperty="LTEXT"
+              >
+                <Label
+                  text="Descripción"
+                />
+                <t:template>
+                  <Text text="{reportes>LTEXT}" wrapping="false" />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="HKONT"
+                sortProperty="HKONT"
+              >
+                <Label text="Cuenta" />
+                <t:template>
+                  <Text
+                    text="{
+                        path : 'reportes>HKONT', 
+                        type : 'sap.ui.model.odata.type.String', 
+                        constraints: { 
+                            isDigitSequence : true,
+                            maxLength : 10
+                        }
+                      }"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="TXT50"
+                sortProperty="TXT50"
+              >
+                <Label text="TXT50" />
+                <t:template>
+                  <Text
+                    text="{reportes>TXT50}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="DESC1"
+                sortProperty="DESC1"
+              >
+                <Label text="DESC1" />
+                <t:template>
+                  <Text
+                    text="{reportes>DESC1}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="DESC2"
+                sortProperty="DESC2"
+              >
+                <Label text="DESC2" />
+                <t:template>
+                  <Text
+                    text="{reportes>DESC2}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                hAlign="Right"
+                filterProperty="Actual"
+                sortProperty="Actual"
+              >
+                <Label text="Real" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>DMBTR',
+                    formatter: '.format.money'
+                    }"
+                  />
+                </t:template>
+              </t:Column>
+            </t:columns>
+          </t:Table>
+        </content>
+     </Page>
+    </content>
+  </Page>
+</mvc:View>

@@ -2,7 +2,6 @@ sap.ui.define(
   [
     'com/piasa/Costos/controller/BaseController',
     'com/piasa/Costos/controller/layout/ToolHeader.controller',
-    'com/piasa/Costos/controller/layout/DialogKostl.controller',
     'sap/ui/core/Fragment',
     'sap/ui/model/Filter',
     'sap/ui/model/FilterOperator',
@@ -15,7 +14,6 @@ sap.ui.define(
   function (
     BaseController,
     ToolHeader,
-    DialogKostl,
     Fragment,
     Filter,
     FilterOperator,
@@ -31,7 +29,6 @@ sap.ui.define(
       'com.piasa.Costos.route.manager.Reporte1.controller',
       {
         Header: new ToolHeader(this),
-        Dialog: new DialogKostl(this),
         onInit: function () {
           this.getRouter()
             .getRoute('reporte_1')
@@ -50,31 +47,76 @@ sap.ui.define(
                 });
             }, this);
 
-            this.resetDatePicker();
-            this.addClearIconMultiComboBox();
+          this.resetDatePicker();
+          this.addClearIconMultiComboBox();
+          this.setupTableCellClick();
         },
-        onReset: function() {
+        format: {
+          percentage: function (value) {
+            if (!value) return 0;
+
+            var oPercentageFormat = NumberFormat.getPercentInstance({
+              decimals: 2,
+            });
+            var result = oPercentageFormat.format(value);
+            return result;
+          },
+          money: function (value) {
+            if (!value) return 0;
+
+            var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+            var result = oCurrencyFormat.format(value);
+            return result;
+          },
+        },
+        setupTableCellClick: function () {
+          var oTable = this.byId('table');
+          oTable.attachBrowserEvent(
+            'dblclick',
+            function () {
+              var selected = this._selected;
+              if (!selected) return;
+
+              var oBindingContext = selected.rowBindingContext;
+              if (!oBindingContext) return;
+
+              var path = oBindingContext.getPath();
+              ReporteService.setReporte1DetailPath(path);
+              ReporteService.getReporte1Detail()
+                .then(() => {
+                  this.navTo('reporte_1_detail');
+                })
+                .catch((error) => {
+                  MessageBox.error(error.message);
+                });
+            }.bind(this)
+          );
+        },
+        onCellClick: function (oEvent) {
+          this._selected = oEvent.getParameters();
+        },
+        onReset: function () {
           this.resetMultiComboBox();
           this.resetDatePicker();
         },
-        onClearMultiComboBox: function() {
+        onClearMultiComboBox: function () {
           var oMultiComboBox = this.getMultiComboBox();
           oMultiComboBox.setSelectedKeys(null);
         },
-        addClearIconMultiComboBox: function() {
+        addClearIconMultiComboBox: function () {
           var oMultiComboBox = this.getMultiComboBox();
           var oIcon = IconPool.getIconURI('decline');
           oMultiComboBox.addEndIcon({
             src: oIcon,
-            press: this.onClearMultiComboBox.bind(this)
+            press: this.onClearMultiComboBox.bind(this),
           });
         },
-        resetMultiComboBox: function() {
+        resetMultiComboBox: function () {
           var oMultiComboBox = this.getMultiComboBox();
           var aSelectedKeys = ReporteService.getKOSTLSelectedKeys();
           oMultiComboBox.setSelectedKeys(aSelectedKeys);
         },
-        resetDatePicker: function() {
+        resetDatePicker: function () {
           var oDatePicker = this.getDatePicker();
           var date = new Date(),
             year = date.getFullYear(),
@@ -89,7 +131,7 @@ sap.ui.define(
           var fragmentId = this.getView().createId('form');
           return Fragment.byId(fragmentId, 'datePicker');
         },
-        onReady: function (oEvent) {
+        onReady: function () {
           var oMultiComboBox = this.getMultiComboBox(),
             oDatePicker = this.getDatePicker();
 
@@ -108,7 +150,9 @@ sap.ui.define(
           var year = date.getFullYear(),
             month = date.getMonth() + 1;
 
-          ReporteService.getReporte1(year, month, selected);
+          ReporteService.getReporte1(year, month, selected).catch((error) => {
+            MessageBox.error(error.message);
+          });
         },
       }
     );

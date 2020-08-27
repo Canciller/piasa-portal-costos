@@ -10,7 +10,7 @@
       class="sapUiSmallMarginEnd"
     >
       <Text
-        text="Centros de costos"
+        text="Centros de costo"
       />
       <MultiComboBox
         id="multiComboBox"
@@ -25,7 +25,18 @@
           }
         }"
       >
-        <core:ListItem key="{reportes>KOSTL}" text="{reportes>KOSTL}" additionalText="{reportes>LTEXT}" />
+        <core:ListItem
+          key="{reportes>KOSTL}"
+          text="{
+              path : 'reportes>KOSTL', 
+              type : 'sap.ui.model.odata.type.String', 
+              constraints: { 
+                  isDigitSequence : true,
+                  maxLength : 10
+              }
+            }"
+          additionalText="{reportes>LTEXT}"
+        />
       </MultiComboBox>
     </VBox>
     <VBox

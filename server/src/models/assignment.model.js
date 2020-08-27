@@ -1,4 +1,5 @@
 import sql, { Table } from 'mssql';
+import createKOSTLTable from '../util/createKOSTLTable';
 import hasAffectedRows from '../util/dbHasAffectedRows';
 import getPool from '../util/dbGetPool';
 import log from '../util/log/error';
@@ -149,6 +150,34 @@ export default class Assignment {
       if (res.recordset && res.recordset.length !== 0) return res.recordset;
 
       return [];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Match KOSTLs of username with Array of KOSTLs.
+   * @param {string} username
+   * @param {Array} kostl
+   */
+  static async matchKOSTL(username, kostl) {
+    try {
+      if (!(kostl instanceof Array)) return false;
+
+      var tvp = createKOSTLTable(kostl);
+
+      var pool = await getPool();
+      var request = await pool
+        .request()
+        .input('username', sql.VarChar(30), username)
+        .input('KOSTLTable', sql.TVP('KOSTLTableType'), tvp);
+
+      var res = await request.execute('matchAssignmentsKOSTL');
+
+      if (res.recordset && res.recordset.length !== 0)
+        return res.recordset.length === kostl.length;
+
+      return false;
     } catch (error) {
       throw error;
     }

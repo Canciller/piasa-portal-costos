@@ -110,6 +110,11 @@
           "target": "reporte_1"
         },
         {
+          "pattern": "reporte_1/detail",
+          "name": "reporte_1_detail",
+          "target": "reporte_1_detail"
+        },
+        {
           "pattern": "reporte_2",
           "name": "reporte_2",
           "target": "reporte_2"
@@ -150,6 +155,11 @@
           "viewType": "XML",
           "viewLevel": 1,
           "viewName": "route.user.Reporte1"
+        },
+        "reporte_1_detail": {
+          "viewType": "XML",
+          "viewLevel": 2,
+          "viewName": "route.user.Reporte1Detail"
         },
         "reporte_2": {
           "viewType": "XML",
