@@ -5,7 +5,7 @@ export default {
   database: process.env.DB_NAME,
   options: {
     enableArithAbort: true,
-    trustedConnection: true,
+    encrypt: false,
   },
   debug: process.env.NODE_ENV === 'developmet',
 };
