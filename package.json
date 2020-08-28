@@ -6,6 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run prod",
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "install": "npm-run-all install:server install:client",
     "lint:prettier": "prettier --check \"**/*.*\"",
     "fix:prettier": "prettier --write \"**/*.*\"",
     "test:client": "cd client && npm run test",
