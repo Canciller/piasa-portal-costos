@@ -19,13 +19,15 @@ async function createAdminUser() {
   try {
     var all = await User.getAll();
     if(all.length === 0) {
-      var password = hashPassword(password);
+      var password = await hashPassword(password);
       var user = new User(username, name, email, password, true, 'A');
       await User.create(user);
       debug(`Created initial user '${username}'`);
     }
   } catch(error) {
-    console.error(`Error creating initial user '${username}', already created or failed to get all users.`);
+    console.error(`Error creating initial user '${username}'.`);
+    console.error(error);
+    process.exit(1);
   }
 }
 

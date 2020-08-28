@@ -36,7 +36,7 @@ export default {
       next(error);
     }
   },
-  getLinked: async (req, res) => {
+  getLinked: async (req, res, next) => {
     try {
       var linked = await Assignment.getLinked(req.username);
 
@@ -45,7 +45,7 @@ export default {
       next(error);
     }
   },
-  getUnlinked: async (req, res) => {
+  getUnlinked: async (req, res, next) => {
     try {
       var unlinked = await Assignment.getUnlinked(req.username);
 
@@ -54,7 +54,7 @@ export default {
       next(error);
     }
   },
-  getLinkedAndUnlinked: async (req, res) => {
+  getLinkedAndUnlinked: async (req, res, next) => {
     try {
       var linked = await Assignment.getLinked(req.username),
         unlinked = await Assignment.getUnlinked(req.username);
