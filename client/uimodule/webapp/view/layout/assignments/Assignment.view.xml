@@ -57,8 +57,11 @@
         }"
         class="sapFDynamicPageAlignContent"
         width="auto"
-        sticky="HeaderToolbar"
+        sticky="HeaderToolbar,ColumnHeaders"
         showOverlay="{= !${users>/user/isActive}}"
+        growing="true"
+        growingThreshold="1000"
+        alternateRowColors="true"
       >
         <m:headerToolbar>
           <m:Toolbar>

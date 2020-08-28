@@ -18,7 +18,10 @@
 				}"
 				class="sapFDynamicPageAlignContent"
 				width="auto"
-        sticky="HeaderToolbar"
+        		sticky="HeaderToolbar,ColumnHeaders"
+				growing="true"
+				growingThreshold="1000"
+				alternateRowColors="true"
 			>
 				<headerToolbar>
 					<Toolbar>

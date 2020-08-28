@@ -18,7 +18,7 @@ export default class Assignment {
     tvp.columns.add('username', sql.VarChar(30), {
       nullable: false,
     });
-    tvp.columns.add('KOSTL', sql.Char(10), {
+    tvp.columns.add('KOSTL', sql.NChar(10), {
       nullable: false,
     });
 
