@@ -49,7 +49,7 @@ export default class User {
     var pool = await getPool();
     return await pool
       .request()
-      .input('username', sql.VarChar(80), this.username)
+      .input('username', sql.VarChar(30), this.username)
       .input('name', sql.VarChar(50), this.name)
       .input('email', sql.VarChar(254), this.email)
       .input('password', sql.VarChar(80), this.password)
@@ -308,6 +308,56 @@ export default class User {
 
       return [];
     } catch (error) {
+      throw error;
+    }
+  }
+
+  static async changeUser(oldUsername, user) {
+    try {
+      var request = await user.request();
+      request.input('oldUsername', sql.VarChar(30), oldUsername);
+
+      var res = await request.query(`
+        UPDATE users SET
+          username = @username,
+          email = @email,
+          name = @name,
+          updatedAt = @updatedAt
+        WHERE username = @oldUsername
+      `);
+
+      if (hasAffectedRows(res)) {
+        var updatedUser = await User.get(user.username);
+        delete updatedUser.password;
+        return updatedUser;
+      }
+
+      throw new Error('Error updating user');
+    } catch(error) {
+      throw error;
+    }
+  }
+
+  static async changePassword(username, password) {
+    try {
+      var pool = await getPool();
+      var request = await pool.request()
+        .input('username', sql.VarChar(30), username)
+        .input('password', sql.VarChar(80), password)
+        .input('updatedAt', sql.SmallDateTime, new Date());
+
+      var res = await request.query(`
+        UPDATE users SET
+          password = @password,
+          updatedAt = @updatedAt
+        WHERE username = @username
+      `);
+
+      if (hasAffectedRows(res))
+        return;
+
+      throw new Error('Error updating password');
+    } catch(error) {
       throw error;
     }
   }

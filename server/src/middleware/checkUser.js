@@ -23,8 +23,13 @@ const msg = {
   role: {
     invalid: 'El tipo de usuario seleccionado es invalido.',
   },
+  password: {
+    required: 'La contraseña es requerida'
+  },
   update: 'Error al modificar usuario.',
   create: 'Error al crear usuario.',
+  changeUser: 'Error al guardar usuario.',
+  changePassword: 'Error al cambiar contraseña.'
 };
 
 async function findUser(username, { req }) {
@@ -32,8 +37,21 @@ async function findUser(username, { req }) {
   if (found) throw new ValidationError(msg.username.unique(username));
 }
 
+async function findUserEqual(username, { req }) {
+  if(username === req.user.username) return;
+  var found = await User.get(username);
+  if (found) throw new ValidationError(msg.username.unique(username));
+}
+
 async function findUserByEmail(email, { req }) {
   const username = req.params.username;
+  var found = await User.getByEmail(email);
+  if (found && found.username !== username)
+    throw new ValidationError(msg.email.unique(email));
+}
+
+async function findUserByEmailEqual(email, { req }) {
+  const username = req.user.username;
   var found = await User.getByEmail(email);
   if (found && found.username !== username)
     throw new ValidationError(msg.email.unique(email));
@@ -84,4 +102,36 @@ const checkUpdateUser = [
   checkErrors('update'),
 ];
 
-export { checkCreateUser, checkUpdateUser };
+const checkChangeUser = [
+  body('username')
+    .not()
+    .isEmpty()
+    .withMessage(msg.username.required)
+    .custom(findUserEqual)
+    .matches(matches.username)
+    .withMessage(msg.username.invalid),
+  body('name').not().isEmpty().withMessage(msg.name.required).trim(),
+  body('email')
+    .isEmail()
+    .withMessage(msg.email.invalid)
+    .custom(findUserByEmailEqual),
+  checkErrors('changeUser'),
+];
+
+const checkChangePassword = [
+  body('oldPassword')
+    .not()
+    .isEmpty()
+    .withMessage(msg.password.required),
+  body('password')
+    .not()
+    .isEmpty()
+    .withMessage(msg.password.required),
+  body('passwordRepeat')
+    .not()
+    .isEmpty()
+    .withMessage(msg.password.required),
+  checkErrors('changePassword'),
+];
+
+export { checkCreateUser, checkUpdateUser, checkChangeUser, checkChangePassword };

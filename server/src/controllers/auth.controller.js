@@ -5,6 +5,7 @@ import ForbiddenError from '../util/error/ForbiddenError';
 
 import signToken from '../util/signToken';
 import comparePassword from '../util/comparePassword';
+import hashPassword from '../util/hashPassword';
 import isEmail from '../util/validateEmail';
 
 export default {
@@ -43,4 +44,57 @@ export default {
   logout: async (req, res) => {
     return res.clearCookie('token').json({});
   },
+  changeUser: async (req, res, next) => {
+    try {
+      var username = req.body.username,
+        email = req.body.email,
+        name = req.body.name;
+
+      var oldUsername = req.user.username;
+
+      var user = await User.changeUser(oldUsername, new User(username, name, email));
+
+      var token = signToken(user);
+
+      var month = new Date();
+      month.setMonth(month.getMonth() + 1);
+      res.cookie('token', token, { httpOnly: true, expires: month });
+      return res.json({
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        //token,
+      });
+
+    } catch(error) {
+      next(error);
+    }
+  },
+  changePassword: async (req, res, next) => {
+    try {
+      var oldPassword = req.body.oldPassword,
+        password = req.body.password,
+        passwordRepeat = req.body.passwordRepeat;
+
+      if(password !== passwordRepeat)
+        throw new UnauthorizedError('Las contraseñas no coinciden.')
+
+      var username = req.user.username;
+      var user = await User.get(username);
+
+      if(!user) throw new ForbiddenError();
+
+      var validCredentials = await comparePassword(oldPassword, user.password);
+      if (!validCredentials) throw new UnauthorizedError('La contraseña actual es incorrecta.');
+
+      password = await hashPassword(password);
+
+      await User.changePassword(username, password);
+
+      return res.json({});
+    } catch(error) {
+      next(error);
+    }
+  }
 };

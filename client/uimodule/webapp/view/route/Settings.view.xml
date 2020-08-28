@@ -22,27 +22,9 @@
       showNavButton="true"
       navButtonPress=".onNavBack"
      >
-      <headerContent>
-        <Button
-          id="edit"
-          icon="sap-icon://edit"
-          text="Editar"
-          press=".onEdit"
-        />
-        <Button
-          id="save"
-          icon="sap-icon://save"
-          text="Guardar"
-          press=".onSave"
-        />
-        <Button
-          id="cancel"
-          icon="sap-icon://cancel"
-          text="Cancelar"
-          type="Reject"
-          press=".onCancel"
-        />
-      </headerContent>
+      <core:Fragment
+        fragmentName="com.piasa.Costos.view.layout.settings.Settings" type="XML"
+      />
      </Page>
    </content>
  </Page>
