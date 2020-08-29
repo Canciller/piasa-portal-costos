@@ -55,20 +55,23 @@ sap.ui.define(['./APIService'], function (APIService) {
         this.setProperty('/changingUser', false);
       }
     },
-    login: function (username, password) {
-      return this.api('/login')
-        .post({
-          username: username,
-          password: password,
-        })
-        .then((user) => {
-          this._setUser(user);
-          return user;
-        })
-        .catch((error) => {
-          this._clearUser();
-          throw error;
-        });
+    login: async function (username, password) {
+      try {
+        this.setProperty('/loading', true);
+
+        var user = await this.api('/login')
+          .post({
+            username: username,
+            password: password,
+          });
+
+        this._setUser(user);
+      } catch(error) {
+        this._clearUser();
+        throw error;
+      } finally {
+        this.setProperty('/loading', false);
+      }
     },
     logout: function () {
       return this.api('/logout')

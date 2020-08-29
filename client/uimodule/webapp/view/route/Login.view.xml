@@ -66,6 +66,8 @@
             submit=".OnSubmit"
           />
           <Button
+            busy="{user>/loading}"
+            busyIndicatorDelay="100"
             icon="sap-icon://journey-arrive"
             class="sapUiSmallMarginTop"
             text="{i18n>loginSubmitButton.text}"
