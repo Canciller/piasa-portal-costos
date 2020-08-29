@@ -60,8 +60,10 @@
         sticky="HeaderToolbar,ColumnHeaders"
         showOverlay="{= !${users>/user/isActive}}"
         growing="true"
-        growingThreshold="1000"
+        growingThreshold="50"
+        growingScrollToLoad="true"
         alternateRowColors="true"
+        growingFinished=".onGrowing"
       >
         <m:headerToolbar>
           <m:Toolbar>

@@ -40,6 +40,8 @@ sap.ui.define(
             oSorter = new Sorter('KOSTL', this._bDescendingSort);
 
           oBinding.sort(oSorter);
+
+          this.verifyAllSelected();
         },
         onRefresh: function () {
           const clearSorters = Promise.resolve({
@@ -137,6 +139,9 @@ sap.ui.define(
                 styleClass: 'manageUsersError',
               });
             });
+        },
+        onGrowing: function() {
+          this.verifyAllSelected();
         },
       }
     );
