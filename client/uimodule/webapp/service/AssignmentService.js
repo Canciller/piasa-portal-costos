@@ -101,7 +101,7 @@ sap.ui.define(
 
               var assignments = await this.api(`/${username}/all`).get();
               this.setAssignments(assignments);
-              this.setAllInitialSelectedAndStatus();
+              //this.setAllInitialSelectedAndStatus();
             }
           } catch (error) {
             this.setAssignments([]);
@@ -127,7 +127,7 @@ sap.ui.define(
 
               var assignments = await this.api(`/${username}/all`).get();
               this.setAssignments(assignments);
-              this.setAllInitialSelectedAndStatus();
+              //this.setAllInitialSelectedAndStatus();
             }
           } catch (error) {
             this.setAssignments([]);

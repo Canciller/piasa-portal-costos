@@ -30,9 +30,11 @@ sap.ui.define(
           this._bDescendingSort = false;
           this.oAssignmentsTable = this.oView.byId('assignmentsTable');
 
+          /*
           AssignmentService.setOnChangeAssignmentsCallback(
             this.verifyAllSelected.bind(this)
           );
+          */
         },
         onSort: function () {
           this._bDescendingSort = !this._bDescendingSort;
@@ -41,7 +43,7 @@ sap.ui.define(
 
           oBinding.sort(oSorter);
 
-          this.verifyAllSelected();
+          //this.verifyAllSelected();
         },
         onRefresh: function () {
           const clearSorters = Promise.resolve({
@@ -59,19 +61,18 @@ sap.ui.define(
               MessageBox.error(error.message);
             });
         },
-        onSelect: function (oEvent) {
-          var selected = oEvent.getParameter('selected');
-          var oSource = oEvent.getSource();
+        onSelectionChange: function(oEvent) {
+          var oParameters = oEvent.getParameters();
+          var aListItems = oParameters.listItems,
+              bSelected = oParameters.selected;
 
-          var path = oSource.getBindingContext('assignments').getPath();
-          AssignmentService.setSelectedAndStatus(path, selected);
+          for(var i = aListItems.length; i--;) {
+            var oItem = aListItems[i];
+            var oContext = oItem.getBindingContext('assignments'),
+              sPath = oContext.getPath();
 
-          if (!selected) AssignmentService.setAllSelected(false);
-          else this.verifyAllSelected();
-        },
-        onSelectAll: function (oEvent) {
-          var selected = oEvent.getParameter('selected');
-          this.setAllSelected(selected);
+            AssignmentService.setSelectedAndStatus(sPath, bSelected);
+          }
         },
         onSearch: function (oEvent) {
           var oTableSearchState = [],
@@ -87,7 +88,20 @@ sap.ui.define(
             .getBinding('items')
             .filter(oTableSearchState, 'KOSTL');
 
-          this.verifyAllSelected();
+          //this.verifyAllSelected();
+        },
+        onSave: function () {
+          AssignmentService.save()
+            .then((username) => {
+              MessageToast.show(
+                `Asignaciones para '${username}' se han guardado exitosamente.`
+              );
+            })
+            .catch((error) => {
+              MessageBox.error(error.message, {
+                styleClass: 'manageUsersError',
+              });
+            });
         },
         verifyAllSelected: function () {
           if (!this.oAssignmentsTable) return;
@@ -108,6 +122,8 @@ sap.ui.define(
           AssignmentService.setAllSelected(allSelected);
         },
         setAllSelected: function (selected) {
+          AssignmentService.setAllSelected(selected);
+
           var oContexts = this.oAssignmentsTable
             .getBinding('items')
             .getCurrentContexts();
@@ -124,24 +140,24 @@ sap.ui.define(
             AssignmentService.setProperty(path + '/status', status);
             AssignmentService.setProperty(path + '/selected', selected);
           }
+        },
+        onSelect: function (oEvent) {
+          var selected = oEvent.getParameter('selected');
+          var oSource = oEvent.getSource();
 
-          AssignmentService.setAllSelected(selected);
+          var path = oSource.getBindingContext('assignments').getPath();
+          AssignmentService.setSelectedAndStatus(path, selected);
+
+          if (!selected) AssignmentService.setAllSelected(false);
+          else this.verifyAllSelected();
         },
-        onSave: function () {
-          AssignmentService.save()
-            .then((username) => {
-              MessageToast.show(
-                `Asignaciones para '${username}' se han guardado exitosamente.`
-              );
-            })
-            .catch((error) => {
-              MessageBox.error(error.message, {
-                styleClass: 'manageUsersError',
-              });
-            });
+        onSelectAll: function (oEvent) {
+          var selected = oEvent.getParameter('selected');
+
+          //this.setAllSelected(selected);
         },
-        onGrowing: function() {
-          this.verifyAllSelected();
+        onGrowing: function () {
+          //this.verifyAllSelected();
         },
       }
     );

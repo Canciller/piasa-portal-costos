@@ -58,42 +58,12 @@
             busyIndicatorDelay="100"
             rowHeight="30px"
             visibleRowCountMode="Auto"
+            selectionMode="None"
             id="table"
+            fixedColumnCount="2"
             cellClick=".onCellClick"
           >
             <t:columns>
-              <t:Column
-                width="8rem"
-                filterProperty="KOSTL"
-                sortProperty="KOSTL"
-              >
-                <Label
-                  text="Centro de costo"
-                />
-                <t:template>
-                  <Text
-                    text="{
-                        path : 'reportes>KOSTL', 
-                        type : 'sap.ui.model.odata.type.String', 
-                        constraints: { 
-                            isDigitSequence : true,
-                            maxLength : 10
-                        }
-                      }"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                filterProperty="LTEXT"
-                sortProperty="LTEXT"
-              >
-                <Label
-                  text="Descripción"
-                />
-                <t:template>
-                  <Text text="{reportes>LTEXT}" wrapping="false" />
-                </t:template>
-              </t:Column>
               <t:Column
                 width="8rem"
                 filterProperty="HKONT"
@@ -114,10 +84,11 @@
                 </t:template>
               </t:Column>
               <t:Column
+                width="16rem"
                 filterProperty="TXT50"
                 sortProperty="TXT50"
               >
-                <Label text="TXT50" />
+                <Label text="Descripción" />
                 <t:template>
                   <Text
                     text="{reportes>TXT50}"
@@ -126,31 +97,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                filterProperty="DESC1"
-                sortProperty="DESC1"
-              >
-                <Label text="DESC1" />
-                <t:template>
-                  <Text
-                    text="{reportes>DESC1}"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                filterProperty="DESC2"
-                sortProperty="DESC2"
-              >
-                <Label text="DESC2" />
-                <t:template>
-                  <Text
-                    text="{reportes>DESC2}"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Actual"
                 sortProperty="Actual"
@@ -165,7 +111,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Budget"
                 sortProperty="Budget"
@@ -180,7 +125,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Actual_Accum"
                 sortProperty="Actual_Accum"
@@ -195,7 +139,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Budget_Accum"
                 sortProperty="Budget_Accum"
@@ -210,7 +153,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Var_vs_Budget"
                 sortProperty="Var_vs_Budget"
@@ -225,7 +167,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Percentage_1"
                 sortProperty="Percentage_1"
@@ -240,7 +181,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Var_vs_AA"
                 sortProperty="Var_vs_AA"
@@ -255,7 +195,6 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
                 hAlign="Right"
                 filterProperty="Percentage_2"
                 sortProperty="Percentage_2"

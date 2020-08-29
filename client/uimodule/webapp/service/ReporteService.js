@@ -63,10 +63,6 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
       try {
         this.setProperty('/reporte1Detail/year', year);
         this.setProperty('/reporte1Detail/month', month);
-        this.setProperty(
-          '/reporte1Detail/date',
-          `${year}/${String(month).substr(0, 2).padStart(2, '0')}`
-        );
         this.setProperty('/reporte1/loading', true);
 
         var reporte1 = await this.api('/1').post({
@@ -85,6 +81,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     getReporte2: function () {},
     setKOSTL: function (kostl) {
       if (!(kostl instanceof Array)) return;
+      this.model.setSizeLimit(kostl.length);
       this.setProperty('/kostl/data', kostl);
 
       var selectedKeys = [];

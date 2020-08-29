@@ -10,9 +10,13 @@ router.route('/logout').get(controller.logout);
 
 router.route('/me').get(authenticate, (req, res) => res.json(req.user));
 
-router.route('/change/password').post(authenticate, checkChangePassword, controller.changePassword);
+router
+  .route('/change/password')
+  .post(authenticate, checkChangePassword, controller.changePassword);
 
-router.route('/change/user').post(authenticate, checkChangeUser, controller.changeUser);
+router
+  .route('/change/user')
+  .post(authenticate, checkChangeUser, controller.changeUser);
 
 /*
 router.route('/forgot/username').post(controller.forgotUsername);

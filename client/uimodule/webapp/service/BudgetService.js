@@ -72,12 +72,14 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         try {
           await this.api('/match/kostl').post(kostl);
         } catch (error) {
+          if (!error.details) throw error;
           details = details.concat(error.details);
         }
 
         try {
           await this.api('/match/hkont').post(hkont);
         } catch (error) {
+          if (!error.details) throw error;
           details = details.concat(error.details);
         }
 

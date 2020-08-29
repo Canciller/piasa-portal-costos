@@ -59,7 +59,7 @@
             <t:Column
               width="10rem"
             >
-              <Label text="Centro de costos" />
+              <Label text="Centro de costo" />
               <t:template>
                 <Text 
                   text="{budget>KOSTL}"

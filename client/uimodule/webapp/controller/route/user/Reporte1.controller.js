@@ -118,10 +118,15 @@ sap.ui.define(
         },
         resetDatePicker: function () {
           var oDatePicker = this.getDatePicker();
-          var date = new Date(),
-            year = date.getFullYear(),
-            month = String(date.getMonth() + 1);
-          oDatePicker.setValue(`${year}/${month.padStart(2, '0')}`);
+          var now = new Date();
+          var year = String(now.getFullYear()),
+            month = String(now.getMonth() + 1).padStart(2, '0'),
+            day = String(now.getDate()).padEnd(2, '0');
+
+          ReporteService.setProperty(
+            '/reporte1/date',
+            `${month}/${day}/${year}`
+          );
         },
         getMultiComboBox: function () {
           var fragmentId = this.getView().createId('form');
@@ -148,7 +153,7 @@ sap.ui.define(
           date = new Date(date);
 
           var year = date.getFullYear(),
-            month = date.getMonth() + 1;
+            month = String(date.getMonth() + 1).padStart(2, '0');
 
           ReporteService.getReporte1(year, month, selected).catch((error) => {
             MessageBox.error(error.message);

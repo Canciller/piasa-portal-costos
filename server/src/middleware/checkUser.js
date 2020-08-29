@@ -24,12 +24,12 @@ const msg = {
     invalid: 'El tipo de usuario seleccionado es invalido.',
   },
   password: {
-    required: 'La contraseña es requerida'
+    required: 'La contraseña es requerida',
   },
   update: 'Error al modificar usuario.',
   create: 'Error al crear usuario.',
   changeUser: 'Error al guardar usuario.',
-  changePassword: 'Error al cambiar contraseña.'
+  changePassword: 'Error al cambiar contraseña.',
 };
 
 async function findUser(username, { req }) {
@@ -38,7 +38,7 @@ async function findUser(username, { req }) {
 }
 
 async function findUserEqual(username, { req }) {
-  if(username === req.user.username) return;
+  if (username === req.user.username) return;
   var found = await User.get(username);
   if (found) throw new ValidationError(msg.username.unique(username));
 }
@@ -119,19 +119,15 @@ const checkChangeUser = [
 ];
 
 const checkChangePassword = [
-  body('oldPassword')
-    .not()
-    .isEmpty()
-    .withMessage(msg.password.required),
-  body('password')
-    .not()
-    .isEmpty()
-    .withMessage(msg.password.required),
-  body('passwordRepeat')
-    .not()
-    .isEmpty()
-    .withMessage(msg.password.required),
+  body('oldPassword').not().isEmpty().withMessage(msg.password.required),
+  body('password').not().isEmpty().withMessage(msg.password.required),
+  body('passwordRepeat').not().isEmpty().withMessage(msg.password.required),
   checkErrors('changePassword'),
 ];
 
-export { checkCreateUser, checkUpdateUser, checkChangeUser, checkChangePassword };
+export {
+  checkCreateUser,
+  checkUpdateUser,
+  checkChangeUser,
+  checkChangePassword,
+};

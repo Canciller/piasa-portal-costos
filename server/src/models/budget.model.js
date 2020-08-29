@@ -14,16 +14,16 @@ export default class Budget {
    */
   static createTable(budget) {
     var tvp = new sql.Table();
-    tvp.columns.add('HKONT', sql.Char(10), {
+    tvp.columns.add('HKONT', sql.NChar(10), {
       nullable: false,
     });
-    tvp.columns.add('KOSTL', sql.Char(10), {
+    tvp.columns.add('KOSTL', sql.NChar(10), {
       nullable: false,
     });
-    tvp.columns.add('GJAHR', sql.Char(4), {
+    tvp.columns.add('GJAHR', sql.NChar(4), {
       nullable: false,
     });
-    tvp.columns.add('PERIOD', sql.Char(2), {
+    tvp.columns.add('MONAT', sql.NChar(2), {
       nullable: false,
     });
     tvp.columns.add('DMBTR', sql.Money, {

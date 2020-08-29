@@ -333,7 +333,7 @@ export default class User {
       }
 
       throw new Error('Error updating user');
-    } catch(error) {
+    } catch (error) {
       throw error;
     }
   }
@@ -341,7 +341,8 @@ export default class User {
   static async changePassword(username, password) {
     try {
       var pool = await getPool();
-      var request = await pool.request()
+      var request = await pool
+        .request()
         .input('username', sql.VarChar(30), username)
         .input('password', sql.VarChar(80), password)
         .input('updatedAt', sql.SmallDateTime, new Date());
@@ -353,11 +354,10 @@ export default class User {
         WHERE username = @username
       `);
 
-      if (hasAffectedRows(res))
-        return;
+      if (hasAffectedRows(res)) return;
 
       throw new Error('Error updating password');
-    } catch(error) {
+    } catch (error) {
       throw error;
     }
   }

@@ -52,7 +52,10 @@ export default {
 
       var oldUsername = req.user.username;
 
-      var user = await User.changeUser(oldUsername, new User(username, name, email));
+      var user = await User.changeUser(
+        oldUsername,
+        new User(username, name, email)
+      );
 
       var token = signToken(user);
 
@@ -66,8 +69,7 @@ export default {
         role: user.role,
         //token,
       });
-
-    } catch(error) {
+    } catch (error) {
       next(error);
     }
   },
@@ -77,24 +79,25 @@ export default {
         password = req.body.password,
         passwordRepeat = req.body.passwordRepeat;
 
-      if(password !== passwordRepeat)
-        throw new UnauthorizedError('Las contraseñas no coinciden.')
+      if (password !== passwordRepeat)
+        throw new UnauthorizedError('Las contraseñas no coinciden.');
 
       var username = req.user.username;
       var user = await User.get(username);
 
-      if(!user) throw new ForbiddenError();
+      if (!user) throw new ForbiddenError();
 
       var validCredentials = await comparePassword(oldPassword, user.password);
-      if (!validCredentials) throw new UnauthorizedError('La contraseña actual es incorrecta.');
+      if (!validCredentials)
+        throw new UnauthorizedError('La contraseña actual es incorrecta.');
 
       password = await hashPassword(password);
 
       await User.changePassword(username, password);
 
       return res.json({});
-    } catch(error) {
+    } catch (error) {
       next(error);
     }
-  }
+  },
 };

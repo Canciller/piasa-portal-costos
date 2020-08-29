@@ -59,6 +59,11 @@ export default {
       var linked = await Assignment.getLinked(req.username),
         unlinked = await Assignment.getUnlinked(req.username);
 
+      for (var i = linked.length; i--; ) {
+        linked[i].selected = true;
+        linked[i].status = 'Information';
+      }
+
       return res.json(linked.concat(unlinked));
     } catch (error) {
       next(error);

@@ -67,6 +67,7 @@ sap.ui.define(
 
           AssignmentService.setCurrentUserAndGetAll(user).catch((error) => {
             MessageBox.error(error.message);
+            throw error;
           });
         },
       }

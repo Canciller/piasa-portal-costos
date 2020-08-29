@@ -48,7 +48,9 @@
       <DatePicker
         id="datePicker"
         class="sapUiSmallMarginEnd"
+        value="{reportes>/reporte1/date}"
         displayFormat="yyyy/MM"
+        valueFormat="MM/dd/yyyy"
       />
     </VBox>
     <Button 

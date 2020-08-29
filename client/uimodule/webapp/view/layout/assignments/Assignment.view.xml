@@ -55,15 +55,17 @@
         items="{
           path: 'assignments>/assignments'
         }"
+        mode="MultiSelect"
         class="sapFDynamicPageAlignContent"
         width="auto"
         sticky="HeaderToolbar,ColumnHeaders"
         showOverlay="{= !${users>/user/isActive}}"
         growing="true"
         growingThreshold="50"
-        growingScrollToLoad="true"
+        growingScrollToLoad="false"
         alternateRowColors="true"
         growingFinished=".onGrowing"
+        selectionChange=".onSelectionChange"
       >
         <m:headerToolbar>
           <m:Toolbar>
@@ -92,14 +94,6 @@
           </m:Toolbar>
         </m:headerToolbar>
         <m:columns>
-          <m:Column
-            width="4rem"
-          >
-            <m:CheckBox
-              selected="{assignments>/allSelected}"
-              select=".onSelectAll"
-            />
-          </m:Column>
           <m:Column>
             <m:Text text="Centro de costos"/>
           </m:Column>
@@ -111,12 +105,9 @@
           <m:ColumnListItem
             highlight="{assignments>status}"
             press=".onListItemPress"
+            selected="{assignments>selected}"
           >
             <m:cells>
-              <m:CheckBox
-                selected="{assignments>selected}"
-                select=".onSelect"
-              />
               <m:Text text="{
                   path : 'assignments>KOSTL', 
                   type : 'sap.ui.model.odata.type.String', 

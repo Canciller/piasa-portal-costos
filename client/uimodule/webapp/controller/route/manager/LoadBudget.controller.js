@@ -65,7 +65,9 @@ sap.ui.define(
           } catch (error) {
             var msg = error.message;
             if (error.details && error.details instanceof Array)
-              error.details.forEach((detail) => (msg += '\n* ' + detail.msg));
+              error.details.forEach((detail) => {
+                if (detail && detail.msg) msg += '\n* ' + detail.msg;
+              });
             MessageBox.error(msg);
           }
         },

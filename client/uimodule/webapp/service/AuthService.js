@@ -22,7 +22,7 @@ sap.ui.define(['./APIService'], function (APIService) {
           newPassword = this.getProperty('/newPassword'),
           newPasswordRepeat = this.getProperty('/newPasswordRepeat');
 
-        if(newPassword !== newPasswordRepeat)
+        if (newPassword !== newPasswordRepeat)
           throw new Error('Las contraseñas no coinciden.');
 
         await this.api('/change/password').post({
@@ -30,13 +30,13 @@ sap.ui.define(['./APIService'], function (APIService) {
           passwordRepeat: newPasswordRepeat,
           oldPassword: oldPassword,
         });
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setProperty('/changingPassword', false);
       }
     },
-    changeUser: async function() {
+    changeUser: async function () {
       try {
         this.setProperty('/changingUser', true);
 
@@ -47,9 +47,9 @@ sap.ui.define(['./APIService'], function (APIService) {
         await this.api('/change/user').post({
           username: username,
           name: name,
-          email: email
+          email: email,
         });
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setProperty('/changingUser', false);
@@ -59,14 +59,13 @@ sap.ui.define(['./APIService'], function (APIService) {
       try {
         this.setProperty('/loading', true);
 
-        var user = await this.api('/login')
-          .post({
-            username: username,
-            password: password,
-          });
+        var user = await this.api('/login').post({
+          username: username,
+          password: password,
+        });
 
         this._setUser(user);
-      } catch(error) {
+      } catch (error) {
         this._clearUser();
         throw error;
       } finally {
