@@ -178,7 +178,7 @@
 									id="oldPasswordInput"
 									type="Password"
 									value="{user>/oldPassword}"
-									liveChange=".onChangeInput"
+									liveChange=".onChangePasswordOld"
 								/>
 							</f:fields>
 						</f:FormElement>
@@ -214,6 +214,7 @@
 							<f:fields>
 								<HBox
 									justifyContent="End"
+									visible="{user>/passwordChanged}"
 								>
 									<Button
 										icon="sap-icon://decline"

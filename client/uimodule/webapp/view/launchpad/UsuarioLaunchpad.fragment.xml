@@ -6,7 +6,7 @@
   <Page title='{i18n>role.U}'>
     <GenericTile
       class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-      header="Reporte 1"
+      header="{i18n>launchpadUser.tile.reporte1.header}"
       width="13rem"
       press=".User.onPressReporte1"
     >
@@ -14,13 +14,13 @@
       >
         <ImageContent
           class="imageContent"
-          src="sap-icon://activity-individual"
+          src="sap-icon://manager-insight"
         />
       </TileContent>
     </GenericTile>
     <GenericTile
       class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-      header="Reporte 2"
+      header="{i18n>launchpadUser.tile.reporte2.header}"
       width="13rem"
       press=".User.onPressReporte2"
     >

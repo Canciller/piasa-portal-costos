@@ -63,6 +63,8 @@ sap.ui.define(
         aInput.forEach((id) => {
           that.resetInput.bind(that, id)();
         });
+
+        AuthService.setProperty('/passwordChanged', false);
       },
       resetUserInputs: function () {
         var aInput = ['emailInput', 'usernameInput', 'nameInput'];
@@ -190,6 +192,11 @@ sap.ui.define(
           oInput.setValueStateText('Este campo es requerido.');
         }
       },
+      onChangePasswordOld: function(oEvent) {
+        AuthService.setProperty('/passwordChanged', true);
+
+        this.onChangeInput.bind(this)(oEvent);
+      },
       onChangePassword: function (oEvent) {
         var oNewInput = this.byId('newPasswordInput'),
           oRepeatInput = this.byId('newPasswordRepeatInput');
@@ -212,6 +219,8 @@ sap.ui.define(
         oNewInput.setValueStateText(text);
         oRepeatInput.setValueState(state);
         oRepeatInput.setValueStateText(text);
+
+        AuthService.setProperty('/passwordChanged', true);
 
         this.onChangeInput.bind(this)(oEvent);
       },

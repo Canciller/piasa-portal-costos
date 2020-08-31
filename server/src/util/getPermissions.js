@@ -23,6 +23,10 @@ const permissions = {
       read: true,
       delete: true,
     },
+    reportes: {
+      read: true,
+      create: true,
+    },
   },
   U: {
     reportes: {

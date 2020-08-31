@@ -10,5 +10,11 @@ sap.ui.define(['com/piasa/Costos/controller/BaseController'], function (
     onPressLoadBudget: function () {
       this.navTo('presupuesto');
     },
+    onPressReporte1: function () {
+      this.navTo('reporte_1');
+    },
+    onPressReporte2: function () {
+      this.navTo('reporte_2');
+    },
   });
 });

@@ -25,6 +25,10 @@ sap.ui.define(
           this.resetDatePicker();
           this.addClearIconMultiComboBox();
         },
+        getDatePickerDate: function() {
+          var oDatePicker = this.getDatePicker();
+          return this.parseDate(oDatePicker.getValue());
+        },
         getCurrentDate: function () {
           var now = new Date();
           var year = String(now.getFullYear()),
@@ -81,7 +85,6 @@ sap.ui.define(
         },
         resetDatePicker: function () {
           var date = this.getCurrentDateStr();
-          ReporteService.setProperty('/reporte1/date', date);
           ReporteService.setProperty('/date', date);
         },
         getMultiComboBox: function () {

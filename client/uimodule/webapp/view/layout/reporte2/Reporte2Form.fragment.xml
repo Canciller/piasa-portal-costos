@@ -24,6 +24,7 @@
             path: 'reportes>KOSTL'
           }
         }"
+        enabled="{reportes>/enabled}"
       >
         <core:ListItem
           key="{reportes>KOSTL}"
@@ -51,6 +52,7 @@
         value="{reportes>/date}"
         displayFormat="yyyy"
         valueFormat="MM/dd/yyyy"
+        enabled="{reportes>/enabled}"
       />
     </VBox>
     <Button 
@@ -58,6 +60,7 @@
       press=".onReady"
       text="Listo"
       icon="sap-icon://accept"
+      enabled="{reportes>/enabled}"
     />
 	</HBox>
 </core:FragmentDefinition>

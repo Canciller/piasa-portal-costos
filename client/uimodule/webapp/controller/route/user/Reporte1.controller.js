@@ -2,13 +2,15 @@ sap.ui.define(
   [
     'com/piasa/Costos/controller/route/user/Reporte.controller',
     'sap/m/MessageBox',
+    '../../../service/AssignmentService',
     '../../../service/ReporteService',
   ],
   function (
     BaseController,
     MessageBox,
-    ReporteService
-  ) {
+    AssignmentService,
+    ReporteService,
+    ) {
     'use strict';
 
     return BaseController.extend(
@@ -21,7 +23,9 @@ sap.ui.define(
               ReporteService.getKOSTL()
                 .then(
                   function () {
-                    if (!this._loaded) {
+                    var enabled = ReporteService.getProperty('/enabled'),
+                      loaded = ReporteService.getProperty('/loaded');
+                    if (!loaded || !enabled || !this._loaded) {
                       this.resetMultiComboBox();
                       this._selected = undefined;
                     }
@@ -29,28 +33,51 @@ sap.ui.define(
                 )
                 .then(
                   function () {
-                    if (!this._loaded) {
-                      var date = this.getCurrentDate();
-                      var kostl = ReporteService.getKOSTLSelectedKeys();
-                      return ReporteService.getReporte1({
-                        year: date.year,
-                        month: date.month,
-                        kostl: kostl,
-                      });
+                    var enabled = ReporteService.getProperty('/enabled'),
+                      loaded = ReporteService.getProperty('/loaded');
+
+                    var date = this.getDatePickerDate(),
+                      kostl = ReporteService.getKOSTLSelectedKeys();
+
+                    if (!loaded || !enabled || !this._loaded) {
+                      ReporteService.setProperty('/enabled', true);
+                      if (kostl.length === 0) {
+                        ReporteService.setProperty('/enabled', false);
+                        throw {
+                          type: 'warning',
+                          message: 'No tiene ningun centro de costo asignado.',
+                        };
+                      }
                     }
+
+                    return ReporteService.getReporte1({
+                      year: date.year,
+                      month: date.month,
+                      kostl: kostl,
+                    });
+                  }.bind(this)
+                )
+                .then(
+                  function () {
+                    ReporteService.setProperty('/loaded', true);
+                    this._loaded = true;
                   }.bind(this)
                 )
                 .catch((error) => {
-                  MessageBox.error(error.message);
-                })
-                .finally(
-                  function () {
-                    if (!this._loaded) this._loaded = true;
-                  }.bind(this)
-                );
+                  ReporteService.setProperty('/loaded', false);
+                  this._loaded = false;
+
+                  if (error.type === 'warning')
+                    MessageBox.warning(error.message);
+                  else MessageBox.error(error.message);
+                });
             }, this);
 
           BaseController.prototype.onInit.call(this);
+
+          AssignmentService.attachOnSave(function() {
+            this._loaded = false;
+          }.bind(this))
 
           this.setupTableCellClick();
           this.attachOnReady(ReporteService.getReporte1.bind(ReporteService));

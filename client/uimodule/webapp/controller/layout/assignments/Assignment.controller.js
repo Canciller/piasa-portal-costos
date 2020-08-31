@@ -8,7 +8,7 @@ sap.ui.define(
     'sap/m/MessageToast',
     'sap/ui/model/json/JSONModel',
     '../../../service/AssignmentService',
-    '../../../service/UserService',
+    '../../../service/ReporteService',
   ],
   function (
     BaseController,
@@ -18,7 +18,8 @@ sap.ui.define(
     MessageBox,
     MessageToast,
     JSONModel,
-    AssignmentService
+    AssignmentService,
+    ReporteService
   ) {
     'use strict';
 
@@ -96,6 +97,8 @@ sap.ui.define(
               MessageToast.show(
                 `Asignaciones para '${username}' se han guardado exitosamente.`
               );
+
+              ReporteService.setProperty('/loaded', false);
             })
             .catch((error) => {
               MessageBox.error(error.message, {
