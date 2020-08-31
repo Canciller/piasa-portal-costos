@@ -104,16 +104,19 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
             method: 'POST',
             body: fd,
           })
-          .then(res => res.json())
-          .then(json => {
-            if(json.error) throw json.error;
-          })
-          .catch(error => {
-            if(error.name === 'SyntaxError') error = new Error('Problema con el servidor, contacta a un Administrador');
-            console.log(error);
-            throw error
-          });
-        }
+            .then((res) => res.json())
+            .then((json) => {
+              if (json.error) throw json.error;
+            })
+            .catch((error) => {
+              if (error.name === 'SyntaxError')
+                error = new Error(
+                  'Problema con el servidor, contacta a un Administrador'
+                );
+              console.log(error);
+              throw error;
+            });
+        };
 
         /*
         var offset = 500;

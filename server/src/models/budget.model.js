@@ -58,7 +58,6 @@ export default class Budget {
    */
   static async create(budget) {
     try {
-
       /*
       await request.bulk(tvp);
       await request.execute('insertOrUpdateBudget');
@@ -69,12 +68,12 @@ export default class Budget {
 
       var offset = 500;
       var size = budget.length;
-      var i = 0, j = 0;
-      while(j < size) {
+      var i = 0,
+        j = 0;
+      while (j < size) {
         i = j;
         j += offset;
-        if(j >= size)
-          j = size;
+        if (j >= size) j = size;
 
         var a = budget.slice(i, j);
         var tvp = Budget.createTable(a);

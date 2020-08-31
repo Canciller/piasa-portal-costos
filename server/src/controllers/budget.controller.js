@@ -17,7 +17,7 @@ export default {
 
       //return res.json(budget);
       return res.json({
-        success: true
+        success: true,
       });
     } catch (error) {
       next(error);

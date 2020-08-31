@@ -62,7 +62,11 @@ export default class Reportes {
           sql.NChar(2),
           String(month).substr(0, 2).padStart(2, '0')
         )
-        .input('HKONT', sql.NChar(10), String(hkont).substr(0, 10).padStart(10, '0'))
+        .input(
+          'HKONT',
+          sql.NChar(10),
+          String(hkont).substr(0, 10).padStart(10, '0')
+        )
         .input('KOSTLTable', sql.TVP('KOSTLTableType'), tvp);
 
       var res = await request.execute('getReporte1Detail');

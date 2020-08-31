@@ -61,14 +61,18 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setProperty('/reporte1Detail/loading', false);
       }
     },
-    getReporte1: async function (year, month, kostl) {
+    getReporte1: async function (params) {
+      var year = params.year,
+        month = params.month,
+        kostl = params.kostl;
+
       try {
         this.setProperty('/reporte1Detail/year', year);
         this.setProperty('/reporte1Detail/month', month);
         this.setProperty('/reporte1Detail/kostl', kostl);
         this.setProperty('/reporte1/loading', true);
 
-        if(!(kostl instanceof Array) || kostl.length === 0)
+        if (!(kostl instanceof Array) || kostl.length === 0)
           throw new Error('Selecciona al menos un centro de costo.');
 
         var reporte1 = await this.api('/1').post({
@@ -84,7 +88,28 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setProperty('/reporte1/loading', false);
       }
     },
-    getReporte2: function () {},
+    getReporte2: async function (params) {
+      var year = params.year,
+        kostl = params.kostl;
+
+      try {
+        this.setProperty('/reporte2/loading', true);
+
+        if (!(kostl instanceof Array) || kostl.length === 0)
+          throw new Error('Selecciona al menos un centro de costo.');
+
+        var reporte = await this.api('/2').post({
+          year: year,
+          kostl: kostl,
+        });
+
+        this.setProperty('/reporte2/data', reporte);
+      } catch (error) {
+        throw error;
+      } finally {
+        this.setProperty('/reporte2/loading', false);
+      }
+    },
     setKOSTL: function (kostl) {
       if (!(kostl instanceof Array)) return;
       this.model.setSizeLimit(kostl.length);

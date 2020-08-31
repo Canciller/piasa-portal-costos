@@ -64,7 +64,12 @@ export default {
           'Los centros de costos no se le fueron asignados.'
         );
 
-      var reporte1Detail = await Reportes.getReporte1Detail(year, month, hkont, kostl);
+      var reporte1Detail = await Reportes.getReporte1Detail(
+        year,
+        month,
+        hkont,
+        kostl
+      );
 
       return res.json(reporte1Detail);
     } catch (error) {

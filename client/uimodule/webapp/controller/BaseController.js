@@ -4,11 +4,35 @@ sap.ui.define(
     'sap/ui/core/routing/History',
     'sap/ui/core/UIComponent',
     'com/piasa/Costos/model/formatter',
+    'sap/ui/core/format/NumberFormat',
   ],
-  function (Controller, History, UIComponent, formatter) {
+  function (Controller, History, UIComponent, formatter, NumberFormat) {
     'use strict';
 
     return Controller.extend('com.piasa.Costos.controller.BaseController', {
+      format: {
+        percentage: function (value) {
+          if (!value) value = 0;
+
+          var oPercentageFormat = NumberFormat.getPercentInstance({
+            decimals: 2,
+            groupingSeparator: ',',
+            decimalSeparator: '.',
+          });
+          var result = oPercentageFormat.format(value);
+          return result;
+        },
+        money: function (value) {
+          if (!value) value = 0;
+
+          var oCurrencyFormat = NumberFormat.getCurrencyInstance({
+            groupingSeparator: ',',
+            decimalSeparator: '.',
+          });
+          var result = oCurrencyFormat.format(value);
+          return result;
+        },
+      },
       formatter: formatter,
       /**
        * Convenience method for getting the view model by name in every controller of the application.

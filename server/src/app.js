@@ -14,7 +14,9 @@ var staticPath = '../../client/uimodule/build';
 var app = express();
 
 app.use(express.json({ limit: '50mb', extended: true }));
-app.use(express.urlencoded({ extended: true, limit: '50mb',  parameterLimit: 50000 }));
+app.use(
+  express.urlencoded({ extended: true, limit: '50mb', parameterLimit: 50000 })
+);
 
 app.use(httpLogger);
 

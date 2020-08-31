@@ -54,9 +54,11 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
 
         return fetch(url, op)
           .then((res) => {
-            if(res.status === 413)
-              throw new Error('El carga es muy pesada para el servidor, contacte a un Administrador.');
-            return res.json()
+            if (res.status === 413)
+              throw new Error(
+                'El carga es muy pesada para el servidor, contacte a un Administrador.'
+              );
+            return res.json();
           })
           .then((json) => {
             if (json.error) throw json.error;
