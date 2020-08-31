@@ -86,7 +86,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Enero" />
@@ -100,7 +100,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Febrero" />
@@ -114,7 +114,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Marzo" />
@@ -128,7 +128,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Abril" />
@@ -142,7 +142,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Mayo" />
@@ -156,7 +156,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Junio" />
@@ -170,7 +170,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Julio" />
@@ -184,7 +184,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Agosto" />
@@ -198,7 +198,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Septiembre" />
@@ -212,7 +212,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Octubre" />
@@ -226,7 +226,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Noviembre" />
@@ -240,7 +240,7 @@
               </t:template>
             </t:Column>
             <t:Column
-              width="7rem"
+              width="8rem"
               hAlign="End"
             >
               <Label text="Diciembre" />

@@ -22,7 +22,12 @@ sap.ui.define(
       {
         Header: new ToolHeader(this),
         formatCurrency: function (value) {
-          var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+          if (!value) value = 0;
+
+          var oCurrencyFormat = NumberFormat.getCurrencyInstance({
+            groupingSeparator: ',',
+            decimalSeparator: '.',
+          });
           var result = oCurrencyFormat.format(value);
           if (result.length === 0) return `'${value}'!`;
           return result;
@@ -58,22 +63,45 @@ sap.ui.define(
           BudgetService.setProperty('/budget', []);
           BaseController.prototype.onNavBack.call(this);
         },
-        onUploadToServer: async function () {
+        onUploadToServer: async function (oEvent, ignoreWarning = false) {
           try {
-            await BudgetService.upload();
+            await BudgetService.upload(ignoreWarning);
             MessageToast.show('Presupuesto actualizado exitosamente.');
           } catch (error) {
             var msg = error.message;
-            if (error.details && error.details instanceof Array)
+            if (
+              error.type === 'warning' &&
+              error.details &&
+              error.details instanceof Array
+            ) {
               error.details.forEach((detail) => {
                 if (detail && detail.msg) msg += '\n* ' + detail.msg;
               });
-            MessageBox.error(msg);
+
+              var that = this;
+              MessageBox.warning(msg, {
+                actions: ['Ignorar y subir', 'Cancelar subida'],
+                emphasizedAction: 'Cancelar subida',
+                onClose: function (sAction) {
+                  switch (sAction) {
+                    case 'Ignorar y subir':
+                      that.onUploadToServer(null, true);
+                      break;
+                    default:
+                      break;
+                  }
+                },
+              });
+            } else {
+              MessageBox.error(msg);
+            }
           }
         },
         onUpload: function (oEvent) {
           const oFile = oEvent.getParameter('files')[0];
           if (!oFile) return;
+
+          BudgetService.setProperty('/budgetFile', oFile);
 
           BudgetService.setProperty('/loading', true);
           var oReader = new FileReader();

@@ -34,36 +34,42 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
       if (!(reporte1 instanceof Array)) return true;
       return reporte1.length === 0;
     },
+    setReporte1DetailPath: function (path) {
+      this.setProperty('/reporte1Detail/path', path);
+    },
     getReporte1Detail: async function () {
       try {
         this.setProperty('/reporte1Detail/loading', true);
         var path = this.getProperty('/reporte1Detail/path'),
-          data = this.getProperty(path),
+          hkont = this.getProperty(path + '/HKONT'),
+          kostl = this.getProperty('/reporte1Detail/kostl'),
           year = this.getProperty('/reporte1Detail/year'),
           month = this.getProperty('/reporte1Detail/month');
 
         var detail = await this.api('/1/detail').post({
-          kostl: data.KOSTL,
-          hkont: data.HKONT,
+          kostl: kostl,
+          hkont: hkont,
           year: year,
           month: month,
         });
 
         this.setProperty('/reporte1Detail/data', detail);
+        console.log(detail[0]);
       } catch (error) {
         throw error;
       } finally {
         this.setProperty('/reporte1Detail/loading', false);
       }
     },
-    setReporte1DetailPath: function (path) {
-      this.setProperty('/reporte1Detail/path', path);
-    },
     getReporte1: async function (year, month, kostl) {
       try {
         this.setProperty('/reporte1Detail/year', year);
         this.setProperty('/reporte1Detail/month', month);
+        this.setProperty('/reporte1Detail/kostl', kostl);
         this.setProperty('/reporte1/loading', true);
+
+        if(!(kostl instanceof Array) || kostl.length === 0)
+          throw new Error('Selecciona al menos un centro de costo.');
 
         var reporte1 = await this.api('/1').post({
           year: year,

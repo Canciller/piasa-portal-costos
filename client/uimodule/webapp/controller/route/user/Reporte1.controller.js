@@ -39,6 +39,7 @@ sap.ui.define(
                     if (!this._loaded) {
                       this.resetMultiComboBox();
                       this._loaded = true;
+                      this._selected = undefined;
                     }
                   }.bind(this)
                 )
@@ -53,18 +54,23 @@ sap.ui.define(
         },
         format: {
           percentage: function (value) {
-            if (!value) return 0;
+            if (!value) value = 0;
 
             var oPercentageFormat = NumberFormat.getPercentInstance({
               decimals: 2,
+              groupingSeparator: ',',
+              decimalSeparator: '.',
             });
             var result = oPercentageFormat.format(value);
             return result;
           },
           money: function (value) {
-            if (!value) return 0;
+            if (!value) value = 0;
 
-            var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+            var oCurrencyFormat = NumberFormat.getCurrencyInstance({
+              groupingSeparator: ',',
+              decimalSeparator: '.',
+            });
             var result = oCurrencyFormat.format(value);
             return result;
           },
@@ -117,7 +123,6 @@ sap.ui.define(
           oMultiComboBox.setSelectedKeys(aSelectedKeys);
         },
         resetDatePicker: function () {
-          var oDatePicker = this.getDatePicker();
           var now = new Date();
           var year = String(now.getFullYear()),
             month = String(now.getMonth() + 1).padStart(2, '0'),

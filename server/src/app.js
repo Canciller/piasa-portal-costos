@@ -13,11 +13,12 @@ var staticPath = '../../client/uimodule/build';
 
 var app = express();
 
+app.use(express.json({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '50mb',  parameterLimit: 50000 }));
+
 app.use(httpLogger);
 
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api/v1', APIRoutes);

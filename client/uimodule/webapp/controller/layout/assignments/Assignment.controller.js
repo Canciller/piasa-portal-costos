@@ -61,12 +61,12 @@ sap.ui.define(
               MessageBox.error(error.message);
             });
         },
-        onSelectionChange: function(oEvent) {
+        onSelectionChange: function (oEvent) {
           var oParameters = oEvent.getParameters();
           var aListItems = oParameters.listItems,
-              bSelected = oParameters.selected;
+            bSelected = oParameters.selected;
 
-          for(var i = aListItems.length; i--;) {
+          for (var i = aListItems.length; i--; ) {
             var oItem = aListItems[i];
             var oContext = oItem.getBindingContext('assignments'),
               sPath = oContext.getPath();

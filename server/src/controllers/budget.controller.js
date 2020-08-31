@@ -13,9 +13,12 @@ export default {
         throw new ValidationError('El presupuesto esta vacio.');
 
       budget = await formatBudget(budget);
-      budget = await Budget.create(budget);
+      await Budget.create(budget);
 
-      return res.json(budget);
+      //return res.json(budget);
+      return res.json({
+        success: true
+      });
     } catch (error) {
       next(error);
     }
@@ -70,7 +73,7 @@ export default {
       Object.keys(kostl).forEach((key) =>
         details.push({
           value: key,
-          msg: `El centro de costos '${key}' no existe.`,
+          msg: `El centro de costo '${key}' no existe.`,
         })
       );
 

@@ -40,20 +40,6 @@
                 sortProperty="KOSTL"
               >
                 <Label
-                  text="Año/mes"
-                />
-                <t:template>
-                  <Text
-                    text="{reportes>/reporte1Detail/date}"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                filterProperty="KOSTL"
-                sortProperty="KOSTL"
-              >
-                <Label
                   text="Centro de costo"
                 />
                 <t:template>
@@ -105,7 +91,7 @@
                 filterProperty="TXT50"
                 sortProperty="TXT50"
               >
-                <Label text="TXT50" />
+                <Label text="Descripción" />
                 <t:template>
                   <Text
                     text="{reportes>TXT50}"
@@ -114,28 +100,30 @@
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
-                filterProperty="DESC1"
-                sortProperty="DESC1"
+                width="4rem"
+                filterProperty="GJAHR"
+                sortProperty="GJAHR"
               >
-                <Label text="DESC1" />
+                <Label
+                  text="Año"
+                />
                 <t:template>
                   <Text
-                    text="{reportes>DESC1}"
-                    wrapping="false"
+                    text="{reportes>GJAHR}"
                   />
                 </t:template>
               </t:Column>
               <t:Column
-                width="8rem"
-                filterProperty="DESC2"
-                sortProperty="DESC2"
+                width="4rem"
+                filterProperty="MONAT"
+                sortProperty="MONAT"
               >
-                <Label text="DESC2" />
+                <Label
+                  text="Mes"
+                />
                 <t:template>
                   <Text
-                    text="{reportes>DESC2}"
-                    wrapping="false"
+                    text="{reportes>MONAT}"
                   />
                 </t:template>
               </t:Column>

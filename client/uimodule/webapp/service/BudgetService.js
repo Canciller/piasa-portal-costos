@@ -51,7 +51,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     getKOSTL: function () {
       return this.getProperty('/kostl');
     },
-    upload: async function () {
+    upload: async function (ignoreWarnings = false) {
       try {
         this.setProperty('/loading', true);
 
@@ -69,26 +69,68 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
             'Antes de subir el presupuesto se debe de cargar un archivo.'
           );
 
-        try {
-          await this.api('/match/kostl').post(kostl);
-        } catch (error) {
-          if (!error.details) throw error;
-          details = details.concat(error.details);
+        if (!ignoreWarnings) {
+          try {
+            await this.api('/match/kostl').post(kostl);
+          } catch (error) {
+            if (!error.details) throw error;
+            details = details.concat(error.details);
+          }
+
+          try {
+            await this.api('/match/hkont').post(hkont);
+          } catch (error) {
+            if (!error.details) throw error;
+            details = details.concat(error.details);
+          }
+
+          if (details.length !== 0)
+            throw {
+              type: 'warning',
+              message: 'Algunos centros de costos o cuentas no existen.',
+              details: details,
+            };
         }
 
-        try {
-          await this.api('/match/hkont').post(hkont);
-        } catch (error) {
-          if (!error.details) throw error;
-          details = details.concat(error.details);
+        var file = this.getProperty('/budgetFile');
+
+        // TODO: Add file support to APIService
+        var uploadFile = () => {
+          const fd = new FormData();
+          console.log(file);
+          fd.append('budget', file);
+
+          return fetch('/api/v1/budget', {
+            method: 'POST',
+            body: fd,
+          })
+          .then(res => res.json())
+          .then(json => {
+            if(json.error) throw json.error;
+          })
+          .catch(error => {
+            if(error.name === 'SyntaxError') error = new Error('Problema con el servidor, contacta a un Administrador');
+            console.log(error);
+            throw error
+          });
         }
 
-        if (details.length !== 0)
-          throw {
-            message: 'Algunos centros de costos o cuentas no existen.',
-            details: details,
-          };
+        /*
+        var offset = 500;
+        var size = budget.length;
+        var i = 0, j = 0;
+        while(j < size) {
+          i = j;
+          j += offset;
+          if(j >= size)
+            j = size;
 
+          var a = budget.slice(i, j);
+          await this.api().post(a);
+        }
+        */
+
+        //await uploadFile();
         await this.api().post(budget);
       } catch (error) {
         throw error;

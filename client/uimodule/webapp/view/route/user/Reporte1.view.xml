@@ -121,6 +121,7 @@
                     path: 'reportes>Budget',
                     formatter: '.format.money'
                     }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
@@ -135,6 +136,7 @@
                     path: 'reportes>Actual_Accum',
                     formatter: '.format.money'
                     }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
@@ -149,6 +151,7 @@
                     path: 'reportes>Budget_Accum',
                     formatter: '.format.money'
                     }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
@@ -163,6 +166,7 @@
                     path: 'reportes>Var_vs_Budget',
                     formatter: '.format.money'
                     }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
@@ -177,6 +181,7 @@
                     path: 'reportes>Percentage_1',
                     formatter: '.format.percentage'
                     }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
@@ -191,6 +196,7 @@
                     path: 'reportes>Var_vs_AA',
                     formatter: '.format.money'
                     }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
@@ -205,6 +211,7 @@
                     path: 'reportes>Percentage_2',
                     formatter: '.format.percentage'
                     }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>

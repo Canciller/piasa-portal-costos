@@ -53,12 +53,20 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
         if (endpoint) url += endpoint;
 
         return fetch(url, op)
-          .then((res) => res.json())
+          .then((res) => {
+            if(res.status === 413)
+              throw new Error('El carga es muy pesada para el servidor, contacte a un Administrador.');
+            return res.json()
+          })
           .then((json) => {
             if (json.error) throw json.error;
             return json;
           })
           .catch((error) => {
+            if (error.name === 'SyntaxError')
+              throw new Error(
+                'Error con el servidor, contacte a un Administrador.'
+              );
             console.error(error);
             throw error;
           });

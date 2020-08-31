@@ -58,6 +58,35 @@ export default class Budget {
    */
   static async create(budget) {
     try {
+
+      /*
+      await request.bulk(tvp);
+      await request.execute('insertOrUpdateBudget');
+      await request.batch('drop table #BudgetTable');
+      */
+
+      var pool = await getPool();
+
+      var offset = 500;
+      var size = budget.length;
+      var i = 0, j = 0;
+      while(j < size) {
+        i = j;
+        j += offset;
+        if(j >= size)
+          j = size;
+
+        var a = budget.slice(i, j);
+        var tvp = Budget.createTable(a);
+
+        var request = await pool
+          .request()
+          .input('BudgetTable', sql.TVP('BudgetTableType'), tvp);
+
+        await request.execute('insertOrUpdateBudget');
+      }
+
+      /*
       var tvp = Budget.createTable(budget);
 
       var pool = await getPool();
@@ -66,8 +95,9 @@ export default class Budget {
         .input('BudgetTable', sql.TVP('BudgetTableType'), tvp);
 
       await request.execute('insertOrUpdateBudget');
+      */
 
-      return budget;
+      //return budget;
     } catch (error) {
       throw error;
     }

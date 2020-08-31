@@ -30,18 +30,23 @@ sap.ui.define(
         },
         format: {
           percentage: function (value) {
-            if (!value) return 0;
+            if (!value) value = 0;
 
             var oPercentageFormat = NumberFormat.getPercentInstance({
               decimals: 2,
+              groupingSeparator: ',',
+              decimalSeparator: '.',
             });
             var result = oPercentageFormat.format(value);
             return result;
           },
           money: function (value) {
-            if (!value) return 0;
+            if (!value) value = 0;
 
-            var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+            var oCurrencyFormat = NumberFormat.getCurrencyInstance({
+              groupingSeparator: ',',
+              decimalSeparator: '.',
+            });
             var result = oCurrencyFormat.format(value);
             return result;
           },
