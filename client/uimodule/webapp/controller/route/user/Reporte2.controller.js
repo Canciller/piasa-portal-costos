@@ -11,7 +11,8 @@ sap.ui.define(
     MessageBox,
     MessageToast,
     AssignmentService,
-    ReporteService) {
+    ReporteService
+  ) {
     'use strict';
 
     return BaseController.extend(
@@ -36,8 +37,8 @@ sap.ui.define(
                   function () {
                     var enabled = ReporteService.getProperty('/enabled'),
                       loaded = ReporteService.getProperty('/loaded');
-                      var date = this.getDatePickerDate(),
-                        kostl = ReporteService.getKOSTLSelectedKeys();
+                    var date = this.getDatePickerDate(),
+                      kostl = ReporteService.getKOSTLSelectedKeys();
 
                     if (!loaded || !enabled || !this._loaded) {
                       ReporteService.setProperty('/enabled', true);
@@ -75,9 +76,11 @@ sap.ui.define(
           BaseController.prototype.onInit.call(this);
 
           this.attachOnReady(ReporteService.getReporte2.bind(ReporteService));
-          AssignmentService.attachOnSave(function() {
-            this._loaded = false;
-          }.bind(this))
+          AssignmentService.attachOnSave(
+            function () {
+              this._loaded = false;
+            }.bind(this)
+          );
         },
       }
     );

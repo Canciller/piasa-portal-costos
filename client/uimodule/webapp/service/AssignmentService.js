@@ -139,9 +139,9 @@ sap.ui.define(
             this._callOnChangeAssignmentsCallback();
           }
         },
-        attachOnSave: function(onSave) {
-          if(!onSave) return;
-          if(!(onSave instanceof Function)) return;
+        attachOnSave: function (onSave) {
+          if (!onSave) return;
+          if (!(onSave instanceof Function)) return;
 
           this._onSave.push(onSave);
         },
@@ -182,8 +182,7 @@ sap.ui.define(
             if (create.length > 0 || remove.length > 0)
               await this.getAllForCurrentUser();
 
-            for(var i = this._onSave.length; i--;)
-              this._onSave[i]();
+            for (var i = this._onSave.length; i--; ) this._onSave[i]();
 
             return username;
           } catch (error) {

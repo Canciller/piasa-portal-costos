@@ -192,7 +192,7 @@ sap.ui.define(
           oInput.setValueStateText('Este campo es requerido.');
         }
       },
-      onChangePasswordOld: function(oEvent) {
+      onChangePasswordOld: function (oEvent) {
         AuthService.setProperty('/passwordChanged', true);
 
         this.onChangeInput.bind(this)(oEvent);

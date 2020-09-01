@@ -95,6 +95,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         var file = this.getProperty('/budgetFile');
 
         // TODO: Add file support to APIService
+        /*
         var uploadFile = () => {
           const fd = new FormData();
           console.log(file);
@@ -117,6 +118,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
               throw error;
             });
         };
+        */
 
         /*
         var offset = 500;

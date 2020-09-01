@@ -101,15 +101,14 @@ sap.ui.define(
           const oFile = oEvent.getParameter('files')[0];
           if (!oFile) return;
 
-          BudgetService.setProperty('/budgetFile', oFile);
 
           BudgetService.setProperty('/loading', true);
           var oReader = new FileReader();
 
           oReader.onload = function (e) {
             try {
-              var budget = e.target.result;
-              var workbook = XLSX.read(budget, {
+              var data = e.target.result;
+              var workbook = XLSX.read(data, {
                 type: 'binary',
               });
 
@@ -130,7 +129,6 @@ sap.ui.define(
                   ws[header].w = this.template[i];
                 }
                 var budget = XLSX.utils.sheet_to_json(ws, { raw: true });
-
                 BudgetService.setBudget(budget);
               }
             } catch (error) {

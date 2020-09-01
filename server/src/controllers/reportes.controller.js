@@ -88,20 +88,24 @@ export default {
         );
 
       var reporte2 = await Reportes.getReporte2(year, kostl);
-      var output = [{
-        TXT50: 'Real',
-        YEAR: year,
-      }, {
-        TXT50: 'Presupuesto',
-        YEAR: year
-      }, {
-        TXT50: 'Real (Año Anterior)',
-        YEAR: Number(year) - 1
-      }];
+      var output = [
+        {
+          TXT50: 'Real',
+          YEAR: year,
+        },
+        {
+          TXT50: 'Presupuesto',
+          YEAR: year,
+        },
+        {
+          TXT50: 'Real (Año Anterior)',
+          YEAR: Number(year) - 1,
+        },
+      ];
 
-      var setValue = function(i, month, value) {
-        output[i]['P'+month] = value;
-      }
+      var setValue = function (i, month, value) {
+        output[i]['P' + month] = value;
+      };
 
       for (var i = reporte2.length; i--; ) {
         var row = reporte2[i];
@@ -110,17 +114,13 @@ export default {
           actual = row.ACTUAL,
           budget = row.BUDGET;
 
-
-          if(y === Number(year) - 1) {
-            console.log(m);
-            if(actual !== 0)
-              setValue(2, m, actual);
-          } else {
-            if(actual !== 0)
-              setValue(0, m, actual);
-            if(budget !== 0)
-              setValue(1, m, budget);
-          }
+        if (y === Number(year) - 1) {
+          console.log(m);
+          if (actual !== 0) setValue(2, m, actual);
+        } else {
+          if (actual !== 0) setValue(0, m, actual);
+          if (budget !== 0) setValue(1, m, budget);
+        }
       }
 
       return res.json(output);

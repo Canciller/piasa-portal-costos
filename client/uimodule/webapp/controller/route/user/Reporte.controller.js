@@ -25,7 +25,7 @@ sap.ui.define(
           this.resetDatePicker();
           this.addClearIconMultiComboBox();
         },
-        getDatePickerDate: function() {
+        getDatePickerDate: function () {
           var oDatePicker = this.getDatePicker();
           return this.parseDate(oDatePicker.getValue());
         },

@@ -5,12 +5,7 @@ sap.ui.define(
     '../../../service/AssignmentService',
     '../../../service/ReporteService',
   ],
-  function (
-    BaseController,
-    MessageBox,
-    AssignmentService,
-    ReporteService,
-    ) {
+  function (BaseController, MessageBox, AssignmentService, ReporteService) {
     'use strict';
 
     return BaseController.extend(
@@ -50,8 +45,10 @@ sap.ui.define(
                       }
                     }
 
-                    var fromDetail = ReporteService.getProperty('/reporte1/fromDetail');
-                    if(!fromDetail)
+                    var fromDetail = ReporteService.getProperty(
+                      '/reporte1/fromDetail'
+                    );
+                    if (!fromDetail)
                       return ReporteService.getReporte1({
                         year: date.year,
                         month: date.month,
@@ -78,9 +75,11 @@ sap.ui.define(
 
           BaseController.prototype.onInit.call(this);
 
-          AssignmentService.attachOnSave(function() {
-            this._loaded = false;
-          }.bind(this))
+          AssignmentService.attachOnSave(
+            function () {
+              this._loaded = false;
+            }.bind(this)
+          );
 
           this.setupTableCellClick();
           this.attachOnReady(ReporteService.getReporte1.bind(ReporteService));
