@@ -131,12 +131,16 @@ sap.ui.define(
 
         // Set begin icons of inputs.
 
-        let oUserInput = this.byId('username'),
-          oPasswordInput = this.byId('password');
+        if(!this._loaded) {
+          let oUserInput = this.byId('username'),
+            oPasswordInput = this.byId('password');
 
-        if (oUserInput && oPasswordInput) {
-          oUserInput.addBeginIcon(IconPool.getIconURI('person-placeholder'));
-          oPasswordInput.addBeginIcon(IconPool.getIconURI('key'));
+          if (oUserInput && oPasswordInput) {
+            oUserInput.addBeginIcon(IconPool.getIconURI('person-placeholder'));
+            oPasswordInput.addBeginIcon(IconPool.getIconURI('key'));
+          }
+
+          this._loaded = true;
         }
 
         // Hide busy indicator
