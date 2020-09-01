@@ -29,7 +29,7 @@
           <f:DynamicPageTitle>
             <f:heading>
               <Title
-                text="Reporte 2"
+                text="{i18n>launchpadUser.tile.reporte2.header}"
                 class="reportTitle"
               />
             </f:heading>

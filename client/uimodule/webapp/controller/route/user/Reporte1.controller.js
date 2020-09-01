@@ -50,11 +50,14 @@ sap.ui.define(
                       }
                     }
 
-                    return ReporteService.getReporte1({
-                      year: date.year,
-                      month: date.month,
-                      kostl: kostl,
-                    });
+                    var fromDetail = ReporteService.getProperty('/reporte1/fromDetail');
+                    if(!fromDetail)
+                      return ReporteService.getReporte1({
+                        year: date.year,
+                        month: date.month,
+                        kostl: kostl,
+                      });
+                    ReporteService.setProperty('/reporte1/fromDetail', false);
                   }.bind(this)
                 )
                 .then(
@@ -97,6 +100,7 @@ sap.ui.define(
               ReporteService.setReporte1DetailPath(path);
               ReporteService.getReporte1Detail()
                 .then(() => {
+                  ReporteService.setProperty('/reporte1/fromDetail', true);
                   this.navTo('reporte_1_detail');
                 })
                 .catch((error) => {
