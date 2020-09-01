@@ -14,7 +14,7 @@
       >
         <ImageContent
           class="imageContent"
-          src="sap-icon://manager-insight"
+          src="sap-icon://monitor-payments"
         />
       </TileContent>
     </GenericTile>
@@ -28,7 +28,7 @@
       >
         <ImageContent
           class="imageContent"
-          src="sap-icon://activity-individual"
+          src="sap-icon://manager-insight"
         />
       </TileContent>
     </GenericTile>
