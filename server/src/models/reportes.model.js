@@ -78,4 +78,23 @@ export default class Reportes {
       throw error;
     }
   }
+
+  static async getReporte2(year, kostl) {
+    try {
+      var tvp = Reportes.createTable(kostl);
+      var pool = await getPool();
+      var request = await pool
+        .request()
+        .input('YEAR', sql.NChar(4), String(year).substr(0, 4))
+        .input('KOSTLTable', sql.TVP('KOSTLTableType'), tvp);
+
+      var res = await request.execute('getReporte2');
+
+      if (res.recordset && res.recordset.length !== 0) return res.recordset;
+
+      return [];
+    } catch (error) {
+      throw error;
+    }
+  }
 }

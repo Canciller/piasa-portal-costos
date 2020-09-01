@@ -61,7 +61,7 @@
         </f:header>
 
         <f:content>
-          <t:TreeTable
+          <t:Table
             rows="{reportes>/reporte2/data}"
             alternateRowColors="true"
             busy="{reportes>/reporte2/loading}"
@@ -75,7 +75,7 @@
           >
             <t:columns>
               <t:Column
-                width="16rem"
+                width="12rem"
                 filterProperty="TXT50"
                 sortProperty="TXT50"
               >
@@ -89,28 +89,28 @@
               </t:Column>
               <t:Column
                 width="4rem"
-                filterProperty="GJAHR"
-                sortProperty="GJAHR"
+                filterProperty="YEAR"
+                sortProperty="YEAR"
               >
                 <Label
                   text="Año"
                 />
                 <t:template>
                   <Text
-                    text="{reportes>GJAHR}"
+                    text="{reportes>YEAR}"
                   />
                 </t:template>
               </t:Column>
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual"
-                sortProperty="Actual"
+                filterProperty="P01"
+                sortProperty="P01"
               >
                 <Label text="Enero" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual',
+                    path: 'reportes>P01',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -120,13 +120,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget"
-                sortProperty="Budget"
+                filterProperty="P02"
+                sortProperty="P02"
               >
                 <Label text="Febrero" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Budget',
+                    path: 'reportes>P02',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -136,13 +136,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual_Accum"
-                sortProperty="Actual_Accum"
+                filterProperty="P03"
+                sortProperty="P03"
               >
                 <Label text="Marzo" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual_Accum',
+                    path: 'reportes>P03',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -152,13 +152,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget_Accum"
-                sortProperty="Budget_Accum"
+                filterProperty="P04"
+                sortProperty="P04"
               >
                 <Label text="Abril" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Budget_Accum',
+                    path: 'reportes>P04',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -168,13 +168,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_Budget"
-                sortProperty="Var_vs_Budget"
+                filterProperty="P05"
+                sortProperty="P05"
               >
-                <Label text="Var vs Ppto" />
+                <Label text="Mayo" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Var_vs_Budget',
+                    path: 'reportes>P05',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -184,29 +184,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_1"
-                sortProperty="Percentage_1"
+                filterProperty="P06"
+                sortProperty="P06"
               >
-                <Label text="%" />
+                <Label text="Junio" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_1',
-                    formatter: '.format.percentage'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                filterProperty="Var_vs_AA"
-                sortProperty="Var_vs_AA"
-              >
-                <Label text="Var vs AA" />
-                <t:template>
-                  <Text text="{
-                    path: 'reportes>Var_vs_AA',
+                    path: 'reportes>P06',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -216,21 +200,101 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_2"
-                sortProperty="Percentage_2"
+                filterProperty="P07"
+                sortProperty="P07"
               >
-                <Label text="%" />
+                <Label text="Julio" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_2',
-                    formatter: '.format.percentage'
+                    path: 'reportes>P07',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="P08"
+                sortProperty="P08"
+              >
+                <Label text="Agosto" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>P08',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="P09"
+                sortProperty="P09"
+              >
+                <Label text="Septiembre" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>P09',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="P10"
+                sortProperty="P10"
+              >
+                <Label text="Octubre" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>P10',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="P11"
+                sortProperty="P11"
+              >
+                <Label text="Noviembre" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>P11',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="P12"
+                sortProperty="P12"
+              >
+                <Label text="Diciembre" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>P12',
+                    formatter: '.format.money'
                     }"
                     wrapping="false"
                   />
                 </t:template>
               </t:Column>
             </t:columns>
-          </t:TreeTable>
+          </t:Table>
         </f:content>
       </f:DynamicPage>
     </content>

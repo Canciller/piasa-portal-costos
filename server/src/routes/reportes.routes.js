@@ -8,4 +8,6 @@ router.route('/kostl').get(authenticate, controller.getKOSTL);
 router.route('/1').post(authenticate, controller.getReporte1);
 router.route('/1/detail').post(authenticate, controller.getReporte1Detail);
 
+router.route('/2').post(authenticate, controller.getReporte2);
+
 export default router;

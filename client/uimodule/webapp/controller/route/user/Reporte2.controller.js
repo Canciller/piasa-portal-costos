@@ -48,14 +48,12 @@ sap.ui.define(
                           message: 'No tiene ningun centro de costo asignado.',
                         };
                       }
-                      /*
-                      return ReporteService.getReporte1({
-                        year: date.year,
-                        month: date.month,
-                        kostl: kostl,
-                      });
-                      */
                     }
+
+                    return ReporteService.getReporte2({
+                      year: date.year,
+                      kostl: kostl,
+                    });
                   }.bind(this)
                 )
                 .then(
@@ -76,6 +74,7 @@ sap.ui.define(
 
           BaseController.prototype.onInit.call(this);
 
+          this.attachOnReady(ReporteService.getReporte2.bind(ReporteService));
           AssignmentService.attachOnSave(function() {
             this._loaded = false;
           }.bind(this))

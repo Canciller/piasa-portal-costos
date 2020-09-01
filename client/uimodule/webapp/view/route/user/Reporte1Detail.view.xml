@@ -4,6 +4,7 @@
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns="sap.m"
 		xmlns:t="sap.ui.table"
+    xmlns:f="sap.f"
     height="100%"
 >
   <Page>
@@ -14,14 +15,47 @@
       />
     </customHeader>
     <content>
-     <Page
-      id="main"
-      title="Detalle Reporte 1"
-      showNavButton="true"
-      navButtonPress=".onNavBack"
-      class="sapUiResponsivePadding"
-     >
-        <content>
+      <f:DynamicPage
+        id="pageReporte1Detail"
+        preserveHeaderStateOnScroll="true"
+        headerExpanded="{reporte1/headerExpanded}"
+        fitContent="true"
+      >
+        <!-- DynamicPage Title -->
+        <f:title>
+          <f:DynamicPageTitle>
+            <f:heading>
+              <HBox
+                alignItems="Center"
+              >
+                <Button
+                  icon="sap-icon://nav-back"
+                  press=".onNavBack"
+                  class="sapUiTinyMarginEnd"
+                  type="Transparent"
+                />
+                <Title
+                  text="{i18n>launchpadUser.tile.reporte1Detail.header}"
+                  class="reportTitle"
+                />
+              </HBox>
+            </f:heading>
+            <f:actions>
+              <ToolbarSpacer/>
+            </f:actions>
+          </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+          <f:DynamicPageHeader pinnable="true">
+            <c:Fragment
+              fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1FormDisplay"
+              type="XML"
+            />
+          </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
           <t:Table
             rows="{reportes>/reporte1Detail/data}"
             selectionMode="None"
@@ -100,6 +134,22 @@
                 </t:template>
               </t:Column>
               <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Actual"
+                sortProperty="Actual"
+              >
+                <Label text="Valor" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>DMBTR',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
                 width="4rem"
                 filterProperty="GJAHR"
                 sortProperty="GJAHR"
@@ -128,23 +178,182 @@
                 </t:template>
               </t:Column>
               <t:Column
-                hAlign="Right"
-                filterProperty="Actual"
-                sortProperty="Actual"
+                width="8rem"
+                filterProperty="DESC1"
+                sortProperty="DESC1"
               >
-                <Label text="Real" />
+                <Label
+                  text="DESC1"
+                />
                 <t:template>
-                  <Text text="{
-                    path: 'reportes>DMBTR',
-                    formatter: '.format.money'
-                    }"
+                  <Text
+                    text="{reportes>DESC1}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="DESC2"
+                sortProperty="DESC2"
+              >
+                <Label
+                  text="DESC2"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>DESC2}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="BELNR"
+                sortProperty="BELNR"
+              >
+                <Label
+                  text="BELNR"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>BELNR}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="6rem"
+                filterProperty="BUKRS"
+                sortProperty="BUKRS"
+              >
+                <Label
+                  text="BUKRS"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>BUKRS}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="BUZEI"
+                sortProperty="BUZEI"
+              >
+                <Label
+                  text="BUZEI"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>BUZEI}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="BUDAT"
+                sortProperty="BUDAT"
+              >
+                <Label
+                  text="BUDAT"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>BUDAT}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="USNAM"
+                sortProperty="USNAM"
+              >
+                <Label
+                  text="USNAM"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>USNAM}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="LIFNR"
+                sortProperty="LIFNR"
+              >
+                <Label
+                  text="LIFNR"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>LIFNR}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="EBELN"
+                sortProperty="EBELN"
+              >
+                <Label
+                  text="EBELN"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>EBELN}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="EBELP"
+                sortProperty="EBELP"
+              >
+                <Label
+                  text="EBELP"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>EBELP}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="NAME1"
+                sortProperty="NAME1"
+              >
+                <Label
+                  text="NAME1"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>NAME1}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="SGTXT"
+                sortProperty="SGTXT"
+              >
+                <Label
+                  text="SGTXT"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>SGTXT}"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
             </t:columns>
           </t:Table>
-        </content>
-     </Page>
+        </f:content>
+     </f:DynamicPage>
     </content>
   </Page>
 </mvc:View>

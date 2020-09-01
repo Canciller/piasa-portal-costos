@@ -1,0 +1,60 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+  <HBox
+    alignItems="End"
+  >
+    <VBox
+      class="sapUiSmallMarginEnd"
+    >
+      <Text
+        text="Centros de costo"
+      />
+      <MultiComboBox
+        id="multiComboBox"
+        busy="{reportes>/kostl/loading}"
+        busyIndicatorDelay="100"
+        width="26rem"
+        showSecondaryValues="true"
+        items="{
+          path: 'reportes>/kostl/data',
+          sorter: {
+            path: 'reportes>KOSTL'
+          }
+        }"
+        selectedKeys="{reportes>/reporte1Detail/kostl}"
+        enabled="false"
+      >
+        <core:ListItem
+          key="{reportes>KOSTL}"
+          text="{
+              path : 'reportes>KOSTL', 
+              type : 'sap.ui.model.odata.type.String', 
+              constraints: { 
+                  isDigitSequence : true,
+                  maxLength : 10
+              }
+            }"
+          additionalText="{reportes>LTEXT}"
+        />
+      </MultiComboBox>
+    </VBox>
+    <VBox
+      class="sapUiSmallMarginEnd"
+    >
+      <Text
+        text="Año/mes"
+      />
+      <DatePicker
+        id="datePicker"
+        class="sapUiSmallMarginEnd"
+        value="{reportes>/date}"
+        displayFormat="yyyy/MM"
+        valueFormat="MM/dd/yyyy"
+        enabled="false"
+      />
+    </VBox>
+	</HBox>
+</core:FragmentDefinition>
