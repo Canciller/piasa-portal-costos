@@ -13,7 +13,8 @@ export default {
         throw new ValidationError('El presupuesto esta vacio.');
 
       budget = await formatBudget(budget);
-      await Budget.create(budget);
+      //await Budget.create(budget);
+      await Budget.upsert(budget);
 
       //return res.json(budget);
       return res.json({

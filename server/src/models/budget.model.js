@@ -12,19 +12,24 @@ export default class Budget {
    * Create tvp from budget.
    * @param {Array} budget
    */
-  static createTable(budget) {
-    var tvp = new sql.Table();
+  static createTable(budget, name, create = false) {
+    var tvp = new sql.Table(name);
+    tvp.create = create;
     tvp.columns.add('HKONT', sql.NChar(10), {
       nullable: false,
+      primary: true,
     });
     tvp.columns.add('KOSTL', sql.NChar(10), {
       nullable: false,
+      primary: true,
     });
     tvp.columns.add('GJAHR', sql.NChar(4), {
       nullable: false,
+      primary: true,
     });
     tvp.columns.add('MONAT', sql.NChar(2), {
       nullable: false,
+      primary: true,
     });
     tvp.columns.add('DMBTR', sql.Money, {
       nullable: false,
@@ -83,6 +88,58 @@ export default class Budget {
           .input('BudgetTable', sql.TVP('BudgetTableType'), tvp);
 
         await request.execute('insertOrUpdateBudget');
+      }
+
+      /*
+      var tvp = Budget.createTable(budget);
+
+      var pool = await getPool();
+      var request = await pool
+        .request()
+        .input('BudgetTable', sql.TVP('BudgetTableType'), tvp);
+
+      await request.execute('insertOrUpdateBudget');
+      */
+
+      //return budget;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Update or insert budget in database.
+   * @param {Array} budget
+   */
+  static async upsert(budget) {
+    try {
+      /*
+      await request.bulk(tvp);
+      await request.execute('insertOrUpdateBudget');
+      await request.batch('drop table #BudgetTable');
+      */
+
+      var pool = await getPool();
+
+      var offset = budget.length;
+      var size = budget.length;
+      var i = 0,
+        j = 0;
+      while (j < size) {
+        i = j;
+        j += offset;
+        if (j >= size) j = size;
+
+        var a = budget.slice(i, j);
+        var tvp = Budget.createTable(a, '#BudgetTable', true);
+
+        var request = await pool.request();
+
+        await request.bulk(tvp);
+        await request.execute('upsertBudget');
+        await request.batch('drop table #BudgetTable');
+
+        break;
       }
 
       /*
