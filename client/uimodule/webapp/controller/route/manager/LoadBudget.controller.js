@@ -101,7 +101,6 @@ sap.ui.define(
           const oFile = oEvent.getParameter('files')[0];
           if (!oFile) return;
 
-
           BudgetService.setProperty('/loading', true);
           var oReader = new FileReader();
 

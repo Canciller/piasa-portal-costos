@@ -62,6 +62,11 @@ sap.ui.define(
             this._onReady = undefined;
           else if (onReady instanceof Function) this._onReady = onReady;
         },
+        attachOnExport: function (onExport) {
+          if (onExport === undefined || onExport === null)
+            this._onExport = undefined;
+          else if (onExport instanceof Function) this._onExport = onExport;
+        },
         onReset: function () {
           this.resetMultiComboBox();
           this.resetDatePicker();
@@ -95,7 +100,14 @@ sap.ui.define(
           var fragmentId = this.getView().createId('form');
           return Fragment.byId(fragmentId, 'datePicker');
         },
-        onReady: function () {
+        onExport: function () {
+          if (this._onExport)
+            this._onExport().catch((error) => {
+              MessageBox.error(error.message);
+              console.log(error);
+            });
+        },
+        onReady: async function () {
           var oMultiComboBox = this.getMultiComboBox(),
             oDatePicker = this.getDatePicker();
 
@@ -113,14 +125,17 @@ sap.ui.define(
           var year = date.year,
             month = date.month;
 
-          if (this._onReady)
-            this._onReady({
-              kostl: selected,
-              year: year,
-              month: month,
-            }).catch((error) => {
-              MessageBox.error(error.message);
-            });
+          try {
+            if (this._onReady)
+              await this._onReady({
+                kostl: selected,
+                year: year,
+                month: month,
+              });
+          } catch (error) {
+            MessageBox.error(error.message);
+            console.log(error);
+          }
         },
       }
     );

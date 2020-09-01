@@ -1,6 +1,7 @@
 sap.ui.define(
   [
     'com/piasa/Costos/controller/route/user/Reporte.controller',
+    'sap/ui/export/SpreadSheet',
     'sap/m/MessageBox',
     'sap/m/MessageToast',
     '../../../service/AssignmentService',
@@ -8,6 +9,7 @@ sap.ui.define(
   ],
   function (
     BaseController,
+    SpreadSheet,
     MessageBox,
     MessageToast,
     AssignmentService,
@@ -81,6 +83,107 @@ sap.ui.define(
               this._loaded = false;
             }.bind(this)
           );
+          this.attachOnExport(this.handleExport.bind(this));
+          this.setupExport();
+        },
+        setupExport: function () {
+          var aColumns = [
+            {
+              label: 'Descripción',
+              property: 'TXT50',
+            },
+            {
+              label: 'Año',
+              property: 'YEAR',
+              type: 'Number',
+            },
+            {
+              label: 'Enero',
+              property: 'P01',
+              type: 'Number',
+            },
+            {
+              label: 'Febrero',
+              property: 'P02',
+              type: 'Number',
+            },
+            {
+              label: 'Marzo',
+              property: 'P03',
+              type: 'Number',
+            },
+            {
+              label: 'Abril',
+              property: 'P04',
+              type: 'Number',
+            },
+            {
+              label: 'Mayo',
+              property: 'P05',
+              type: 'Number',
+            },
+            {
+              label: 'Junio',
+              property: 'P06',
+              type: 'Number',
+            },
+            {
+              label: 'Julio',
+              property: 'P07',
+              type: 'Number',
+            },
+            {
+              label: 'Agosto',
+              property: 'P08',
+              type: 'Number',
+            },
+            {
+              label: 'Septiembre',
+              property: 'P09',
+              type: 'Number',
+            },
+            {
+              label: 'Octubre',
+              property: 'P10',
+              type: 'Number',
+            },
+            {
+              label: 'Noviembre',
+              property: 'P11',
+              type: 'Number',
+            },
+            {
+              label: 'Diciembre',
+              property: 'P12',
+              type: 'Number',
+            },
+          ];
+
+          this._mSettings = {
+            workbook: {
+              columns: aColumns,
+            },
+          };
+        },
+        handleExport: async function () {
+          try {
+            ReporteService.setProperty('/exporting', true);
+            var data = ReporteService.getProperty('/reporte2/data'),
+              year = ReporteService.getProperty('/reporte2/year');
+
+            var name = `tendencias_de_costos_${year}`;
+            this._mSettings.fileName = name + '.xlsx';
+            this._mSettings.dataSource = data;
+            this._mSettings.workbook.context = {
+              sheetName: `${year}`,
+            };
+            var oSpreadsheet = new SpreadSheet(this._mSettings);
+            oSpreadsheet.build();
+          } catch (error) {
+            throw error;
+          } finally {
+            ReporteService.setProperty('/exporting', false);
+          }
         },
       }
     );

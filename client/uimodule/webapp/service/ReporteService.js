@@ -53,8 +53,8 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
           month: month,
         });
 
+        this.setProperty('/reporte1Detail/hkont', hkont);
         this.setProperty('/reporte1Detail/data', detail);
-        console.log(detail[0]);
       } catch (error) {
         throw error;
       } finally {
@@ -82,6 +82,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         });
 
         this.setProperty('/reporte1/data', reporte1);
+        this.setProperty('/reporte1/empty', reporte1.length === 0);
       } catch (error) {
         throw error;
       } finally {
@@ -94,6 +95,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
       try {
         this.setProperty('/reporte2/loading', true);
+        this.setProperty('/reporte2/year', year);
 
         if (!(kostl instanceof Array) || kostl.length === 0)
           throw new Error('Selecciona al menos un centro de costo.');
@@ -104,6 +106,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         });
 
         this.setProperty('/reporte2/data', reporte);
+        this.setProperty('/reporte2/empty', reporte.length === 0);
       } catch (error) {
         throw error;
       } finally {

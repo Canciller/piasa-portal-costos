@@ -3,6 +3,21 @@ import UnauthorizedError from '../util/error/UnauthorizedError';
 import Assignment from '../models/assignment.model';
 import Reportes from '../models/reportes.model';
 
+var month = [
+  'P01',
+  'P02',
+  'P03',
+  'P04',
+  'P05',
+  'P06',
+  'P07',
+  'P08',
+  'P09',
+  'P10',
+  'P11',
+  'P12',
+];
+
 export default {
   getKOSTL: async function (req, res, next) {
     try {
@@ -32,17 +47,17 @@ export default {
           budget = row['Budget'],
           actualAccum = row['Actual_Accum'],
           budgetAccum = row['Budget_Accum'];
-        row['Var_vs_AA'] = actualAccum - budgetAccum;
-        row['Var_vs_Budget'] = actual - budget;
+        row['Var_vs_AA'] = (actualAccum - budgetAccum).toFixed(2);
+        row['Var_vs_Budget'] = (actual - budget).toFixed(2);
 
         row['Percentage_1'] = 0;
         if (budget !== 0) {
-          row['Percentage_1'] = actual / budget;
+          row['Percentage_1'] = (actual / budget).toFixed(2);
         }
 
         row['Percentage_2'] = 0;
         if (budgetAccum !== 0) {
-          row['Percentage_2'] = actualAccum / budgetAccum;
+          row['Percentage_2'] = (actualAccum / budgetAccum).toFixed(2);
         }
       }
 
@@ -120,6 +135,13 @@ export default {
         } else {
           if (actual !== 0) setValue(0, m, actual);
           if (budget !== 0) setValue(1, m, budget);
+        }
+      }
+
+      for (var i = output.length; i--; ) {
+        for (var j = month.length; j--; ) {
+          var key = month[j];
+          if (!output[i][key]) output[i][key] = 0;
         }
       }
 

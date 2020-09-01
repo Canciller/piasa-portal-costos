@@ -56,11 +56,19 @@
       />
     </VBox>
     <Button 
+      class="sapUiSmallMarginEnd"
       type="Emphasized"
       press=".onReady"
       text="Listo"
       icon="sap-icon://accept"
       enabled="{reportes>/enabled}"
+    />
+    <Button
+      icon="sap-icon://action"
+      text="Exportar"
+      press=".onExport"
+      type="Success"
+      enabled="{= ${reportes>/enabled} ? (!${reportes>/reporte2/empty} ? true : false) : false }"
     />
 	</HBox>
 </core:FragmentDefinition>

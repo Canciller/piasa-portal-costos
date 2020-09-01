@@ -61,6 +61,16 @@
       text="Listo"
       icon="sap-icon://accept"
       enabled="{reportes>/enabled}"
+      class="sapUiSmallMarginEnd"
     />
-	</HBox>
+    <Button
+      icon="sap-icon://action"
+      text="Exportar"
+      press=".onExport"
+      type="Success"
+      busy="{reportes>/exporting}"
+      busyIndicatorDelay="100"
+      enabled="{= ${reportes>/enabled} ? (!${reportes>/reporte1/empty} ? true : false) : false }"
+    />
+</HBox>
 </core:FragmentDefinition>

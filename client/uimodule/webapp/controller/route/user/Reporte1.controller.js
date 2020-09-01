@@ -1,11 +1,18 @@
 sap.ui.define(
   [
     'com/piasa/Costos/controller/route/user/Reporte.controller',
+    'sap/ui/export/SpreadSheet',
     'sap/m/MessageBox',
     '../../../service/AssignmentService',
     '../../../service/ReporteService',
   ],
-  function (BaseController, MessageBox, AssignmentService, ReporteService) {
+  function (
+    BaseController,
+    SpreadSheet,
+    MessageBox,
+    AssignmentService,
+    ReporteService
+  ) {
     'use strict';
 
     return BaseController.extend(
@@ -15,6 +22,8 @@ sap.ui.define(
           this.getRouter()
             .getRoute('reporte_1')
             .attachMatched(function () {
+              ReporteService.setProperty('/reporte1Detail/data', []);
+
               ReporteService.getKOSTL()
                 .then(
                   function () {
@@ -82,7 +91,72 @@ sap.ui.define(
           );
 
           this.setupTableCellClick();
+          this.setupExport();
           this.attachOnReady(ReporteService.getReporte1.bind(ReporteService));
+          this.attachOnExport(this.handleExport.bind(this));
+        },
+        setupExport: function () {
+          var aColumns = [
+            {
+              label: 'Cuenta',
+              property: 'HKONT',
+              type: 'Number',
+            },
+            {
+              label: 'Descripción',
+              property: 'TXT50',
+            },
+            {
+              label: 'Real',
+              property: 'Actual',
+              type: 'Number',
+            },
+            {
+              label: 'Presupuesto',
+              property: 'Budget',
+              type: 'Number',
+            },
+            {
+              label: 'Actual Acumulado',
+              property: 'Actual_Accum',
+              type: 'Number',
+            },
+            {
+              label: 'Presupuesto Acumulado',
+              property: 'Budget_Accum',
+              type: 'Number',
+            },
+            {
+              label: 'Var vs Ppto',
+              property: 'Var_vs_Budget',
+              type: 'Number',
+              scale: 2,
+            },
+            {
+              label: '%',
+              property: 'Percentage_1',
+              type: 'Number',
+              scale: 2,
+            },
+            {
+              label: 'Var vs AA',
+              property: 'Var_vs_AA',
+              type: 'Number',
+              scale: 2,
+            },
+            {
+              label: '%',
+              property: 'Percentage_2',
+              type: 'Number',
+              scale: 2,
+            },
+          ];
+
+          this._mSettings = {
+            workbook: {
+              columns: aColumns,
+            },
+          };
         },
         setupTableCellClick: function () {
           var oTable = this.byId('table');
@@ -113,6 +187,27 @@ sap.ui.define(
         },
         onCellClick: function (oEvent) {
           this._selected = oEvent.getParameters();
+        },
+        handleExport: async function () {
+          try {
+            ReporteService.setProperty('/exporting', true);
+            var data = ReporteService.getProperty('/reporte1/data'),
+              year = ReporteService.getProperty('/reporte1Detail/year'),
+              month = ReporteService.getProperty('/reporte1Detail/month');
+
+            var name = `costos_sumarizado_${year}_${month}`;
+            this._mSettings.fileName = name + '.xlsx';
+            this._mSettings.dataSource = data;
+            this._mSettings.workbook.context = {
+              sheetName: `${year}-${month}`,
+            };
+            var oSpreadsheet = new SpreadSheet(this._mSettings);
+            oSpreadsheet.build();
+          } catch (error) {
+            throw error;
+          } finally {
+            ReporteService.setProperty('/exporting', false);
+          }
         },
       }
     );

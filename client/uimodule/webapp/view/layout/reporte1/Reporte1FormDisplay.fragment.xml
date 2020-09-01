@@ -56,5 +56,12 @@
         enabled="false"
       />
     </VBox>
+    <Button
+      icon="sap-icon://action"
+      text="Exportar"
+      press=".onExport"
+      type="Success"
+      enabled="{reportes>/enabled}"
+    />
 	</HBox>
 </core:FragmentDefinition>
