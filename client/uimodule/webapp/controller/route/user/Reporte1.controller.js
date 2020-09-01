@@ -97,13 +97,16 @@ sap.ui.define(
               if (!oBindingContext) return;
 
               var path = oBindingContext.getPath();
+              ReporteService.setProperty('/reporte1/loading', true);
               ReporteService.setReporte1DetailPath(path);
               ReporteService.getReporte1Detail()
                 .then(() => {
                   ReporteService.setProperty('/reporte1/fromDetail', true);
+                  ReporteService.setProperty('/reporte1/loading', false);
                   this.navTo('reporte_1_detail');
                 })
                 .catch((error) => {
+                  ReporteService.setProperty('/reporte1/loading', false);
                   MessageBox.error(error.message);
                 });
             }.bind(this)

@@ -28,10 +28,20 @@
         <f:title>
           <f:DynamicPageTitle>
             <f:heading>
-              <Title
-                text="{i18n>launchpadUser.tile.reporte2.header}"
-                class="reportTitle"
-              />
+              <HBox
+                alignItems="Center"
+              >
+                <Button
+                  icon="sap-icon://nav-back"
+                  press=".onNavBack"
+                  class="sapUiTinyMarginEnd"
+                  type="Transparent"
+                />
+                <Title
+                  text="{i18n>launchpadUser.tile.reporte2.header}"
+                  class="reportTitle"
+                />
+              </HBox>
             </f:heading>
             <f:actions>
               <ToolbarSpacer/>
