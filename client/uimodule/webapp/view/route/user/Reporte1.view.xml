@@ -72,6 +72,7 @@
             id="table"
             fixedColumnCount="2"
             cellClick=".onCellClick"
+            showOverlay="{= !${reportes>/enabled}}"
           >
             <t:columns>
               <t:Column
