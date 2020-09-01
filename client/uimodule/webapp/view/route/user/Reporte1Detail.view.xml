@@ -98,7 +98,10 @@
                   text="Descripción"
                 />
                 <t:template>
-                  <Text text="{reportes>LTEXT}" wrapping="false" />
+                  <Text
+                    text="{reportes>LTEXT}"
+                    wrapping="false"
+                  />
                 </t:template>
               </t:Column>
               <t:Column
@@ -136,8 +139,8 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual"
-                sortProperty="Actual"
+                filterProperty="DMBTR"
+                sortProperty="DMBTR"
               >
                 <Label text="Valor" />
                 <t:template>
@@ -183,7 +186,7 @@
                 sortProperty="DESC1"
               >
                 <Label
-                  text="DESC1"
+                  text="Cuenta Monthly Package Manual"
                 />
                 <t:template>
                   <Text
@@ -198,7 +201,7 @@
                 sortProperty="DESC2"
               >
                 <Label
-                  text="DESC2"
+                  text="Tipo de Gasto"
                 />
                 <t:template>
                   <Text
@@ -213,7 +216,7 @@
                 sortProperty="BELNR"
               >
                 <Label
-                  text="BELNR"
+                  text="Num.Documento"
                 />
                 <t:template>
                   <Text
@@ -227,7 +230,7 @@
                 sortProperty="BUKRS"
               >
                 <Label
-                  text="BUKRS"
+                  text="Sociedad FI"
                 />
                 <t:template>
                   <Text
@@ -241,11 +244,18 @@
                 sortProperty="BUZEI"
               >
                 <Label
-                  text="BUZEI"
+                  text="Pos.Doc."
                 />
                 <t:template>
                   <Text
-                    text="{reportes>BUZEI}"
+                    text="{
+                        path : 'reportes>BUZEI', 
+                        type : 'sap.ui.model.odata.type.String', 
+                        constraints: { 
+                            isDigitSequence : true,
+                            maxLength : 3
+                        }
+                      }"
                   />
                 </t:template>
               </t:Column>
@@ -255,7 +265,7 @@
                 sortProperty="BUDAT"
               >
                 <Label
-                  text="BUDAT"
+                  text="Fecha cont."
                 />
                 <t:template>
                   <Text
@@ -269,7 +279,7 @@
                 sortProperty="USNAM"
               >
                 <Label
-                  text="USNAM"
+                  text="Usuario"
                 />
                 <t:template>
                   <Text
@@ -284,11 +294,18 @@
                 sortProperty="LIFNR"
               >
                 <Label
-                  text="LIFNR"
+                  text="Proveedor"
                 />
                 <t:template>
                   <Text
-                    text="{reportes>LIFNR}"
+                    text="{
+                        path : 'reportes>LIFNR', 
+                        type : 'sap.ui.model.odata.type.String', 
+                        constraints: { 
+                            isDigitSequence : true,
+                            maxLength : 10
+                        }
+                      }"
                   />
                 </t:template>
               </t:Column>
@@ -298,7 +315,7 @@
                 sortProperty="EBELN"
               >
                 <Label
-                  text="EBELN"
+                  text="Pedido"
                 />
                 <t:template>
                   <Text
@@ -312,26 +329,18 @@
                 sortProperty="EBELP"
               >
                 <Label
-                  text="EBELP"
+                  text="Pos.Ped."
                 />
                 <t:template>
                   <Text
-                    text="{reportes>EBELP}"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                filterProperty="NAME1"
-                sortProperty="NAME1"
-              >
-                <Label
-                  text="NAME1"
-                />
-                <t:template>
-                  <Text
-                    text="{reportes>NAME1}"
-                    wrapping="false"
+                    text="{
+                        path : 'reportes>EBELP', 
+                        type : 'sap.ui.model.odata.type.String', 
+                        constraints: { 
+                            isDigitSequence : true,
+                            maxLength : 5
+                        }
+                      }"
                   />
                 </t:template>
               </t:Column>
@@ -341,7 +350,7 @@
                 sortProperty="SGTXT"
               >
                 <Label
-                  text="SGTXT"
+                  text="Texto"
                 />
                 <t:template>
                   <Text
