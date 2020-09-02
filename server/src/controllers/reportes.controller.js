@@ -130,7 +130,6 @@ export default {
           budget = row.BUDGET;
 
         if (y === Number(year) - 1) {
-          console.log(m);
           if (actual !== 0) setValue(2, m, actual);
         } else {
           if (actual !== 0) setValue(0, m, actual);
