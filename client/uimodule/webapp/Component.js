@@ -38,6 +38,8 @@ sap.ui.define(
        * @override
        */
       init: function () {
+        sap.ui.core.BusyIndicator.show();
+
         // Call the base component's init function.
         UIComponent.prototype.init.apply(this, arguments);
 
