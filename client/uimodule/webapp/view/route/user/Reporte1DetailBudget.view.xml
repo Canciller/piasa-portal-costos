@@ -1,0 +1,219 @@
+<mvc:View
+    controllerName="com.piasa.Costos.controller.route.user.Reporte1DetailBudget"
+		xmlns:c="sap.ui.core"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns="sap.m"
+		xmlns:t="sap.ui.table"
+    xmlns:f="sap.f"
+    height="100%"
+>
+  <Page>
+    <customHeader>
+      <c:Fragment
+        id="toolHeader"
+        fragmentName="com.piasa.Costos.view.layout.ToolHeader" type="XML"
+      />
+    </customHeader>
+    <content>
+      <f:DynamicPage
+        id="pageReporte1Detail"
+        preserveHeaderStateOnScroll="true"
+        headerExpanded="{reporte1/headerExpanded}"
+        fitContent="true"
+      >
+        <!-- DynamicPage Title -->
+        <f:title>
+          <f:DynamicPageTitle>
+            <f:heading>
+              <HBox
+                alignItems="Center"
+              >
+                <Button
+                  icon="sap-icon://nav-back"
+                  press=".onNavBack"
+                  class="sapUiTinyMarginEnd"
+                  type="Transparent"
+                />
+                <Title
+                  text="{i18n>launchpadUser.tile.reporte1DetailBudget.header}"
+                  class="reportTitle"
+                />
+              </HBox>
+            </f:heading>
+            <f:actions>
+              <ToolbarSpacer/>
+            </f:actions>
+          </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+          <f:DynamicPageHeader pinnable="true">
+            <c:Fragment
+              fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1FormDisplay"
+              type="XML"
+            />
+          </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+          <t:Table
+            rows="{reportes>/reporte1Detail/data}"
+            selectionMode="None"
+            alternateRowColors="true"
+            busy="{reportes>/reporte1Detail/loading}"
+            busyIndicatorDelay="100"
+            rowHeight="30px"
+            visibleRowCountMode="Auto"
+            id="table"
+            cellClick=".onCellClick"
+          >
+            <t:columns>
+              <t:Column
+                width="8rem"
+                filterProperty="KOSTL"
+                sortProperty="KOSTL"
+              >
+                <Label
+                  text="Centro de costo"
+                />
+                <t:template>
+                  <Text
+                    text="{
+                        path : 'reportes>KOSTL', 
+                        type : 'sap.ui.model.odata.type.String', 
+                        constraints: { 
+                            isDigitSequence : true,
+                            maxLength : 10
+                        }
+                      }"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="LTEXT"
+                sortProperty="LTEXT"
+              >
+                <Label
+                  text="Descripción"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>LTEXT}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="HKONT"
+                sortProperty="HKONT"
+              >
+                <Label text="Cuenta" />
+                <t:template>
+                  <Text
+                    text="{
+                        path : 'reportes>HKONT', 
+                        type : 'sap.ui.model.odata.type.String', 
+                        constraints: { 
+                            isDigitSequence : true,
+                            maxLength : 10
+                        }
+                      }"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="TXT50"
+                sortProperty="TXT50"
+              >
+                <Label text="Descripción" />
+                <t:template>
+                  <Text
+                    text="{reportes>TXT50}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="DESC1"
+                sortProperty="DESC1"
+              >
+                <Label
+                  text="Cuenta Monthly Package Manual"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>DESC1}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="DESC2"
+                sortProperty="DESC2"
+              >
+                <Label
+                  text="Tipo de Gasto"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>DESC2}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="4rem"
+                filterProperty="GJAHR"
+                sortProperty="GJAHR"
+              >
+                <Label
+                  text="Año"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>GJAHR}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="4rem"
+                filterProperty="MONAT"
+                sortProperty="MONAT"
+              >
+                <Label
+                  text="Mes"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>MONAT}"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="DMBTR"
+                sortProperty="DMBTR"
+              >
+                <Label text="Valor" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>DMBTR',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+            </t:columns>
+          </t:Table>
+        </f:content>
+     </f:DynamicPage>
+    </content>
+  </Page>
+</mvc:View>

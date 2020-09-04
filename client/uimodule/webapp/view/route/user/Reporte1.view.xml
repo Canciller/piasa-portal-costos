@@ -70,53 +70,33 @@
             visibleRowCountMode="Auto"
             selectionMode="None"
             id="table"
-            fixedColumnCount="2"
+            fixedColumnCount="1"
             cellClick=".onCellClick"
             showOverlay="{= !${reportes>/enabled}}"
           >
             <t:columns>
               <t:Column
-                width="7rem"
-                filterProperty="HKONT"
-                sortProperty="HKONT"
-              >
-                <Label text="Cuenta" />
-                <t:template>
-                  <Text
-                    text="{
-                        path : 'reportes>HKONT', 
-                        type : 'sap.ui.model.odata.type.String', 
-                        constraints: { 
-                            isDigitSequence : true,
-                            maxLength : 10
-                        }
-                      }"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
                 width="16rem"
-                filterProperty="TXT50"
-                sortProperty="TXT50"
+                filterProperty="DESC1"
+                sortProperty="DESC1"
               >
-                <Label text="Descripción" />
+                <Label text="Cuenta Monthly Package Manual" />
                 <t:template>
                   <Text
-                    text="{reportes>TXT50}"
-                    wrapping="false"
+                    text="{reportes>DESC1}"
                   />
                 </t:template>
               </t:Column>
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual"
-                sortProperty="Actual"
+                filterProperty="Actual_CY"
+                sortProperty="Actual_CY"
               >
                 <Label text="Real" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual',
+                    path: 'reportes>Actual_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -126,29 +106,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget"
-                sortProperty="Budget"
-              >
-                <Label text="Presupuesto" />
-                <t:template>
-                  <Text text="{
-                    path: 'reportes>Budget',
-                    formatter: '.format.money'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                filterProperty="Actual_Accum"
-                sortProperty="Actual_Accum"
+                filterProperty="Actual_Accum_CY"
+                sortProperty="Actual_Accum_CY"
               >
                 <Label text="Real Acumulado" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual_Accum',
+                    path: 'reportes>Actual_Accum_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -158,13 +122,29 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget_Accum"
-                sortProperty="Budget_Accum"
+                filterProperty="Budget_CY"
+                sortProperty="Budget_CY"
+              >
+                <Label text="Presupuesto" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Budget_CY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Budget_Accum_CY"
+                sortProperty="Budget_Accum_CY"
               >
                 <Label text="Presupuesto Acumulado" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Budget_Accum',
+                    path: 'reportes>Budget_Accum_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -174,13 +154,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_Budget"
-                sortProperty="Var_vs_Budget"
+                filterProperty="Var_vs_Ppto_CY"
+                sortProperty="Var_vs_Ppto_CY"
               >
                 <Label text="Var vs Ppto" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Var_vs_Budget',
+                    path: 'reportes>Var_vs_Ppto_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -190,13 +170,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_1"
-                sortProperty="Percentage_1"
+                filterProperty="Percentage_1_CY"
+                sortProperty="Percentage_1_CY"
               >
                 <Label text="%" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_1',
+                    path: 'reportes>Percentage_1_CY',
                     formatter: '.format.percentage'
                     }"
                     wrapping="false"
@@ -206,13 +186,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_AA"
-                sortProperty="Var_vs_AA"
+                filterProperty="Var_vs_AA_CY"
+                sortProperty="Var_vs_AA_CY"
               >
                 <Label text="Var vs AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Var_vs_AA',
+                    path: 'reportes>Var_vs_AA_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -222,13 +202,141 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_2"
-                sortProperty="Percentage_2"
+                filterProperty="Percentage_2_CY"
+                sortProperty="Percentage_2_CY"
               >
                 <Label text="%" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_2',
+                    path: 'reportes>Percentage_2_CY',
+                    formatter: '.format.percentage'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Actual_LY"
+                sortProperty="Actual_LY"
+              >
+                <Label text="Real AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Actual_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Actual_Accum_LY"
+                sortProperty="Actual_Accum_LY"
+              >
+                <Label text="Real Acumulado AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Actual_Accum_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Budget_LY"
+                sortProperty="Budget_LY"
+              >
+                <Label text="Presupuesto AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Budget_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Budget_Accum_LY"
+                sortProperty="Budget_Accum_LY"
+              >
+                <Label text="Presupuesto Acumulado AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Budget_Accum_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Var_vs_Ppto_LY"
+                sortProperty="Var_vs_Ppto_LY"
+              >
+                <Label text="Var vs Ppto AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Var_vs_Ppto_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Percentage_1_LY"
+                sortProperty="Percentage_1_LY"
+              >
+                <Label text="% AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Percentage_1_LY',
+                    formatter: '.format.percentage'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Var_vs_AA_LY"
+                sortProperty="Var_vs_AA_LY"
+              >
+                <Label text="Var vs AA AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Var_vs_AA_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Percentage_2_LY"
+                sortProperty="Percentage_2_LY"
+              >
+                <Label text="% AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'reportes>Percentage_2_LY',
                     formatter: '.format.percentage'
                     }"
                     wrapping="false"

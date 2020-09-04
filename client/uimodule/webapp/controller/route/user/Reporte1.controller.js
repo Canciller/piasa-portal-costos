@@ -44,13 +44,14 @@ sap.ui.define(
                       kostl = ReporteService.getKOSTLSelectedKeys();
 
                     if (!loaded || !enabled || !this._loaded) {
-                      ReporteService.setProperty('/enabled', true);
                       if (kostl.length === 0) {
                         ReporteService.setProperty('/enabled', false);
                         throw {
                           type: 'warning',
                           message: 'No tiene ningun centro de costo asignado.',
                         };
+                      } else {
+                        ReporteService.setProperty('/enabled', true);
                       }
                     }
 
@@ -98,57 +99,48 @@ sap.ui.define(
         setupExport: function () {
           var aColumns = [
             {
-              label: 'Cuenta',
-              property: 'HKONT',
-              type: 'Number',
-            },
-            {
-              label: 'Descripción',
-              property: 'TXT50',
+              label: 'Cuenta Monthly Package Manual',
+              property: 'DESC1',
             },
             {
               label: 'Real',
-              property: 'Actual',
-              type: 'Number',
-            },
-            {
-              label: 'Presupuesto',
-              property: 'Budget',
+              property: 'Actual_CY',
               type: 'Number',
             },
             {
               label: 'Actual Acumulado',
-              property: 'Actual_Accum',
+              property: 'Actual_Accum_CY',
+              type: 'Number',
+            },
+            {
+              label: 'Presupuesto',
+              property: 'Budget_CY',
               type: 'Number',
             },
             {
               label: 'Presupuesto Acumulado',
-              property: 'Budget_Accum',
+              property: 'Budget_Accum_CY',
               type: 'Number',
             },
             {
-              label: 'Var vs Ppto',
-              property: 'Var_vs_Budget',
+              label: 'Real AA',
+              property: 'Actual_LY',
               type: 'Number',
-              scale: 2,
             },
             {
-              label: '%',
-              property: 'Percentage_1',
+              label: 'Real Acumulado AA',
+              property: 'Actual_Accum_LY',
               type: 'Number',
-              scale: 2,
             },
             {
-              label: 'Var vs AA',
-              property: 'Var_vs_AA',
+              label: 'Presupuesto AA',
+              property: 'Budget_LY',
               type: 'Number',
-              scale: 2,
             },
             {
-              label: '%',
-              property: 'Percentage_2',
+              label: 'Presupuesto Acumulado AA',
+              property: 'Budget_Accum_LY',
               type: 'Number',
-              scale: 2,
             },
           ];
 
@@ -159,29 +151,67 @@ sap.ui.define(
           };
         },
         setupTableCellClick: function () {
-          var oTable = this.byId('table');
+          var oTable = this.byId('table'),
+            aColumns = oTable.getColumns();
+
           oTable.attachBrowserEvent(
             'dblclick',
-            function () {
+            async function () {
               var selected = this._selected;
               if (!selected) return;
 
               var oBindingContext = selected.rowBindingContext;
               if (!oBindingContext) return;
 
-              var path = oBindingContext.getPath();
-              ReporteService.setProperty('/reporte1/loading', true);
-              ReporteService.setReporte1DetailPath(path);
-              ReporteService.getReporte1Detail()
-                .then(() => {
-                  ReporteService.setProperty('/reporte1/fromDetail', true);
-                  ReporteService.setProperty('/reporte1/loading', false);
-                  this.navTo('reporte_1_detail');
-                })
-                .catch((error) => {
-                  ReporteService.setProperty('/reporte1/loading', false);
-                  MessageBox.error(error.message);
+              var columnIndex = parseInt(selected.columnIndex),
+                oColumn = aColumns[columnIndex];
+
+              var path = oBindingContext.getPath(),
+                key = oColumn.getSortProperty();
+
+              var route = 'reporte1_real';
+
+              var isBudget = false,
+                isLastYear = false,
+                desc1 = ReporteService.getProperty(path + '/DESC1');
+
+              console.log(key);
+              switch (key) {
+                case 'Actual_CY':
+                  break;
+                case 'Budget_CY':
+                  route = 'reporte1_presupuesto';
+                  isBudget = true;
+                  break;
+                case 'Actual_LY':
+                  isLastYear = true;
+                  break;
+                case 'Budget_LY':
+                  route = 'reporte1_presupuesto';
+                  isLastYear = true;
+                  isBudget = true;
+                  break;
+                default:
+                  return;
+              }
+
+              try {
+                ReporteService.setProperty('/reporte1/loading', true);
+                var detail = await ReporteService.getReporte1Detail({
+                  isBudget: isBudget,
+                  isLastYear: isLastYear,
+                  desc1: desc1,
                 });
+
+                if (detail.length !== 0) {
+                  ReporteService.setProperty('/reporte1/fromDetail', true);
+                  this.navTo(route);
+                }
+              } catch (error) {
+                MessageBox.error(error.message);
+              } finally {
+                ReporteService.setProperty('/reporte1/loading', false);
+              }
             }.bind(this)
           );
         },

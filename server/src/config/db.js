@@ -6,7 +6,7 @@ export default {
   connectionTimeout: 300000,
   requestTimeout: 300000,
   pool: {
-      idleTimeoutMillis: 300000,
+    idleTimeoutMillis: 300000,
   },
   options: {
     enableArithAbort: true,

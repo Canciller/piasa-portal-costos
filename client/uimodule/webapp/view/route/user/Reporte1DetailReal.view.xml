@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="com.piasa.Costos.controller.route.user.Reporte1Detail"
+    controllerName="com.piasa.Costos.controller.route.user.Reporte1DetailReal"
 		xmlns:c="sap.ui.core"
 		xmlns:mvc="sap.ui.core.mvc"
 		xmlns="sap.m"
@@ -35,7 +35,7 @@
                   type="Transparent"
                 />
                 <Title
-                  text="{i18n>launchpadUser.tile.reporte1Detail.header}"
+                  text="{i18n>launchpadUser.tile.reporte1DetailReal.header}"
                   class="reportTitle"
                 />
               </HBox>
@@ -138,16 +138,30 @@
               </t:Column>
               <t:Column
                 width="8rem"
-                hAlign="Right"
-                filterProperty="DMBTR"
-                sortProperty="DMBTR"
+                filterProperty="DESC1"
+                sortProperty="DESC1"
               >
-                <Label text="Valor" />
+                <Label
+                  text="Cuenta Monthly Package Manual"
+                />
                 <t:template>
-                  <Text text="{
-                    path: 'reportes>DMBTR',
-                    formatter: '.format.money'
-                    }"
+                  <Text
+                    text="{reportes>DESC1}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="DESC2"
+                sortProperty="DESC2"
+              >
+                <Label
+                  text="Tipo de Gasto"
+                />
+                <t:template>
+                  <Text
+                    text="{reportes>DESC2}"
                     wrapping="false"
                   />
                 </t:template>
@@ -182,30 +196,16 @@
               </t:Column>
               <t:Column
                 width="8rem"
-                filterProperty="DESC1"
-                sortProperty="DESC1"
+                hAlign="Right"
+                filterProperty="DMBTR"
+                sortProperty="DMBTR"
               >
-                <Label
-                  text="Cuenta Monthly Package Manual"
-                />
+                <Label text="Valor" />
                 <t:template>
-                  <Text
-                    text="{reportes>DESC1}"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                filterProperty="DESC2"
-                sortProperty="DESC2"
-              >
-                <Label
-                  text="Tipo de Gasto"
-                />
-                <t:template>
-                  <Text
-                    text="{reportes>DESC2}"
+                  <Text text="{
+                    path: 'reportes>DMBTR',
+                    formatter: '.format.money'
+                    }"
                     wrapping="false"
                   />
                 </t:template>

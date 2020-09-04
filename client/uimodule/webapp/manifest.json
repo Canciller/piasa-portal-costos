@@ -86,17 +86,17 @@
           "target": "launchpad"
         },
         {
-          "pattern": "settings",
+          "pattern": "preferencias",
           "name": "settings",
           "target": "settings"
         },
         {
-          "pattern": "users",
+          "pattern": "usuarios",
           "name": "users",
           "target": "users"
         },
         {
-          "pattern": "assignments",
+          "pattern": "asignaciones",
           "name": "assignments",
           "target": "assignments"
         },
@@ -106,17 +106,22 @@
           "target": "presupuesto"
         },
         {
-          "pattern": "reporte_1",
+          "pattern": "costos",
           "name": "reporte_1",
           "target": "reporte_1"
         },
         {
-          "pattern": "reporte_1/detail",
-          "name": "reporte_1_detail",
-          "target": "reporte_1_detail"
+          "pattern": "costos/real",
+          "name": "reporte1_real",
+          "target": "reporte1_real"
         },
         {
-          "pattern": "reporte_2",
+          "pattern": "costos/presupuesto",
+          "name": "reporte1_presupuesto",
+          "target": "reporte1_presupuesto"
+        },
+        {
+          "pattern": "tendencias",
           "name": "reporte_2",
           "target": "reporte_2"
         }
@@ -157,10 +162,15 @@
           "viewLevel": 1,
           "viewName": "route.user.Reporte1"
         },
-        "reporte_1_detail": {
+        "reporte1_real": {
           "viewType": "XML",
           "viewLevel": 2,
-          "viewName": "route.user.Reporte1Detail"
+          "viewName": "route.user.Reporte1DetailReal"
+        },
+        "reporte1_presupuesto": {
+          "viewType": "XML",
+          "viewLevel": 2,
+          "viewName": "route.user.Reporte1DetailBudget"
         },
         "reporte_2": {
           "viewType": "XML",

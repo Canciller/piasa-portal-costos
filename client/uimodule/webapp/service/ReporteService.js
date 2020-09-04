@@ -37,6 +37,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     setReporte1DetailPath: function (path) {
       this.setProperty('/reporte1Detail/path', path);
     },
+    /*
     getReporte1Detail: async function () {
       try {
         this.setProperty('/reporte1Detail/loading', true);
@@ -55,6 +56,44 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
         this.setProperty('/reporte1Detail/hkont', hkont);
         this.setProperty('/reporte1Detail/data', detail);
+
+        return detail;
+      } catch (error) {
+        throw error;
+      } finally {
+        this.setProperty('/reporte1Detail/loading', false);
+      }
+    },
+    */
+    getReporte1Detail: async function (params) {
+      var isBudget = params.isBudget,
+        isLastYear = params.isLastYear,
+        desc1 = params.desc1,
+        month = this.getProperty('/reporte1Detail/month'),
+        year = this.getProperty('/reporte1Detail/year'),
+        kostl = this.getProperty('/reporte1Detail/kostl'),
+        hkont = this.getProperty('/reporte1Detail/hkont'),
+        date = isLastYear ? `${year - 1}/${month}` : `${year}/${month}`;
+
+      this.setProperty('/reporte1Detail/selectedYear', isLastYear ? year - 1 : year);
+      this.setProperty('/reporte1Detail/desc1', desc1);
+      this.setProperty('/reporte1Detail/date', date);
+
+      var route = isBudget ? '/1/budget' : '/1/real';
+
+      try {
+        this.setProperty('/reporte1Detail/loading', true);
+
+        var detail = await this.api(route).post({
+          kostl: kostl,
+          hkont: hkont,
+          desc1: desc1,
+          year: isLastYear ? year - 1 : year,
+          month: month,
+        });
+
+        this.setProperty('/reporte1Detail/data', detail);
+        return detail;
       } catch (error) {
         throw error;
       } finally {
@@ -75,14 +114,14 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         if (!(kostl instanceof Array) || kostl.length === 0)
           throw new Error('Selecciona al menos un centro de costo.');
 
-        var reporte1 = await this.api('/1').post({
+        var reporte = await this.api('/1').post({
           year: year,
           month: month,
           kostl: kostl,
         });
 
-        this.setProperty('/reporte1/data', reporte1);
-        this.setProperty('/reporte1/empty', reporte1.length === 0);
+        this.setProperty('/reporte1/data', reporte);
+        this.setProperty('/reporte1/empty', reporte.length === 0);
       } catch (error) {
         throw error;
       } finally {

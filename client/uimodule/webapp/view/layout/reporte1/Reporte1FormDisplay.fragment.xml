@@ -4,42 +4,17 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
   <HBox
-    alignItems="End"
+    alignItems="Center"
   >
     <VBox
       class="sapUiSmallMarginEnd"
     >
       <Text
-        text="Centros de costo"
+        text="Cuenta Monthly Package Manual"
       />
-      <MultiComboBox
-        id="multiComboBox"
-        busy="{reportes>/kostl/loading}"
-        busyIndicatorDelay="100"
-        width="26rem"
-        showSecondaryValues="true"
-        items="{
-          path: 'reportes>/kostl/data',
-          sorter: {
-            path: 'reportes>KOSTL'
-          }
-        }"
-        selectedKeys="{reportes>/reporte1Detail/kostl}"
-        enabled="false"
-      >
-        <core:ListItem
-          key="{reportes>KOSTL}"
-          text="{
-              path : 'reportes>KOSTL', 
-              type : 'sap.ui.model.odata.type.String', 
-              constraints: { 
-                  isDigitSequence : true,
-                  maxLength : 10
-              }
-            }"
-          additionalText="{reportes>LTEXT}"
-        />
-      </MultiComboBox>
+      <Text
+        text="{reportes>/reporte1Detail/desc1}"
+      />
     </VBox>
     <VBox
       class="sapUiSmallMarginEnd"
@@ -47,13 +22,8 @@
       <Text
         text="Año/mes"
       />
-      <DatePicker
-        id="datePicker"
-        class="sapUiSmallMarginEnd"
-        value="{reportes>/date}"
-        displayFormat="yyyy/MM"
-        valueFormat="MM/dd/yyyy"
-        enabled="false"
+      <Text
+        text="{reportes>/reporte1Detail/date}"
       />
     </VBox>
     <Button

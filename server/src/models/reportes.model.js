@@ -1,8 +1,8 @@
 import sql, { Table } from 'mssql';
 import hasAffectedRows from '../util/dbHasAffectedRows';
 import getPool from '../util/dbGetPool';
+import createHKONTTable from '../util/createHKONTTable';
 import log from '../util/log/error';
-import { compareSync } from 'bcrypt';
 
 /**
  * Class representing Reportes.
@@ -26,9 +26,11 @@ export default class Reportes {
     return tvp;
   }
 
-  static async getReporte1(year, month, kostl) {
+  static async getReporte1(year, month, hkont, kostl) {
     try {
-      var tvp = Reportes.createTable(kostl);
+      var HKONTTable = createHKONTTable(hkont),
+        KOSTLTable = Reportes.createTable(kostl);
+
       var pool = await getPool();
       var request = await pool
         .request()
@@ -38,7 +40,8 @@ export default class Reportes {
           sql.NChar(2),
           String(month).substr(0, 2).padStart(2, '0')
         )
-        .input('KOSTLTable', sql.TVP('KOSTLTableType'), tvp);
+        .input('KOSTLTable', sql.TVP('KOSTLTableType'), KOSTLTable)
+        .input('HKONTTable', sql.TVP('HKONTTableType'), HKONTTable);
 
       var res = await request.execute('getReporte1');
 
@@ -50,9 +53,18 @@ export default class Reportes {
     }
   }
 
-  static async getReporte1Detail(year, month, hkont, kostl) {
+  static async getReporte1Detail(
+    year,
+    month,
+    desc1,
+    hkont,
+    kostl,
+    isBudget = false
+  ) {
     try {
-      var tvp = Reportes.createTable(kostl);
+      var HKONTTable = createHKONTTable(hkont),
+        KOSTLTable = Reportes.createTable(kostl);
+
       var pool = await getPool();
       var request = await pool
         .request()
@@ -62,14 +74,12 @@ export default class Reportes {
           sql.NChar(2),
           String(month).substr(0, 2).padStart(2, '0')
         )
-        .input(
-          'HKONT',
-          sql.NChar(10),
-          String(hkont).substr(0, 10).padStart(10, '0')
-        )
-        .input('KOSTLTable', sql.TVP('KOSTLTableType'), tvp);
+        .input('DESC1', sql.VarChar(50), desc1)
+        .input('HKONTTable', sql.TVP('HKONTTableType'), HKONTTable)
+        .input('KOSTLTable', sql.TVP('KOSTLTableType'), KOSTLTable);
 
-      var res = await request.execute('getReporte1Detail');
+      var sp = isBudget ? 'Budget' : 'Real';
+      var res = await request.execute('getReporte1Detail' + sp);
 
       if (res.recordset && res.recordset.length !== 0) return res.recordset;
 

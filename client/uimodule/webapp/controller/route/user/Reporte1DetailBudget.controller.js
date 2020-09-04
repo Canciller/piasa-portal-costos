@@ -3,31 +3,25 @@ sap.ui.define(
     'com/piasa/Costos/controller/BaseController',
     'com/piasa/Costos/controller/layout/ToolHeader.controller',
     'sap/ui/export/SpreadSheet',
-    'sap/m/MessageBox',
-    'sap/m/MessageToast',
-    'sap/ui/core/format/NumberFormat',
     '../../../service/ReporteService',
   ],
   function (
     BaseController,
     ToolHeader,
     SpreadSheet,
-    MessageBox,
-    MessageToast,
-    NumberFormat,
     ReporteService
   ) {
     'use strict';
 
     return BaseController.extend(
-      'com.piasa.Costos.route.manager.Reporte1Detail.controller',
+      'com.piasa.Costos.route.manager.Reporte1DetailBudget.controller',
       {
         Header: new ToolHeader(this),
         onInit: function () {
           this.getRouter()
-            .getRoute('reporte_1_detail')
+            .getRoute('reporte1_presupuesto')
             .attachMatched(function () {
-              if (ReporteService.isReporte1Empty()) this.navTo('reporte_1');
+              if (ReporteService.isReporte1Empty()) this.navTo('launchpad');
             }, this);
 
           this.setupExport();
@@ -53,9 +47,12 @@ sap.ui.define(
               property: 'TXT50',
             },
             {
-              label: 'Valor',
-              property: 'DMBTR',
-              type: 'Number',
+              label: 'Cuenta Monthly Package Manual',
+              property: 'DESC1',
+            },
+            {
+              label: 'Tipo de Gasto',
+              property: 'DESC2',
             },
             {
               label: 'Año',
@@ -68,53 +65,9 @@ sap.ui.define(
               type: 'Number',
             },
             {
-              label: 'Cuenta Monthly Package Manual',
-              property: 'DESC1',
-            },
-            {
-              label: 'Tipo de Gasto',
-              property: 'DESC2',
-            },
-            {
-              label: 'Num.Documento',
-              property: 'BELNR',
+              label: 'Valor',
+              property: 'DMBTR',
               type: 'Number',
-            },
-            {
-              label: 'Sociedad FI',
-              property: 'BUKRS',
-              type: 'Number',
-            },
-            {
-              label: 'Pos.Doc.',
-              property: 'BUZEI',
-              type: 'Number',
-            },
-            {
-              label: 'Fecha cont.',
-              property: 'BUDAT',
-            },
-            {
-              label: 'Usuario',
-              property: 'USNAM',
-            },
-            {
-              label: 'Proveedor',
-              property: 'LIFNR',
-              type: 'Number',
-            },
-            {
-              label: 'Pedido',
-              property: 'EBELN',
-            },
-            {
-              label: 'Pos.Ped.',
-              property: 'EBELP',
-              type: 'Number',
-            },
-            {
-              label: 'Texto',
-              property: 'SGTXT',
             },
           ];
 
@@ -128,18 +81,14 @@ sap.ui.define(
           try {
             ReporteService.setProperty('/exporting', true);
             var data = ReporteService.getProperty('/reporte1Detail/data'),
-              year = ReporteService.getProperty('/reporte1Detail/year'),
+              year = ReporteService.getProperty('/reporte1Detail/selectedYear'),
               month = ReporteService.getProperty('/reporte1Detail/month'),
-              hkont = ReporteService.getProperty('/reporte1Detail/hkont');
+              desc1 = ReporteService.getProperty('/reporte1Detail/desc1');
 
-            var name = `${Number(
-              hkont
-            )}_${year}_${month}`;
-
-            this._mSettings.fileName = 'detalle_costos_sumarizado_' + name + '.xlsx';
+            this._mSettings.fileName = `${desc1}_${year}_${month}`;
             this._mSettings.dataSource = data;
             this._mSettings.workbook.context = {
-              sheetName: `${Number(hkont)}-${year}-${month}`,
+              sheetName: `${desc1}-${year}-${month}`,
             };
             var oSpreadsheet = new SpreadSheet(this._mSettings);
             oSpreadsheet.build();

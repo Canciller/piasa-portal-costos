@@ -131,7 +131,7 @@ sap.ui.define(
 
         // Set begin icons of inputs.
 
-        if(!this._loaded) {
+        if (!this._loaded) {
           let oUserInput = this.byId('username'),
             oPasswordInput = this.byId('password');
 

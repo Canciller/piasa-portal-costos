@@ -31,7 +31,8 @@ export default {
     try {
       var year = req.body.year,
         month = req.body.month,
-        kostl = req.body.kostl;
+        kostl = req.body.kostl,
+        hkont = req.body.hkont;
 
       var match = await Assignment.matchKOSTL(req.user.username, kostl);
       if (!match)
@@ -39,8 +40,11 @@ export default {
           'Los centros de costos ingresados no se le fueron asignados.'
         );
 
-      var reporte1 = await Reportes.getReporte1(year, month, kostl);
+      // TODO matchHKONT
 
+      var reporte1 = await Reportes.getReporte1(year, month, hkont, kostl);
+
+      /*
       for (var i = reporte1.length; i--; ) {
         var row = reporte1[i],
           actual = row['Actual'],
@@ -60,6 +64,7 @@ export default {
           row['Percentage_2'] = (actualAccum / budgetAccum).toFixed(2);
         }
       }
+      */
 
       return res.json(reporte1);
     } catch (error) {
@@ -71,7 +76,9 @@ export default {
       var year = req.body.year,
         month = req.body.month,
         hkont = req.body.hkont,
-        kostl = req.body.kostl;
+        kostl = req.body.kostl,
+        desc1 = req.body.desc1,
+        isBusget = req.isBudget;
 
       var match = await Assignment.matchKOSTL(req.user.username, kostl);
       if (!match)
@@ -82,8 +89,10 @@ export default {
       var reporte1Detail = await Reportes.getReporte1Detail(
         year,
         month,
+        desc1,
         hkont,
-        kostl
+        kostl,
+        isBusget
       );
 
       return res.json(reporte1Detail);
