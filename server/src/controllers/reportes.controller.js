@@ -27,6 +27,22 @@ export default {
       next(error);
     }
   },
+  getParams: async function(req, res, next) {
+    try {
+      var params = await Reportes.getParams(req.user.username);
+      return res.json(params);
+    } catch(error) {
+      next(error);
+    }
+  },
+  getParamsFiltered: async function(req, res, next) {
+    try {
+      var params = await Reportes.getParamsFiltered(req.user.username, req.body.abtei, req.body.verak);
+      return res.json(params);
+    } catch(error) {
+      next(error);
+    }
+  },
   getReporte1: async function (req, res, next) {
     try {
       var year = req.body.year,

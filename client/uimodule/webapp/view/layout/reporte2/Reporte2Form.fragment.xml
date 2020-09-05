@@ -3,72 +3,149 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
-  <HBox
-    alignItems="End"
-  >
-    <VBox
-      class="sapUiSmallMarginEnd"
-    >
-      <Text
-        text="Centros de costo"
-      />
-      <MultiComboBox
-        id="multiComboBox"
-        busy="{reportes>/kostl/loading}"
-        busyIndicatorDelay="100"
-        width="26rem"
-        showSecondaryValues="true"
-        items="{
-          path: 'reportes>/kostl/data',
-          sorter: {
-            path: 'reportes>KOSTL'
-          }
-        }"
-        enabled="{reportes>/enabled}"
+  <VBox>
+    <HBox>
+      <VBox
+        class="sapUiSmallMarginEnd"
       >
-        <core:ListItem
-          key="{reportes>KOSTL}"
-          text="{
-              path : 'reportes>KOSTL', 
-              type : 'sap.ui.model.odata.type.String', 
-              constraints: { 
-                  isDigitSequence : true,
-                  maxLength : 10
+        <layoutData>
+          <FlexItemData
+            styleClass="reporteControl"
+          />
+        </layoutData>
+        <items>
+          <Text
+            text="Ceco Frutarom"
+          />
+          <MultiComboBox
+            id="ABTEI"
+            busy="{reportes>/abtei/loading}"
+            busyIndicatorDelay="100"
+            showSecondaryValues="false"
+            items="{
+              path: 'reportes>/abtei/data',
+              sorter: {
+                path: 'reportes>ABTEI'
               }
             }"
-          additionalText="{reportes>LTEXT}"
-        />
-      </MultiComboBox>
-    </VBox>
-    <VBox
-      class="sapUiSmallMarginEnd"
-    >
-      <Text
-        text="Año/mes"
-      />
-      <DatePicker
-        id="datePicker"
+            enabled="{reportes>/enabled}"
+          >
+            <core:ListItem
+              key="{reportes>ABTEI}"
+              text="{reportes>ABTEI}"
+            />
+          </MultiComboBox>
+        </items>
+      </VBox>
+      <VBox
         class="sapUiSmallMarginEnd"
-        value="{reportes>/date}"
-        displayFormat="yyyy"
-        valueFormat="MM/dd/yyyy"
+      >
+        <layoutData>
+          <FlexItemData
+            styleClass="reporteControl"
+          />
+        </layoutData>
+        <items>
+          <Text
+            text="Dirección"
+          />
+          <MultiComboBox
+            id="VERAK"
+            busy="{reportes>/verak/loading}"
+            busyIndicatorDelay="100"
+            showSecondaryValues="false"
+            items="{
+              path: 'reportes>/verak/data',
+              sorter: {
+                path: 'reportes>VERAK'
+              }
+            }"
+            enabled="{reportes>/enabled}"
+          >
+            <core:ListItem
+              key="{reportes>VERAK}"
+              text="{reportes>VERAK}"
+            />
+          </MultiComboBox>
+        </items>
+      </VBox>
+      <VBox
+        class="sapUiSmallMarginEnd"
+      >
+        <layoutData>
+          <FlexItemData
+            styleClass="reporteControl"
+          />
+        </layoutData>
+        <items>
+          <Text
+            text="Centro de costo"
+          />
+          <MultiComboBox
+            id="KOSTL"
+            busy="{reportes>/kostl/loading}"
+            busyIndicatorDelay="100"
+            showSecondaryValues="true"
+            items="{
+              path: 'reportes>/kostl/data',
+              sorter: {
+                path: 'reportes>KOSTL'
+              }
+            }"
+            enabled="{reportes>/enabled}"
+          >
+            <core:ListItem
+              key="{reportes>KOSTL}"
+              text="{
+                  path : 'reportes>KOSTL', 
+                  type : 'sap.ui.model.odata.type.String', 
+                  constraints: { 
+                      isDigitSequence : true,
+                      maxLength : 10
+                  }
+                }"
+              additionalText="{reportes>LTEXT}"
+            />
+          </MultiComboBox>
+        </items>
+      </VBox>
+    </HBox>
+    <HBox
+      class="sapUiTinyMarginTop"
+      alignItems="End"
+    >
+      <VBox
+        class="sapUiSmallMarginEnd"
+      >
+        <Text
+          text="Año/mes"
+        />
+        <DatePicker
+          id="datePicker"
+          class="sapUiSmallMarginEnd"
+          value="{reportes>/date}"
+          displayFormat="yyyy"
+          valueFormat="MM/dd/yyyy"
+          enabled="{reportes>/enabled}"
+        />
+      </VBox>
+      <Button 
+        type="Emphasized"
+        press=".onReady"
+        text="Listo"
+        icon="sap-icon://accept"
         enabled="{reportes>/enabled}"
+        class="sapUiSmallMarginEnd"
       />
-    </VBox>
-    <Button 
-      class="sapUiSmallMarginEnd"
-      type="Emphasized"
-      press=".onReady"
-      text="Listo"
-      icon="sap-icon://accept"
-      enabled="{reportes>/enabled}"
-    />
-    <Button
-      icon="sap-icon://action"
-      text="Exportar"
-      press=".onExport"
-      type="Success"
-      enabled="{= ${reportes>/enabled} ? (!${reportes>/reporte2/empty} ? true : false) : false }"
-    />
-	</HBox>
+      <Button
+        icon="sap-icon://action"
+        text="Exportar"
+        press=".onExport"
+        type="Success"
+        busy="{reportes>/exporting}"
+        busyIndicatorDelay="100"
+        enabled="{= ${reportes>/enabled} ? (!${reportes>/reporte2/empty} ? true : false) : false }"
+      />
+    </HBox>
+</VBox>
 </core:FragmentDefinition>

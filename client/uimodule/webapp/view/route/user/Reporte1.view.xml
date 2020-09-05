@@ -53,7 +53,6 @@
         <f:header>
           <f:DynamicPageHeader pinnable="true">
             <c:Fragment
-              id="form"
               fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1Form"
               type="XML"
             />

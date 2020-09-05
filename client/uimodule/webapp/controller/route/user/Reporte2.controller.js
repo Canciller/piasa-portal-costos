@@ -24,6 +24,7 @@ sap.ui.define(
           this.getRouter()
             .getRoute('reporte_2')
             .attachMatched(function () {
+              /*
               ReporteService.getKOSTL()
                 .then(
                   function () {
@@ -73,6 +74,7 @@ sap.ui.define(
                     MessageBox.warning(error.message);
                   else MessageBox.error(error.message);
                 });
+                */
             }, this);
 
           BaseController.prototype.onInit.call(this);
@@ -80,7 +82,7 @@ sap.ui.define(
           this.attachOnReady(ReporteService.getReporte2.bind(ReporteService));
           AssignmentService.attachOnSave(
             function () {
-              this._loaded = false;
+              this.setLoaded(false);
             }.bind(this)
           );
           this.attachOnExport(this.handleExport.bind(this));

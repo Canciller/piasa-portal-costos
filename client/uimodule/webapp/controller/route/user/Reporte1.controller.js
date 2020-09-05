@@ -21,9 +21,50 @@ sap.ui.define(
         onInit: function () {
           this.getRouter()
             .getRoute('reporte_1')
-            .attachMatched(function () {
+            .attachMatched(async function () {
               ReporteService.setProperty('/reporte1Detail/data', []);
 
+              try {
+                var selectedKeys = await ReporteService.getParams();
+
+                this._selected = undefined;
+
+                if(!this.isLoaded() || !ReporteService.isEnabled()) {
+                  this.resetMultiComboBox();
+
+                  if(selectedKeys.kostl.length === 0) {
+                    throw {
+                      type: 'warning',
+                      message: 'No tiene ningun centro de costo asignado.',
+                    };
+                  }
+                }
+
+                if(!ReporteService.fromDetail()) {
+                  var date = this.getDatePickerDate();
+                  var kostl = this.loaded ? this.getSelectedKeys('kostl') : selectedKeys.kostl;
+
+                  await ReporteService.getReporte1({
+                    year: date.year,
+                    month: date.month,
+                    kostl: kostl,
+                  });
+                }
+
+                ReporteService.setFromDetail(false);
+                ReporteService.enable();
+                this.setLoaded(true);
+              } catch(error) {
+                  ReporteService.disable();
+                  this.setLoaded(false);
+
+                  if (error.type === 'warning')
+                    MessageBox.warning(error.message);
+                  else MessageBox.error(error.message);
+              } finally {
+
+              }
+              /*
               ReporteService.getKOSTL()
                 .then(
                   function () {
@@ -55,8 +96,8 @@ sap.ui.define(
                       }
                     }
 
-                    var fromDetail = ReporteService.getProperty(
-                      '/reporte1/fromDetail'
+                    var fromdetail = reporteservice.getproperty(
+                      '/reporte1/fromdetail'
                     );
                     if (!fromDetail)
                       return ReporteService.getReporte1({
@@ -81,13 +122,14 @@ sap.ui.define(
                     MessageBox.warning(error.message);
                   else MessageBox.error(error.message);
                 });
+                */
             }, this);
 
           BaseController.prototype.onInit.call(this);
 
           AssignmentService.attachOnSave(
             function () {
-              this._loaded = false;
+              this.setLoaded(false);
             }.bind(this)
           );
 

@@ -2,6 +2,8 @@ import sql, { Table } from 'mssql';
 import hasAffectedRows from '../util/dbHasAffectedRows';
 import getPool from '../util/dbGetPool';
 import createHKONTTable from '../util/createHKONTTable';
+import createABTEITable from '../util/createABTEITable';
+import createVERAKTable from '../util/createVERAKTable';
 import log from '../util/log/error';
 
 /**
@@ -104,6 +106,62 @@ export default class Reportes {
 
       return [];
     } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getParams(username) {
+    try {
+      var pool = await getPool();
+      var request = await pool.request()
+        .input('username', sql.VarChar(30), username);
+      var res = await request.execute('getReporteParams');
+
+      if(res.recordsets && res.recordsets.length === 3) {
+        return {
+          abtei: res.recordsets[0],
+          verak: res.recordsets[1],
+          kostl: res.recordsets[2]
+        }
+      }
+
+      return {
+        abtei: [],
+        verak: [],
+        kostl: [],
+      }
+    } catch(error) {
+      throw error;
+    }
+  }
+
+  static async getParamsFiltered(username, abtei, verak) {
+    try {
+      var ABTEITable = createABTEITable(abtei),
+        VERAKTable = createVERAKTable(verak);
+
+      var pool = await getPool();
+      var request = await pool.request()
+        .input('username', sql.VarChar(30), username)
+        .input('ABTEITable', sql.TVP(), ABTEITable)
+        .input('VERAKTable', sql.TVP(), VERAKTable);
+
+      var res = await request.execute('getReporteParamsFiltered');
+
+      if(res.recordsets && res.recordsets.length === 3) {
+        return {
+          abtei: res.recordsets[0],
+          verak: res.recordsets[1],
+          kostl: res.recordsets[2]
+        }
+      }
+
+      return {
+        abtei: [],
+        verak: [],
+        kostl: [],
+      }
+    } catch(error) {
       throw error;
     }
   }
