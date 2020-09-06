@@ -3,16 +3,16 @@ sap.ui.define(
   function (ReporteServiceBase, JSONModel) {
     'use strict';
 
-    var Reporte1Service = ReporteServiceBase.extend(
-      'com.piasa.Costos.Reporte1Service',
+    var Reporte2Service = ReporteServiceBase.extend(
+      'com.piasa.Costos.Reporte2Service',
       {
         constructor: function () {
           ReporteServiceBase.prototype.constructor.call(this);
-          this.setReporteUrl('/1');
+          this.setReporteUrl('/2');
         },
       }
     );
 
-    return new Reporte1Service();
+    return new Reporte2Service();
   }
 );

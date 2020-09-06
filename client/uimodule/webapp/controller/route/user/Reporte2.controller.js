@@ -1,92 +1,44 @@
 sap.ui.define(
   [
-    'com/piasa/Costos/controller/route/user/Reporte.controller',
+    'com/piasa/Costos/controller/route/user/ReporteBase.controller',
     'sap/ui/export/SpreadSheet',
-    'sap/m/MessageBox',
-    'sap/m/MessageToast',
     '../../../service/AssignmentService',
-    '../../../service/ReporteService',
+    '../../../service/Reporte2Service',
   ],
   function (
-    BaseController,
+    ReporteController,
     SpreadSheet,
-    MessageBox,
-    MessageToast,
     AssignmentService,
-    ReporteService
+    Reporte2Service
   ) {
     'use strict';
 
-    return BaseController.extend(
-      'com.piasa.Costos.route.manager.Reporte2.controller',
+    return ReporteController.extend(
+      'com.piasa.Costos.route.manager.Reporte1.controller',
       {
         onInit: function () {
           this.getRouter()
             .getRoute('reporte_2')
-            .attachMatched(function () {
-              /*
-              ReporteService.getKOSTL()
-                .then(
-                  function () {
-                    var enabled = ReporteService.getProperty('/enabled'),
-                      loaded = ReporteService.getProperty('/loaded');
-                    if (!loaded || !enabled || !this._loaded) {
-                      this.resetMultiComboBox();
-                      this._selected = undefined;
-                    }
-                  }.bind(this)
-                )
-                .then(
-                  function () {
-                    var enabled = ReporteService.getProperty('/enabled'),
-                      loaded = ReporteService.getProperty('/loaded');
-                    var date = this.getDatePickerDate(),
-                      kostl = ReporteService.getKOSTLSelectedKeys();
-
-                    if (!loaded || !enabled || !this._loaded) {
-                      ReporteService.setProperty('/enabled', true);
-                      if (kostl.length === 0) {
-                        ReporteService.setProperty('/enabled', false);
-                        throw {
-                          type: 'warning',
-                          message: 'No tiene ningun centro de costo asignado.',
-                        };
-                      }
-                    }
-
-                    return ReporteService.getReporte2({
-                      year: date.year,
-                      kostl: kostl,
-                    });
-                  }.bind(this)
-                )
-                .then(
-                  function () {
-                    ReporteService.setProperty('/loaded', true);
-                    this._loaded = true;
-                  }.bind(this)
-                )
-                .catch((error) => {
-                  ReporteService.setProperty('/loaded', false);
-                  this._loaded = false;
-
-                  if (error.type === 'warning')
-                    MessageBox.warning(error.message);
-                  else MessageBox.error(error.message);
-                });
-                */
+            .attachMatched(async function () {
+              await this.onDisplay();
             }, this);
 
-          BaseController.prototype.onInit.call(this);
+          this.setService(Reporte2Service);
+          ReporteController.prototype.onInit.call(this);
 
-          this.attachOnReady(ReporteService.getReporte2.bind(ReporteService));
           AssignmentService.attachOnSave(
             function () {
-              this.setLoaded(false);
+              this.disableAll();
+            }.bind(this)
+          );
+
+          this.setupExport();
+          this.attachOnReady(
+            async function () {
+              await Reporte2Service.fillReporte();
             }.bind(this)
           );
           this.attachOnExport(this.handleExport.bind(this));
-          this.setupExport();
         },
         setupExport: function () {
           var aColumns = [
@@ -160,7 +112,6 @@ sap.ui.define(
               type: 'Number',
             },
           ];
-
           this._mSettings = {
             workbook: {
               columns: aColumns,
@@ -168,24 +119,19 @@ sap.ui.define(
           };
         },
         handleExport: async function () {
-          try {
-            ReporteService.setProperty('/exporting', true);
-            var data = ReporteService.getProperty('/reporte2/data'),
-              year = ReporteService.getProperty('/reporte2/year');
+          var data = Reporte2Service.getProperty('/data'),
+            date = Reporte2Service.getDate();
 
-            var name = `tendencias_de_costos_${year}`;
-            this._mSettings.fileName = name + '.xlsx';
-            this._mSettings.dataSource = data;
-            this._mSettings.workbook.context = {
-              sheetName: `${year}`,
-            };
-            var oSpreadsheet = new SpreadSheet(this._mSettings);
-            oSpreadsheet.build();
-          } catch (error) {
-            throw error;
-          } finally {
-            ReporteService.setProperty('/exporting', false);
-          }
+          var year = date.year;
+
+          var name = `tendencias_de_costos_${year}`;
+          this._mSettings.fileName = name + '.xlsx';
+          this._mSettings.dataSource = data;
+          this._mSettings.workbook.context = {
+            sheetName: `${year}`,
+          };
+          var oSpreadsheet = new SpreadSheet(this._mSettings);
+          oSpreadsheet.build();
         },
       }
     );

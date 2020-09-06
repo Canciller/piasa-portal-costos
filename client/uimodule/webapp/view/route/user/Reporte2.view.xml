@@ -21,7 +21,6 @@
       <f:DynamicPage
         id="pageReporte1"
         preserveHeaderStateOnScroll="true"
-        headerExpanded="{reporte1/headerExpanded}"
         fitContent="true"
       >
         <!-- DynamicPage Title -->
@@ -61,17 +60,17 @@
 
         <f:content>
           <t:Table
-            rows="{reportes>/reporte2/data}"
+            rows="{r2>/data}"
             alternateRowColors="true"
-            busy="{reportes>/reporte2/loading}"
+            busy="{r2>/loading}"
             busyIndicatorDelay="100"
             rowHeight="30px"
             visibleRowCountMode="Auto"
-            selectionMode="None"
+            selectionBehavior="RowOnly"
+            selectionMode="Single"
             id="table"
             fixedColumnCount="2"
-            cellClick=".onCellClick"
-            showOverlay="{= !${reportes>/enabled}}"
+            showOverlay="{= !${r2>/enabled}}"
           >
             <t:columns>
               <t:Column
@@ -82,7 +81,7 @@
                 <Label text="Descripción" />
                 <t:template>
                   <Text
-                    text="{reportes>TXT50}"
+                    text="{r2>TXT50}"
                     wrapping="false"
                   />
                 </t:template>
@@ -97,7 +96,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>YEAR}"
+                    text="{r2>YEAR}"
                   />
                 </t:template>
               </t:Column>
@@ -110,7 +109,7 @@
                 <Label text="Enero" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P01',
+                    path: 'r2>P01',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -126,7 +125,7 @@
                 <Label text="Febrero" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P02',
+                    path: 'r2>P02',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -142,7 +141,7 @@
                 <Label text="Marzo" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P03',
+                    path: 'r2>P03',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -158,7 +157,7 @@
                 <Label text="Abril" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P04',
+                    path: 'r2>P04',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -174,7 +173,7 @@
                 <Label text="Mayo" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P05',
+                    path: 'r2>P05',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -190,7 +189,7 @@
                 <Label text="Junio" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P06',
+                    path: 'r2>P06',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -206,7 +205,7 @@
                 <Label text="Julio" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P07',
+                    path: 'r2>P07',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -222,7 +221,7 @@
                 <Label text="Agosto" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P08',
+                    path: 'r2>P08',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -238,7 +237,7 @@
                 <Label text="Septiembre" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P09',
+                    path: 'r2>P09',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -254,7 +253,7 @@
                 <Label text="Octubre" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P10',
+                    path: 'r2>P10',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -270,7 +269,7 @@
                 <Label text="Noviembre" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P11',
+                    path: 'r2>P11',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -286,7 +285,7 @@
                 <Label text="Diciembre" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>P12',
+                    path: 'r2>P12',
                     formatter: '.format.money'
                     }"
                     wrapping="false"

@@ -4,9 +4,11 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
   <VBox>
-    <HBox>
+    <HBox
+      wrap="Wrap"
+    >
       <VBox
-        class="sapUiSmallMarginEnd"
+        class="sapUiSmallMarginEnd sapUiSmallMarginTop"
       >
         <layoutData>
           <FlexItemData
@@ -19,30 +21,32 @@
           />
           <MultiComboBox
             id="ABTEI"
-            busy="{reportes>/abtei/loading}"
-            busyIndicatorDelay="100"
+            busy="{r2>/abtei/loading}"
+            busyIndicatorDelay="80"
             showSecondaryValues="false"
             items="{
-              path: 'reportes>/abtei/data',
+              path: 'r2>/abtei/data',
               sorter: {
-                path: 'reportes>ABTEI'
+                path: 'r2>ABTEI'
               }
             }"
-            enabled="{reportes>/enabled}"
+            enabled="{r2>/abtei/enabled}"
+            selectionChange=".onChangeABTEI"
+            selectedKeys="{r2>/abtei/selectedKeys}"
           >
             <core:ListItem
-              key="{reportes>ABTEI}"
-              text="{reportes>ABTEI}"
+              key="{r2>ABTEI}"
+              text="{r2>ABTEI}"
             />
           </MultiComboBox>
         </items>
       </VBox>
       <VBox
-        class="sapUiSmallMarginEnd"
+        class="sapUiSmallMarginEnd sapUiSmallMarginTop"
       >
         <layoutData>
           <FlexItemData
-            styleClass="reporteControl"
+            styleClass="reporteControl controlVERAK"
           />
         </layoutData>
         <items>
@@ -51,30 +55,32 @@
           />
           <MultiComboBox
             id="VERAK"
-            busy="{reportes>/verak/loading}"
-            busyIndicatorDelay="100"
+            busy="{r2>/verak/loading}"
+            busyIndicatorDelay="80"
             showSecondaryValues="false"
             items="{
-              path: 'reportes>/verak/data',
+              path: 'r2>/verak/data',
               sorter: {
-                path: 'reportes>VERAK'
+                path: 'r2>VERAK'
               }
             }"
-            enabled="{reportes>/enabled}"
+            enabled="{= ${r2>/verak/enabled}}"
+            selectionChange=".onChangeVERAK"
+            selectedKeys="{r2>/verak/selectedKeys}"
           >
             <core:ListItem
-              key="{reportes>VERAK}"
-              text="{reportes>VERAK}"
+              key="{r2>VERAK}"
+              text="{r2>VERAK}"
             />
           </MultiComboBox>
         </items>
       </VBox>
       <VBox
-        class="sapUiSmallMarginEnd"
+        class="sapUiSmallMarginTop"
       >
         <layoutData>
           <FlexItemData
-            styleClass="reporteControl"
+            styleClass="reporteControl controlKOSTL"
           />
         </layoutData>
         <items>
@@ -83,28 +89,30 @@
           />
           <MultiComboBox
             id="KOSTL"
-            busy="{reportes>/kostl/loading}"
-            busyIndicatorDelay="100"
+            busy="{r2>/kostl/loading}"
+            busyIndicatorDelay="80"
             showSecondaryValues="true"
             items="{
-              path: 'reportes>/kostl/data',
+              path: 'r2>/kostl/data',
               sorter: {
-                path: 'reportes>KOSTL'
+                path: 'r2>KOSTL'
               }
             }"
-            enabled="{reportes>/enabled}"
+            selectionChange=".onChangeKOSTL"
+            enabled="{r2>/kostl/enabled}"
+            selectedKeys="{r2>/kostl/selectedKeys}"
           >
             <core:ListItem
-              key="{reportes>KOSTL}"
+              key="{r2>KOSTL}"
               text="{
-                  path : 'reportes>KOSTL', 
+                  path : 'r2>KOSTL', 
                   type : 'sap.ui.model.odata.type.String', 
                   constraints: { 
                       isDigitSequence : true,
                       maxLength : 10
                   }
                 }"
-              additionalText="{reportes>LTEXT}"
+              additionalText="{r2>LTEXT}"
             />
           </MultiComboBox>
         </items>
@@ -123,10 +131,10 @@
         <DatePicker
           id="datePicker"
           class="sapUiSmallMarginEnd"
-          value="{reportes>/date}"
+          value="{r2>/date}"
           displayFormat="yyyy"
           valueFormat="MM/dd/yyyy"
-          enabled="{reportes>/enabled}"
+          enabled="{r2>/abtei/enabled}"
         />
       </VBox>
       <Button 
@@ -134,17 +142,16 @@
         press=".onReady"
         text="Listo"
         icon="sap-icon://accept"
-        enabled="{reportes>/enabled}"
         class="sapUiSmallMarginEnd"
+        enabled="{= ${r2>/enabled} ? (${r2>/kostl/enabled} ? (${r2>/kostl/empty} ? false : true) : false) : false}"
       />
       <Button
         icon="sap-icon://action"
         text="Exportar"
         press=".onExport"
         type="Success"
-        busy="{reportes>/exporting}"
+        enabled="{= !${r2>/empty}}"
         busyIndicatorDelay="100"
-        enabled="{= ${reportes>/enabled} ? (!${reportes>/reporte2/empty} ? true : false) : false }"
       />
     </HBox>
 </VBox>
