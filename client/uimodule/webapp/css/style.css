@@ -58,5 +58,11 @@
 }
 
 .reporteControl {
+  /*width: 21rem;*/
   flex: 1 !important;
+  /*width: 33% !important;*/
+}
+
+.reporteHeader {
+  padding-top: 0 !important;
 }

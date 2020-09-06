@@ -1,141 +1,47 @@
 sap.ui.define(
   [
-    'com/piasa/Costos/controller/route/user/Reporte.controller',
+    'com/piasa/Costos/controller/route/user/ReporteBase.controller',
     'sap/ui/export/SpreadSheet',
     'sap/m/MessageBox',
     '../../../service/AssignmentService',
-    '../../../service/ReporteService',
+    '../../../service/Reporte1Service',
+    '../../../service/Reporte1DetailService',
   ],
   function (
-    BaseController,
+    ReporteController,
     SpreadSheet,
     MessageBox,
     AssignmentService,
-    ReporteService
+    Reporte1Service,
+    Reporte1DetailService,
   ) {
     'use strict';
 
-    return BaseController.extend(
+    return ReporteController.extend(
       'com.piasa.Costos.route.manager.Reporte1.controller',
       {
         onInit: function () {
           this.getRouter()
             .getRoute('reporte_1')
             .attachMatched(async function () {
-              ReporteService.setProperty('/reporte1Detail/data', []);
+              if(!Reporte1Service.fromDetail())
+                this.onDisplay();
 
-              try {
-                var selectedKeys = await ReporteService.getParams();
-
-                this._selected = undefined;
-
-                if(!this.isLoaded() || !ReporteService.isEnabled()) {
-                  this.resetMultiComboBox();
-
-                  if(selectedKeys.kostl.length === 0) {
-                    throw {
-                      type: 'warning',
-                      message: 'No tiene ningun centro de costo asignado.',
-                    };
-                  }
-                }
-
-                if(!ReporteService.fromDetail()) {
-                  var date = this.getDatePickerDate();
-                  var kostl = this.loaded ? this.getSelectedKeys('kostl') : selectedKeys.kostl;
-
-                  await ReporteService.getReporte1({
-                    year: date.year,
-                    month: date.month,
-                    kostl: kostl,
-                  });
-                }
-
-                ReporteService.setFromDetail(false);
-                ReporteService.enable();
-                this.setLoaded(true);
-              } catch(error) {
-                  ReporteService.disable();
-                  this.setLoaded(false);
-
-                  if (error.type === 'warning')
-                    MessageBox.warning(error.message);
-                  else MessageBox.error(error.message);
-              } finally {
-
-              }
-              /*
-              ReporteService.getKOSTL()
-                .then(
-                  function () {
-                    var enabled = ReporteService.getProperty('/enabled'),
-                      loaded = ReporteService.getProperty('/loaded');
-                    if (!loaded || !enabled || !this._loaded) {
-                      this.resetMultiComboBox();
-                      this._selected = undefined;
-                    }
-                  }.bind(this)
-                )
-                .then(
-                  function () {
-                    var enabled = ReporteService.getProperty('/enabled'),
-                      loaded = ReporteService.getProperty('/loaded');
-
-                    var date = this.getDatePickerDate(),
-                      kostl = ReporteService.getKOSTLSelectedKeys();
-
-                    if (!loaded || !enabled || !this._loaded) {
-                      if (kostl.length === 0) {
-                        ReporteService.setProperty('/enabled', false);
-                        throw {
-                          type: 'warning',
-                          message: 'No tiene ningun centro de costo asignado.',
-                        };
-                      } else {
-                        ReporteService.setProperty('/enabled', true);
-                      }
-                    }
-
-                    var fromdetail = reporteservice.getproperty(
-                      '/reporte1/fromdetail'
-                    );
-                    if (!fromDetail)
-                      return ReporteService.getReporte1({
-                        year: date.year,
-                        month: date.month,
-                        kostl: kostl,
-                      });
-                    ReporteService.setProperty('/reporte1/fromDetail', false);
-                  }.bind(this)
-                )
-                .then(
-                  function () {
-                    ReporteService.setProperty('/loaded', true);
-                    this._loaded = true;
-                  }.bind(this)
-                )
-                .catch((error) => {
-                  ReporteService.setProperty('/loaded', false);
-                  this._loaded = false;
-
-                  if (error.type === 'warning')
-                    MessageBox.warning(error.message);
-                  else MessageBox.error(error.message);
-                });
-                */
+              Reporte1Service.setFromDetail(false);
             }, this);
 
-          BaseController.prototype.onInit.call(this);
+          this.setService(Reporte1Service);
+          ReporteController.prototype.onInit.call(this);
 
           AssignmentService.attachOnSave(
             function () {
-              this.setLoaded(false);
+              this.disableAll();
             }.bind(this)
           );
 
           this.setupTableCellClick();
           this.setupExport();
-          this.attachOnReady(ReporteService.getReporte1.bind(ReporteService));
+          this.attachOnReady(Reporte1Service.fillReporte.bind(Reporte1Service));
           this.attachOnExport(this.handleExport.bind(this));
         },
         setupExport: function () {
@@ -215,9 +121,8 @@ sap.ui.define(
 
               var isBudget = false,
                 isLastYear = false,
-                desc1 = ReporteService.getProperty(path + '/DESC1');
+                desc1 = Reporte1Service.getProperty(path + '/DESC1');
 
-              console.log(key);
               switch (key) {
                 case 'Actual_CY':
                   break;
@@ -237,23 +142,31 @@ sap.ui.define(
                   return;
               }
 
+              Reporte1Service.setDESC1(desc1);
+              Reporte1Service.setProperty('/isBudget', isBudget);
+              Reporte1Service.setProperty('/isLastYear', isLastYear);
+              Reporte1Service.setProperty('/fromReporte', true);
+
+              this.navTo(route);
+              /*
               try {
-                ReporteService.setProperty('/reporte1/loading', true);
-                var detail = await ReporteService.getReporte1Detail({
+                Reporte1Service.setProperty('/reporte1/loading', true);
+                var detail = await Reporte1Service.getReporte1Detail({
                   isBudget: isBudget,
                   isLastYear: isLastYear,
                   desc1: desc1,
                 });
 
                 if (detail.length !== 0) {
-                  ReporteService.setProperty('/reporte1/fromDetail', true);
+                  Reporte1Service.setProperty('/reporte1/fromDetail', true);
                   this.navTo(route);
                 }
               } catch (error) {
                 MessageBox.error(error.message);
               } finally {
-                ReporteService.setProperty('/reporte1/loading', false);
+                Reporte1Service.setProperty('/reporte1/loading', false);
               }
+              */
             }.bind(this)
           );
         },
@@ -261,6 +174,7 @@ sap.ui.define(
           this._selected = oEvent.getParameters();
         },
         handleExport: async function () {
+          /*
           try {
             ReporteService.setProperty('/exporting', true);
             var data = ReporteService.getProperty('/reporte1/data'),
@@ -280,6 +194,7 @@ sap.ui.define(
           } finally {
             ReporteService.setProperty('/exporting', false);
           }
+          */
         },
       }
     );

@@ -21,22 +21,22 @@
           />
           <MultiComboBox
             id="ABTEI"
-            busy="{r1>/abtei/loading}"
+            busy="{r1d>/abtei/loading}"
             busyIndicatorDelay="80"
             showSecondaryValues="false"
             items="{
-              path: 'r1>/abtei/data',
+              path: 'r1d>/abtei/data',
               sorter: {
-                path: 'r1>ABTEI'
+                path: 'r1d>ABTEI'
               }
             }"
-            enabled="{r1>/abtei/enabled}"
+            enabled="{r1d>/abtei/enabled}"
             selectionChange=".onChangeABTEI"
-            selectedKeys="{r1>/abtei/selectedKeys}"
+            selectedKeys="{r1d>/abtei/selectedKeys}"
           >
             <core:ListItem
-              key="{r1>ABTEI}"
-              text="{r1>ABTEI}"
+              key="{r1d>ABTEI}"
+              text="{r1d>ABTEI}"
             />
           </MultiComboBox>
         </items>
@@ -55,22 +55,22 @@
           />
           <MultiComboBox
             id="VERAK"
-            busy="{r1>/verak/loading}"
+            busy="{r1d>/verak/loading}"
             busyIndicatorDelay="80"
             showSecondaryValues="false"
             items="{
-              path: 'r1>/verak/data',
+              path: 'r1d>/verak/data',
               sorter: {
-                path: 'r1>VERAK'
+                path: 'r1d>VERAK'
               }
             }"
-            enabled="{= ${r1>/verak/enabled}}"
+            enabled="{= ${r1d>/verak/enabled}}"
             selectionChange=".onChangeVERAK"
-            selectedKeys="{r1>/verak/selectedKeys}"
+            selectedKeys="{r1d>/verak/selectedKeys}"
           >
             <core:ListItem
-              key="{r1>VERAK}"
-              text="{r1>VERAK}"
+              key="{r1d>VERAK}"
+              text="{r1d>VERAK}"
             />
           </MultiComboBox>
         </items>
@@ -89,30 +89,30 @@
           />
           <MultiComboBox
             id="KOSTL"
-            busy="{r1>/kostl/loading}"
+            busy="{r1d>/kostl/loading}"
             busyIndicatorDelay="80"
             showSecondaryValues="true"
             items="{
-              path: 'r1>/kostl/data',
+              path: 'r1d>/kostl/data',
               sorter: {
-                path: 'r1>KOSTL'
+                path: 'r1d>KOSTL'
               }
             }"
+            enabled="{r1d>/kostl/enabled}"
+            selectedKeys="{r1d>/kostl/selectedKeys}"
             selectionChange=".onChangeKOSTL"
-            enabled="{r1>/kostl/enabled}"
-            selectedKeys="{r1>/kostl/selectedKeys}"
           >
             <core:ListItem
-              key="{r1>KOSTL}"
+              key="{r1d>KOSTL}"
               text="{
-                  path : 'r1>KOSTL', 
+                  path : 'r1d>KOSTL', 
                   type : 'sap.ui.model.odata.type.String', 
                   constraints: { 
                       isDigitSequence : true,
                       maxLength : 10
                   }
                 }"
-              additionalText="{r1>LTEXT}"
+              additionalText="{r1d>LTEXT}"
             />
           </MultiComboBox>
         </items>
@@ -130,8 +130,7 @@
         />
         <DatePicker
           id="datePicker"
-          class="sapUiSmallMarginEnd"
-          value="{r1>/date}"
+          value="{r1d>/date}"
           displayFormat="yyyy/MM"
           valueFormat="MM/dd/yyyy"
           enabled="{r1>/abtei/enabled}"
@@ -143,14 +142,14 @@
         text="Listo"
         icon="sap-icon://accept"
         class="sapUiSmallMarginEnd"
-        enabled="{= ${r1>/enabled} ? (${r1>/kostl/enabled} ? (${r1>/kostl/empty} ? false : true) : false) : false}"
+        enabled="{= ${r1d>/enabled} ? (${r1d>/kostl/enabled} ? (${r1d>/kostl/empty} ? false : true) : false) : false}"
       />
       <Button
         icon="sap-icon://action"
         text="Exportar"
         press=".onExport"
         type="Success"
-        enabled="{= !${r1>/empty}}"
+        enabled="{= !${r1d>/detail/empty}}"
         busyIndicatorDelay="100"
       />
     </HBox>

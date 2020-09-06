@@ -1,30 +1,86 @@
 sap.ui.define(
   [
-    'com/piasa/Costos/controller/BaseController',
-    'com/piasa/Costos/controller/layout/ToolHeader.controller',
+    'com/piasa/Costos/controller/route/user/ReporteBase.controller',
     'sap/ui/export/SpreadSheet',
-    '../../../service/ReporteService',
+    '../../../service/AssignmentService',
+    '../../../service/Reporte1Service',
+    '../../../service/Reporte1DetailService',
   ],
   function (
-    BaseController,
-    ToolHeader,
+    ReporteController,
     SpreadSheet,
-    ReporteService
+    AssignmentService,
+    Reporte1Service,
+    Reporte1DetailService
   ) {
     'use strict';
 
-    return BaseController.extend(
+    return ReporteController.extend(
       'com.piasa.Costos.route.manager.Reporte1DetailReal.controller',
       {
-        Header: new ToolHeader(this),
         onInit: function () {
           this.getRouter()
             .getRoute('reporte1_real')
-            .attachMatched(function () {
-              if (ReporteService.isReporte1Empty()) this.navTo('launchpad');
+            .attachMatched(async function () {
+                //this.clearAll();
+
+                if(!Reporte1Service.fromReporte()) {
+                  this.navTo('launchpad');
+                } else {
+                  Reporte1Service.setFromReporte(false);
+                  Reporte1Service.setFromDetail(true);
+
+                  Reporte1DetailService.setProperty('/isBudget', Reporte1Service.getProperty('/isBudget'));
+
+
+                  var desc1 = Reporte1Service.getDESC1();
+                  Reporte1DetailService.setDESC1(desc1);
+
+                  var selectedAbtei = Reporte1Service.getSelectedKeys('abtei'),
+                    selectedVerak = Reporte1Service.getSelectedKeys('verak'),
+                    selectedKostl = Reporte1Service.getSelectedKeys('kostl');
+
+                  var abtei = Reporte1Service.getParam('abtei'),
+                    verak = Reporte1Service.getParam('verak'),
+                    kostl = Reporte1Service.getParam('kostl');
+
+                  Reporte1DetailService.setModelSize(Math.max(
+                    abtei.length,
+                    verak.length,
+                    kostl.length
+                  ));
+
+                  Reporte1DetailService.setParam('abtei', abtei);
+                  Reporte1DetailService.setParam('verak', verak);
+                  Reporte1DetailService.setParam('kostl', kostl);
+
+                  Reporte1DetailService.setSelectedKeys('abtei', selectedAbtei);
+                  Reporte1DetailService.setSelectedKeys('verak', selectedVerak);
+                  Reporte1DetailService.setSelectedKeys('kostl', selectedKostl);
+
+                  var isLastYear = Reporte1Service.getProperty('/isLastYear');
+                  var date = isLastYear ? Reporte1Service.getDateLastYearStr() : Reporte1Service.getDateStr();
+
+                  Reporte1DetailService.setDate(date);
+
+                  this.enable();
+
+                  await this.onReady();
+                }
             }, this);
 
+          AssignmentService.attachOnSave(
+            function () {
+              this.disableAll();
+            }.bind(this)
+          );
+
+          this.setService(Reporte1DetailService);
+          this.clearAll();
+          ReporteController.prototype.onInit.call(this);
+
           this.setupExport();
+          this.attachOnReady(Reporte1DetailService.fillReporteDetail.bind(Reporte1DetailService));
         },
         setupExport: function () {
           var aColumns = [
@@ -119,6 +175,7 @@ sap.ui.define(
           };
         },
         onExport: async function () {
+          /*
           try {
             ReporteService.setProperty('/exporting', true);
             var data = ReporteService.getProperty('/reporte1Detail/data'),
@@ -138,6 +195,7 @@ sap.ui.define(
           } finally {
             ReporteService.setProperty('/exporting', false);
           }
+          */
         },
       }
     );

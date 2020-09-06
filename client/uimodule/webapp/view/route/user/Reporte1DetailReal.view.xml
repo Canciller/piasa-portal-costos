@@ -18,7 +18,6 @@
       <f:DynamicPage
         id="pageReporte1Detail"
         preserveHeaderStateOnScroll="true"
-        headerExpanded="{reporte1/headerExpanded}"
         fitContent="true"
       >
         <!-- DynamicPage Title -->
@@ -47,9 +46,12 @@
         </f:title>
 
         <f:header>
-          <f:DynamicPageHeader pinnable="true">
+          <f:DynamicPageHeader
+            pinnable="true"
+            class="reporteHeader"
+          >
             <c:Fragment
-              fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1FormDisplay"
+              fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1DetailForm"
               type="XML"
             />
           </f:DynamicPageHeader>
@@ -57,16 +59,22 @@
 
         <f:content>
           <t:Table
-            rows="{reportes>/reporte1Detail/data}"
+            rows="{r1d>/detail/data}"
             selectionMode="None"
             alternateRowColors="true"
-            busy="{reportes>/reporte1Detail/loading}"
+            busy="{r1d>/detail/loading}"
             busyIndicatorDelay="100"
             rowHeight="30px"
             visibleRowCountMode="Auto"
             id="table"
-            cellClick=".onCellClick"
           >
+            <t:extension>
+              <OverflowToolbar>
+                <Title
+                  text="{r1d>/desc1}" 
+                />
+              </OverflowToolbar>
+            </t:extension>
             <t:columns>
               <t:Column
                 width="8rem"
@@ -79,7 +87,7 @@
                 <t:template>
                   <Text
                     text="{
-                        path : 'reportes>KOSTL', 
+                        path : 'r1d>KOSTL', 
                         type : 'sap.ui.model.odata.type.String', 
                         constraints: { 
                             isDigitSequence : true,
@@ -99,7 +107,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>LTEXT}"
+                    text="{r1d>LTEXT}"
                     wrapping="false"
                   />
                 </t:template>
@@ -113,7 +121,7 @@
                 <t:template>
                   <Text
                     text="{
-                        path : 'reportes>HKONT', 
+                        path : 'r1d>HKONT', 
                         type : 'sap.ui.model.odata.type.String', 
                         constraints: { 
                             isDigitSequence : true,
@@ -131,7 +139,7 @@
                 <Label text="Descripción" />
                 <t:template>
                   <Text
-                    text="{reportes>TXT50}"
+                    text="{r1d>TXT50}"
                     wrapping="false"
                   />
                 </t:template>
@@ -146,7 +154,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>DESC1}"
+                    text="{r1d>DESC1}"
                     wrapping="false"
                   />
                 </t:template>
@@ -161,7 +169,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>DESC2}"
+                    text="{r1d>DESC2}"
                     wrapping="false"
                   />
                 </t:template>
@@ -176,7 +184,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>GJAHR}"
+                    text="{r1d>GJAHR}"
                   />
                 </t:template>
               </t:Column>
@@ -190,7 +198,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>MONAT}"
+                    text="{r1d>MONAT}"
                   />
                 </t:template>
               </t:Column>
@@ -203,7 +211,7 @@
                 <Label text="Valor" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>DMBTR',
+                    path: 'r1d>DMBTR',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -220,7 +228,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>BELNR}"
+                    text="{r1d>BELNR}"
                   />
                 </t:template>
               </t:Column>
@@ -234,7 +242,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>BUKRS}"
+                    text="{r1d>BUKRS}"
                   />
                 </t:template>
               </t:Column>
@@ -249,7 +257,7 @@
                 <t:template>
                   <Text
                     text="{
-                        path : 'reportes>BUZEI', 
+                        path : 'r1d>BUZEI', 
                         type : 'sap.ui.model.odata.type.String', 
                         constraints: { 
                             isDigitSequence : true,
@@ -269,7 +277,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>BUDAT}"
+                    text="{r1d>BUDAT}"
                   />
                 </t:template>
               </t:Column>
@@ -283,7 +291,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>USNAM}"
+                    text="{r1d>USNAM}"
                     wrapping="false"
                   />
                 </t:template>
@@ -299,7 +307,7 @@
                 <t:template>
                   <Text
                     text="{
-                        path : 'reportes>LIFNR', 
+                        path : 'r1d>LIFNR', 
                         type : 'sap.ui.model.odata.type.String', 
                         constraints: { 
                             isDigitSequence : true,
@@ -319,7 +327,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>EBELN}"
+                    text="{r1d>EBELN}"
                   />
                 </t:template>
               </t:Column>
@@ -334,7 +342,7 @@
                 <t:template>
                   <Text
                     text="{
-                        path : 'reportes>EBELP', 
+                        path : 'r1d>EBELP', 
                         type : 'sap.ui.model.odata.type.String', 
                         constraints: { 
                             isDigitSequence : true,
@@ -354,7 +362,7 @@
                 />
                 <t:template>
                   <Text
-                    text="{reportes>SGTXT}"
+                    text="{r1d>SGTXT}"
                     wrapping="false"
                   />
                 </t:template>

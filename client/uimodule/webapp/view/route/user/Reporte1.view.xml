@@ -51,7 +51,10 @@
 
         <!-- DynamicPage Header -->
         <f:header>
-          <f:DynamicPageHeader pinnable="true">
+          <f:DynamicPageHeader
+            pinnable="true"
+            class="reporteHeader"
+          >
             <c:Fragment
               fragmentName="com.piasa.Costos.view.layout.reporte1.Reporte1Form"
               type="XML"
@@ -61,9 +64,9 @@
 
         <f:content>
           <t:Table
-            rows="{reportes>/reporte1/data}"
+            rows="{r1>/data}"
             alternateRowColors="true"
-            busy="{reportes>/reporte1/loading}"
+            busy="{r1>/loading}"
             busyIndicatorDelay="100"
             rowHeight="30px"
             visibleRowCountMode="Auto"
@@ -71,7 +74,7 @@
             id="table"
             fixedColumnCount="1"
             cellClick=".onCellClick"
-            showOverlay="{= !${reportes>/enabled}}"
+            showOverlay="{= !${r1>/abtei/enabled}}"
           >
             <t:columns>
               <t:Column
@@ -82,7 +85,7 @@
                 <Label text="Cuenta Monthly Package Manual" />
                 <t:template>
                   <Text
-                    text="{reportes>DESC1}"
+                    text="{r1>DESC1}"
                   />
                 </t:template>
               </t:Column>
@@ -95,7 +98,7 @@
                 <Label text="Real" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual_CY',
+                    path: 'r1>Actual_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -111,7 +114,7 @@
                 <Label text="Real Acumulado" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual_Accum_CY',
+                    path: 'r1>Actual_Accum_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -127,7 +130,7 @@
                 <Label text="Presupuesto" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Budget_CY',
+                    path: 'r1>Budget_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -143,7 +146,7 @@
                 <Label text="Presupuesto Acumulado" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Budget_Accum_CY',
+                    path: 'r1>Budget_Accum_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -159,7 +162,7 @@
                 <Label text="Var vs Ppto" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Var_vs_Ppto_CY',
+                    path: 'r1>Var_vs_Ppto_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -175,7 +178,7 @@
                 <Label text="%" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_1_CY',
+                    path: 'r1>Percentage_1_CY',
                     formatter: '.format.percentage'
                     }"
                     wrapping="false"
@@ -191,7 +194,7 @@
                 <Label text="Var vs AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Var_vs_AA_CY',
+                    path: 'r1>Var_vs_AA_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -207,7 +210,7 @@
                 <Label text="%" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_2_CY',
+                    path: 'r1>Percentage_2_CY',
                     formatter: '.format.percentage'
                     }"
                     wrapping="false"
@@ -223,7 +226,7 @@
                 <Label text="Real AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual_LY',
+                    path: 'r1>Actual_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -239,7 +242,7 @@
                 <Label text="Real Acumulado AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Actual_Accum_LY',
+                    path: 'r1>Actual_Accum_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -255,7 +258,7 @@
                 <Label text="Presupuesto AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Budget_LY',
+                    path: 'r1>Budget_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -271,7 +274,7 @@
                 <Label text="Presupuesto Acumulado AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Budget_Accum_LY',
+                    path: 'r1>Budget_Accum_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -287,7 +290,7 @@
                 <Label text="Var vs Ppto AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Var_vs_Ppto_LY',
+                    path: 'r1>Var_vs_Ppto_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -303,7 +306,7 @@
                 <Label text="% AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_1_LY',
+                    path: 'r1>Percentage_1_LY',
                     formatter: '.format.percentage'
                     }"
                     wrapping="false"
@@ -319,7 +322,7 @@
                 <Label text="Var vs AA AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Var_vs_AA_LY',
+                    path: 'r1>Var_vs_AA_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -335,7 +338,7 @@
                 <Label text="% AA" />
                 <t:template>
                   <Text text="{
-                    path: 'reportes>Percentage_2_LY',
+                    path: 'r1>Percentage_2_LY',
                     formatter: '.format.percentage'
                     }"
                     wrapping="false"
