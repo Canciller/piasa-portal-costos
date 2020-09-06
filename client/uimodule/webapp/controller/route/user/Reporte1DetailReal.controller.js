@@ -131,21 +131,6 @@ sap.ui.define(
               type: 'Number',
             },
             {
-              label: 'Num.Documento',
-              property: 'BELNR',
-              type: 'Number',
-            },
-            {
-              label: 'Sociedad FI',
-              property: 'BUKRS',
-              type: 'Number',
-            },
-            {
-              label: 'Pos.Doc.',
-              property: 'BUZEI',
-              type: 'Number',
-            },
-            {
               label: 'Fecha cont.',
               property: 'BUDAT',
             },

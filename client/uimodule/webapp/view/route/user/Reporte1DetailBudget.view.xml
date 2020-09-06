@@ -60,7 +60,8 @@
         <f:content>
           <t:Table
             rows="{r1d>/detail/data}"
-            selectionMode="None"
+            selectionBehavior="RowOnly"
+            selectionMode="Single"
             alternateRowColors="true"
             busy="{r1d>/detail/loading}"
             busyIndicatorDelay="100"

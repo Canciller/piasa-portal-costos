@@ -60,7 +60,8 @@
         <f:content>
           <t:Table
             rows="{r1d>/detail/data}"
-            selectionMode="None"
+            selectionBehavior="RowOnly"
+            selectionMode="Single"
             alternateRowColors="true"
             busy="{r1d>/detail/loading}"
             busyIndicatorDelay="100"
@@ -215,55 +216,6 @@
                     formatter: '.format.money'
                     }"
                     wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                filterProperty="BELNR"
-                sortProperty="BELNR"
-              >
-                <Label
-                  text="Num.Documento"
-                />
-                <t:template>
-                  <Text
-                    text="{r1d>BELNR}"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="6rem"
-                filterProperty="BUKRS"
-                sortProperty="BUKRS"
-              >
-                <Label
-                  text="Sociedad FI"
-                />
-                <t:template>
-                  <Text
-                    text="{r1d>BUKRS}"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                filterProperty="BUZEI"
-                sortProperty="BUZEI"
-              >
-                <Label
-                  text="Pos.Doc."
-                />
-                <t:template>
-                  <Text
-                    text="{
-                        path : 'r1d>BUZEI', 
-                        type : 'sap.ui.model.odata.type.String', 
-                        constraints: { 
-                            isDigitSequence : true,
-                            maxLength : 3
-                        }
-                      }"
                   />
                 </t:template>
               </t:Column>
