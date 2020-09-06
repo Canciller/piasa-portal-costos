@@ -11,15 +11,15 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         new JSONModel({
           reporte1: {
             data: [],
-            empty: true
+            empty: true,
           },
           reporte1Detail: {
             data: [],
-            empty: true
+            empty: true,
           },
           reporte2: {
             data: [],
-            empty: true
+            empty: true,
           },
           kostl: {
             data: [],
@@ -29,7 +29,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
           },
           abtei: {
             data: [],
-          }
+          },
         })
       );
     },
@@ -38,24 +38,19 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
      * Util
      */
 
-    setFromDetail: function(fromDetail) {
-      this.setProperty(
-        '/reporte1/fromDetail',
-        fromDetail
-      );
+    setFromDetail: function (fromDetail) {
+      this.setProperty('/reporte1/fromDetail', fromDetail);
     },
-    fromDetail: function() {
-      return this.getProperty(
-        '/reporte1/fromDetail'
-      );
+    fromDetail: function () {
+      return this.getProperty('/reporte1/fromDetail');
     },
-    isEnabled: function() {
+    isEnabled: function () {
       return this.getProperty('/enabled');
     },
-    enable: function() {
+    enable: function () {
       this.setProperty('/enabled', true);
     },
-    disable: function() {
+    disable: function () {
       this.setProperty('/enabled', false);
     },
 
@@ -81,7 +76,10 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         hkont = this.getProperty('/reporte1Detail/hkont'),
         date = isLastYear ? `${year - 1}/${month}` : `${year}/${month}`;
 
-      this.setProperty('/reporte1Detail/selectedYear', isLastYear ? year - 1 : year);
+      this.setProperty(
+        '/reporte1Detail/selectedYear',
+        isLastYear ? year - 1 : year
+      );
       this.setProperty('/reporte1Detail/desc1', desc1);
       this.setProperty('/reporte1Detail/date', date);
 
@@ -173,7 +171,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setProperty('/reporte2/loading', false);
       }
     },
-    
+
     /**
      * KOSTL
      */
@@ -212,43 +210,43 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
      * ATEI -> VERAK -> KOSTL
      */
 
-    setParamsLoading: function(loading) {
+    setParamsLoading: function (loading) {
       this.setProperty('/abtei/loading', loading);
       this.setProperty('/verak/loading', loading);
       this.setProperty('/kostl/loading', loading);
     },
-    getSelectedKeys: function(key) {
+    getSelectedKeys: function (key) {
       try {
-        return this.getProperty('/' +  key + '/selectedKeys');
+        return this.getProperty('/' + key + '/selectedKeys');
       } catch {
         return [];
       }
     },
-    evaluateSelectedKeys: function(values, key) {
-      var selectedKeys = []
-      for(var i = values.length; i--;) {
+    evaluateSelectedKeys: function (values, key) {
+      var selectedKeys = [];
+      for (var i = values.length; i--; ) {
         var value = values[i];
         selectedKeys.push(value[key]);
       }
       return selectedKeys;
     },
-    getParamsFiltered: async function(filters = {}) {
+    getParamsFiltered: async function (filters = {}) {
       try {
         this.setParamsLoading(true);
 
         var params = await this.api('/params/filtered').post({
           abtei: filters.abtei,
-          verak: filters.verak
+          verak: filters.verak,
         });
 
         return params;
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setParamsLoading(false);
       }
     },
-    getParams: async function() {
+    getParams: async function () {
       try {
         this.setParamsLoading(true);
 
@@ -257,7 +255,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         var abtei = params.abtei,
           verak = params.verak,
           kostl = params.kostl;
-        
+
         var size = Math.max(abtei.length, verak.length, kostl.length);
         this.model.setSizeLimit(size);
 
@@ -266,24 +264,26 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setProperty('/kostl/data', kostl);
 
         var selectedKeys = {};
-        Object.keys(params).forEach(function(key) {
-          var param = params[key];
-          if(!selectedKeys[key]) selectedKeys[key] = [];
-          for(var i = param.length; i--;) {
-            var value = param[i];
-            selectedKeys[key].push(value[String(key).toUpperCase()]);
-          }
+        Object.keys(params).forEach(
+          function (key) {
+            var param = params[key];
+            if (!selectedKeys[key]) selectedKeys[key] = [];
+            for (var i = param.length; i--; ) {
+              var value = param[i];
+              selectedKeys[key].push(value[String(key).toUpperCase()]);
+            }
 
-          this.setProperty('/' + key + '/selectedKeys', selectedKeys[key]);
-        }.bind(this));
+            this.setProperty('/' + key + '/selectedKeys', selectedKeys[key]);
+          }.bind(this)
+        );
 
         return selectedKeys;
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setParamsLoading(false);
       }
-    }
+    },
   });
 
   return new ReporteService();

@@ -8,9 +8,7 @@ export default function (verak) {
   });
 
   if (verak instanceof Array)
-    verak.forEach((value) =>
-      tvp.rows.add(String(value).substr(0, 20))
-    );
+    verak.forEach((value) => tvp.rows.add(String(value).substr(0, 20)));
 
   return tvp;
 }

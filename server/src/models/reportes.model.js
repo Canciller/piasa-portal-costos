@@ -113,24 +113,25 @@ export default class Reportes {
   static async getParams(username) {
     try {
       var pool = await getPool();
-      var request = await pool.request()
+      var request = await pool
+        .request()
         .input('username', sql.VarChar(30), username);
       var res = await request.execute('getReporteParams');
 
-      if(res.recordsets && res.recordsets.length === 3) {
+      if (res.recordsets && res.recordsets.length === 3) {
         return {
           abtei: res.recordsets[0],
           verak: res.recordsets[1],
-          kostl: res.recordsets[2]
-        }
+          kostl: res.recordsets[2],
+        };
       }
 
       return {
         abtei: [],
         verak: [],
         kostl: [],
-      }
-    } catch(error) {
+      };
+    } catch (error) {
       throw error;
     }
   }
@@ -141,27 +142,28 @@ export default class Reportes {
         VERAKTable = createVERAKTable(verak);
 
       var pool = await getPool();
-      var request = await pool.request()
+      var request = await pool
+        .request()
         .input('username', sql.VarChar(30), username)
         .input('ABTEITable', sql.TVP(), ABTEITable)
         .input('VERAKTable', sql.TVP(), VERAKTable);
 
       var res = await request.execute('getReporteParamsFiltered');
 
-      if(res.recordsets && res.recordsets.length === 3) {
+      if (res.recordsets && res.recordsets.length === 3) {
         return {
           abtei: res.recordsets[0],
           verak: res.recordsets[1],
-          kostl: res.recordsets[2]
-        }
+          kostl: res.recordsets[2],
+        };
       }
 
       return {
         abtei: [],
         verak: [],
         kostl: [],
-      }
-    } catch(error) {
+      };
+    } catch (error) {
       throw error;
     }
   }

@@ -25,7 +25,7 @@ sap.ui.define(
     AssignmentService,
     BudgetService,
     Reporte1Service,
-    Reporte1DetailService,
+    Reporte1DetailService
   ) {
     'use strict';
 

@@ -25,10 +25,10 @@ sap.ui.define(
           this.resetDatePicker();
           this.addClearIconMultiComboBox();
         },
-        isLoaded: function() {
+        isLoaded: function () {
           return this._loaded;
         },
-        setLoaded: function(loaded) {
+        setLoaded: function (loaded) {
           this._loaded = loaded;
         },
         getDatePickerDate: function () {
@@ -79,38 +79,41 @@ sap.ui.define(
         },
         onClearMultiComboBox: function (key) {
           var oControl = this.getMultiComboBox(key);
-          if(!oControl) return;
+          if (!oControl) return;
 
           oControl.setSelectedKeys(null);
 
-          switch(key) {
+          switch (key) {
             case 'abtei':
               this.onChangeABTEI();
               break;
             case 'verak':
               this.onChangeVERAK();
               break;
-            default: break;
+            default:
+              break;
           }
         },
         addClearIconMultiComboBox: function () {
           var oMultiComboBoxes = this.getMultiComboBoxes(),
             oIcon = IconPool.getIconURI('decline');
 
-          Object.keys(oMultiComboBoxes).forEach(function(key) {
-            var oControl = oMultiComboBoxes[key];
+          Object.keys(oMultiComboBoxes).forEach(
+            function (key) {
+              var oControl = oMultiComboBoxes[key];
 
-            oControl.addEndIcon({
-              src: oIcon,
-              press: function() {
-                this.onClearMultiComboBox(key);
-              }.bind(this),
-            });
-          }.bind(this))
+              oControl.addEndIcon({
+                src: oIcon,
+                press: function () {
+                  this.onClearMultiComboBox(key);
+                }.bind(this),
+              });
+            }.bind(this)
+          );
         },
         resetMultiComboBox: function () {
           var oMultiComboBoxes = this.getMultiComboBoxes();
-          Object.keys(oMultiComboBoxes).forEach(key => {
+          Object.keys(oMultiComboBoxes).forEach((key) => {
             var oControl = oMultiComboBoxes[key];
             var aSelectedKeys = ReporteService.getSelectedKeys(key);
             oControl.setSelectedKeys(aSelectedKeys);
@@ -125,8 +128,8 @@ sap.ui.define(
           var date = this.getCurrentDateStr();
           ReporteService.setProperty('/date', date);
         },
-        getMultiComboBoxes: function() {
-          if(!this._oMultiComboBoxes)
+        getMultiComboBoxes: function () {
+          if (!this._oMultiComboBoxes)
             this._oMultiComboBoxes = {
               abtei: this.getMultiComboBoxABTEI(),
               verak: this.getMultiComboBoxVERAK(),
@@ -135,21 +138,21 @@ sap.ui.define(
 
           return this._oMultiComboBoxes;
         },
-        getMultiComboBox: function(key) {
+        getMultiComboBox: function (key) {
           var oMultiComboBoxes = this.getMultiComboBoxes();
           return oMultiComboBoxes[key];
         },
         getMultiComboBoxABTEI: function () {
-         return this.byId('ABTEI');
+          return this.byId('ABTEI');
         },
         getMultiComboBoxVERAK: function () {
-         return this.byId('VERAK');
+          return this.byId('VERAK');
         },
         getMultiComboBoxKOSTL: function () {
-         return this.byId('KOSTL');
+          return this.byId('KOSTL');
         },
         getDatePicker: function () {
-         return this.byId('datePicker');
+          return this.byId('datePicker');
         },
         onExport: function () {
           if (this._onExport)
@@ -158,28 +161,30 @@ sap.ui.define(
               console.error(error);
             });
         },
-        getSelectedKeys: function(key) {
+        getSelectedKeys: function (key) {
           var oControl = this.getMultiComboBox(key);
-          if(!oControl) return [];
+          if (!oControl) return [];
 
           var selectedKeys = [];
           var oItems = oControl.getSelectedItems();
-          for(var i = oItems.length; i--;) {
+          for (var i = oItems.length; i--; ) {
             var oItem = oItems[i];
             var path = oItem.getBindingContext('reportes').getPath();
-            var value = ReporteService.getProperty(path + '/' + String(key).toUpperCase());
+            var value = ReporteService.getProperty(
+              path + '/' + String(key).toUpperCase()
+            );
             selectedKeys.push(value);
           }
 
           return selectedKeys;
         },
-        setSelectedKeys: function(key, selectedKeys) {
+        setSelectedKeys: function (key, selectedKeys) {
           var oControl = this.getMultiComboBox(key);
-          if(!oControl) return [];
+          if (!oControl) return [];
 
           oControl.setSelectedKeys(selectedKeys);
         },
-        onChangeABTEI: async function() {
+        onChangeABTEI: async function () {
           try {
             var abtei = this.getSelectedKeys('abtei');
 
@@ -187,73 +192,81 @@ sap.ui.define(
               abtei: abtei,
             });
 
-            this.setSelectedKeys('verak', ReporteService.evaluateSelectedKeys(params.verak, 'VERAK'));
-            this.setSelectedKeys('kostl', ReporteService.evaluateSelectedKeys(params.kostl, 'KOSTL'));
+            this.setSelectedKeys(
+              'verak',
+              ReporteService.evaluateSelectedKeys(params.verak, 'VERAK')
+            );
+            this.setSelectedKeys(
+              'kostl',
+              ReporteService.evaluateSelectedKeys(params.kostl, 'KOSTL')
+            );
             ReporteService.setProperty('/verak/data', params.verak);
             ReporteService.setProperty('/kostl/data', params.kostl);
-          } catch(error) {
+          } catch (error) {
             MessageBox.error(error.message);
             console.error(error);
           }
         },
-        onChangeVERAK: async function() {
+        onChangeVERAK: async function () {
           try {
             var abtei = this.getSelectedKeys('abtei'),
               verak = this.getSelectedKeys('verak');
 
-            if(verak.length !== 0) {
-              var params =await ReporteService.getParamsFiltered({
+            if (verak.length !== 0) {
+              var params = await ReporteService.getParamsFiltered({
                 abtei: abtei,
-                verak: verak
+                verak: verak,
               });
 
-              this.setSelectedKeys('kostl', ReporteService.evaluateSelectedKeys(params.kostl, 'KOSTL'));
+              this.setSelectedKeys(
+                'kostl',
+                ReporteService.evaluateSelectedKeys(params.kostl, 'KOSTL')
+              );
               ReporteService.setProperty('/kostl/data', params.kostl);
             } else {
               this.setSelectedKeys('kostl', []);
               ReporteService.setProperty('/kostl/data', []);
             }
-          } catch(error) {
+          } catch (error) {
             MessageBox.error(error.message);
             console.error(error);
           }
         },
-        onChangeKOSTL: async function() {
-
-        },
+        onChangeKOSTL: async function () {},
         onReady: async function () {
           var oMultiComboBoxes = this.getMultiComboBoxes();
 
           var selected = {};
-          Object.keys(oMultiComboBoxes).forEach(key => {
-            if(!selected[key]) selected[key] = [];
+          Object.keys(oMultiComboBoxes).forEach((key) => {
+            if (!selected[key]) selected[key] = [];
 
             var oControl = oMultiComboBoxes[key];
             var oItems = oControl.getSelectedItems();
-            for(var i = oItems.length; i--;) {
+            for (var i = oItems.length; i--; ) {
               var oItem = oItems[i];
               var path = oItem.getBindingContext('reportes').getPath();
-              var value = ReporteService.getProperty(path + '/' + String(key).toUpperCase());
+              var value = ReporteService.getProperty(
+                path + '/' + String(key).toUpperCase()
+              );
               selected[key].push(value);
             }
-          })
+          });
 
           var date = this.getDatePickerDate();
 
           var year = date.year,
             month = date.month;
-          
+
           var payload = {
             abtei: selected.abte,
             verak: selected.verak,
             kostl: selected.kostl,
             year: year,
-            month: month
-          }
+            month: month,
+          };
 
           try {
-            if (this._onReady)
-              await this._onReady(payload);
+            if (this._onReady) await this._onReady(payload);
           } catch (error) {
             MessageBox.error(error.message);
             console.error(error);

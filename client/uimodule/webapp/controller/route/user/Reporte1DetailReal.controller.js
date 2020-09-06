@@ -22,51 +22,53 @@ sap.ui.define(
           this.getRouter()
             .getRoute('reporte1_real')
             .attachMatched(async function () {
-                //this.clearAll();
+              //this.clearAll();
 
-                if(!Reporte1Service.fromReporte()) {
-                  this.navTo('launchpad');
-                } else {
-                  Reporte1Service.setFromReporte(false);
-                  Reporte1Service.setFromDetail(true);
+              if (!Reporte1Service.fromReporte()) {
+                this.navTo('launchpad');
+              } else {
+                Reporte1Service.setFromReporte(false);
+                Reporte1Service.setFromDetail(true);
 
-                  Reporte1DetailService.setProperty('/isBudget', Reporte1Service.getProperty('/isBudget'));
+                Reporte1DetailService.setProperty(
+                  '/isBudget',
+                  Reporte1Service.getProperty('/isBudget')
+                );
 
+                var desc1 = Reporte1Service.getDESC1();
+                Reporte1DetailService.setDESC1(desc1);
 
-                  var desc1 = Reporte1Service.getDESC1();
-                  Reporte1DetailService.setDESC1(desc1);
+                var selectedAbtei = Reporte1Service.getSelectedKeys('abtei'),
+                  selectedVerak = Reporte1Service.getSelectedKeys('verak'),
+                  selectedKostl = Reporte1Service.getSelectedKeys('kostl');
 
-                  var selectedAbtei = Reporte1Service.getSelectedKeys('abtei'),
-                    selectedVerak = Reporte1Service.getSelectedKeys('verak'),
-                    selectedKostl = Reporte1Service.getSelectedKeys('kostl');
+                var abtei = Reporte1Service.getParam('abtei'),
+                  verak = Reporte1Service.getParam('verak'),
+                  kostl = Reporte1Service.getParam('kostl');
 
-                  var abtei = Reporte1Service.getParam('abtei'),
-                    verak = Reporte1Service.getParam('verak'),
-                    kostl = Reporte1Service.getParam('kostl');
+                Reporte1DetailService.setModelSize(
+                  Math.max(abtei.length, verak.length, kostl.length)
+                );
 
-                  Reporte1DetailService.setModelSize(Math.max(
-                    abtei.length,
-                    verak.length,
-                    kostl.length
-                  ));
+                Reporte1DetailService.setParam('abtei', abtei);
+                Reporte1DetailService.setParam('verak', verak);
+                Reporte1DetailService.setParam('kostl', kostl);
 
-                  Reporte1DetailService.setParam('abtei', abtei);
-                  Reporte1DetailService.setParam('verak', verak);
-                  Reporte1DetailService.setParam('kostl', kostl);
+                Reporte1DetailService.setSelectedKeys('abtei', selectedAbtei);
+                Reporte1DetailService.setSelectedKeys('verak', selectedVerak);
+                Reporte1DetailService.setSelectedKeys('kostl', selectedKostl);
 
-                  Reporte1DetailService.setSelectedKeys('abtei', selectedAbtei);
-                  Reporte1DetailService.setSelectedKeys('verak', selectedVerak);
-                  Reporte1DetailService.setSelectedKeys('kostl', selectedKostl);
+                var isLastYear = Reporte1Service.getProperty('/isLastYear');
+                var date = isLastYear
+                  ? Reporte1Service.getDateLastYearStr()
+                  : Reporte1Service.getDateStr();
 
-                  var isLastYear = Reporte1Service.getProperty('/isLastYear');
-                  var date = isLastYear ? Reporte1Service.getDateLastYearStr() : Reporte1Service.getDateStr();
+                Reporte1DetailService.setDate(date);
 
-                  Reporte1DetailService.setDate(date);
+                this.enable();
 
-                  this.enable();
-
-                  await this.onReady();
-                }
+                await this.onReady();
+              }
             }, this);
 
           AssignmentService.attachOnSave(
@@ -80,7 +82,9 @@ sap.ui.define(
           ReporteController.prototype.onInit.call(this);
 
           this.setupExport();
-          this.attachOnReady(Reporte1DetailService.fillReporteDetail.bind(Reporte1DetailService));
+          this.attachOnReady(
+            Reporte1DetailService.fillReporteDetail.bind(Reporte1DetailService)
+          );
           this.attachOnExport(this.handleExport.bind(this));
         },
         setupExport: function () {
@@ -157,7 +161,7 @@ sap.ui.define(
             {
               label: 'Pedido',
               property: 'EBELN',
-              type: 'Number'
+              type: 'Number',
             },
             {
               label: 'Pos.Ped.',

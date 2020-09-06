@@ -13,7 +13,7 @@ sap.ui.define(
     MessageBox,
     AssignmentService,
     Reporte1Service,
-    Reporte1DetailService,
+    Reporte1DetailService
   ) {
     'use strict';
 
@@ -24,8 +24,7 @@ sap.ui.define(
           this.getRouter()
             .getRoute('reporte_1')
             .attachMatched(async function () {
-              if(!Reporte1Service.fromDetail())
-                this.onDisplay();
+              if (!Reporte1Service.fromDetail()) await this.onDisplay();
 
               Reporte1Service.setFromDetail(false);
             }, this);
@@ -41,7 +40,11 @@ sap.ui.define(
 
           this.setupTableCellClick();
           this.setupExport();
-          this.attachOnReady(Reporte1Service.fillReporte.bind(Reporte1Service));
+          this.attachOnReady(
+            async function () {
+              await Reporte1Service.fillReporte();
+            }.bind(this)
+          );
           this.attachOnExport(this.handleExport.bind(this));
         },
         setupExport: function () {
@@ -197,7 +200,7 @@ sap.ui.define(
         handleExport: async function () {
           var data = Reporte1Service.getProperty('/data'),
             date = Reporte1Service.getDate();
-          
+
           var year = date.year,
             month = date.month;
 

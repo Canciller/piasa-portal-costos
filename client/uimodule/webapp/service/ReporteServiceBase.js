@@ -30,7 +30,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
             data: [],
             selectedKeys: [],
             enabled: false,
-          }
+          },
         })
       );
     },
@@ -45,57 +45,57 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     getReporteUrl() {
       return this._reporteUrl;
     },
-    isEnabled: function(prop) {
-      if(!prop) {
+    isEnabled: function (prop) {
+      if (!prop) {
         return this.getProperty('/enabled');
       } else {
         return this.getProperty('/' + prop + '/enabled');
       }
     },
-    setEnabled: function(enabled, prop) {
-      if(enabled) this.enable(prop);
+    setEnabled: function (enabled, prop) {
+      if (enabled) this.enable(prop);
       else this.disable(prop);
     },
-    enable: function(prop) {
-      if(!prop) {
+    enable: function (prop) {
+      if (!prop) {
         this.setProperty('/enabled', true);
       } else {
         this.setProperty('/' + prop + '/enabled', true);
       }
     },
-    disable: function(prop) {
-      if(!prop) {
+    disable: function (prop) {
+      if (!prop) {
         this.setProperty('/enabled', false);
       } else {
         this.setProperty('/' + prop + '/enabled', false);
       }
     },
-    disableAll: function() {
+    disableAll: function () {
       this.disable();
       this.disable('abtei');
       this.disable('verak');
       this.disable('kostl');
     },
-    setEmpty: function(empty, prop) {
-      if(!prop) {
+    setEmpty: function (empty, prop) {
+      if (!prop) {
         this.setProperty('/empty', empty);
-      } else { 
+      } else {
         this.setProperty('/' + prop + '/empty', empty);
       }
     },
-    fromDetail: function() {
+    fromDetail: function () {
       return this.getProperty('/fromDetail');
     },
-    setFromDetail: function(fromDetail) {
+    setFromDetail: function (fromDetail) {
       this.setProperty('/fromDetail', fromDetail);
     },
-    fromReporte: function() {
+    fromReporte: function () {
       return this.getProperty('/fromReporte');
     },
-    setFromReporte: function(fromReporte) {
+    setFromReporte: function (fromReporte) {
       this.setProperty('/fromReporte', fromReporte);
     },
-    clearAll: function() {
+    clearAll: function () {
       this.disableAll();
 
       this.setProperty('/kostl/data', []);
@@ -117,57 +117,57 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     /**
      * Properties
      */
-    getDESC1: function() {
+    getDESC1: function () {
       return this.getProperty('/desc1');
     },
-    setDESC1: function(desc1) {
+    setDESC1: function (desc1) {
       this.setProperty('/desc1', desc1);
     },
-    setDate: function(date) {
+    setDate: function (date) {
       this.setProperty('/date', date);
     },
-    getDate: function() {
+    getDate: function () {
       var value = this.getProperty('/date');
 
       var date = new Date(value);
       var year = String(date.getFullYear()),
         month = String(date.getMonth() + 1).padStart(2, '0'),
         day = String(date.getDate()).padStart(2, '0');
-      
+
       return {
         year: year,
         month: month,
-        day: day
-      }
+        day: day,
+      };
     },
-    getDateStr: function() {
+    getDateStr: function () {
       return this.getProperty('/date');
     },
-    getDateLastYearStr: function() {
+    getDateLastYearStr: function () {
       var date = this.getDate();
       var year = Number(date.year) - 1;
       return `${date.month}/${date.day}/${year}`;
     },
-    setParamsLoading: function(loading) {
+    setParamsLoading: function (loading) {
       this.setLoading(loading, '/abtei');
       this.setLoading(loading, '/verak');
       this.setLoading(loading, '/kostl');
     },
-    setParam: function(property, values) {
+    setParam: function (property, values) {
       this.setProperty('/' + property + '/data', values);
       this.setEnabled(values.length !== 0, property);
     },
-    getParam: function(prop) {
+    getParam: function (prop) {
       return this.getProperty('/' + prop + '/data');
     },
-    setSelectedKeys: function(property, selectedKeys) {
+    setSelectedKeys: function (property, selectedKeys) {
       this.setProperty('/' + property + '/selectedKeys', selectedKeys);
       this.setEmpty(selectedKeys.length === 0, property);
     },
-    getSelectedKeys: function(property) {
+    getSelectedKeys: function (property) {
       return this.getProperty('/' + property + '/selectedKeys');
     },
-    isReporteEmpty: function() {
+    isReporteEmpty: function () {
       return this.getProperty('/empty');
     },
 
@@ -175,43 +175,43 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
      * Service
      */
 
-    getDefaultParams: async function() {
+    getDefaultParams: async function () {
       try {
         this.setParamsLoading(true);
 
         var params = await this.api('/params').get();
 
         return params;
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setParamsLoading(false);
       }
     },
-    getFilteredParams: async function(abtei, verak) {
+    getFilteredParams: async function (abtei, verak) {
       try {
         this.setParamsLoading(true);
 
         var params = await this.api('/params/filtered').post({
           abtei: abtei,
-          verak: verak
+          verak: verak,
         });
 
         return params;
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setParamsLoading(false);
       }
     },
-    fillReporteDetail: async function() {
+    fillReporteDetail: async function () {
       var url = this.getReporteUrl();
 
       var isBudget = this.getProperty('/isBudget');
       var desc1 = this.getDESC1(),
         kostl = this.getSelectedKeys('kostl');
 
-      if(kostl.length === 0 || !desc1) return;
+      if (kostl.length === 0 || !desc1) return;
 
       var date = this.getDate();
       var year = date.year,
@@ -232,13 +232,13 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
         this.setProperty('/detail/data', detail);
         this.setProperty('/detail/empty', detail.length === 0);
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setLoading(false, '/detail');
       }
     },
-    fillReporte: async function() {
+    fillReporte: async function () {
       var url = this.getReporteUrl();
 
       try {
@@ -247,7 +247,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         var date = this.getDate(),
           kostl = this.getSelectedKeys('kostl');
 
-        if(kostl.length === 0) return;
+        if (kostl.length === 0) return;
 
         var year = date.year,
           month = date.month;
@@ -255,16 +255,16 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         var reporte = await this.api(url).post({
           year: year,
           month: month,
-          kostl: kostl
+          kostl: kostl,
         });
 
         this.setProperty('/data', reporte);
         this.setProperty('/empty', reporte.length === 0);
-      } catch(error) {
+      } catch (error) {
         throw error;
       } finally {
         this.setLoading(false);
       }
-    }
+    },
   });
 });

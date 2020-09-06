@@ -9,6 +9,10 @@
     xmlns:form="sap.ui.layout.form"
 		xmlns:layout="sap.ui.layout"
     height="100%"
+    c:require="{
+      money: 'com/piasa/Costos/formatter/money',
+      percentage: 'com/piasa/Costos/formatter/percentage'
+    }"
 >
   <Page>
     <customHeader>
@@ -161,9 +165,10 @@
               >
                 <Label text="Var.$ Real vs Ppto" />
                 <t:template>
-                  <Text text="{
-                    path: 'r1>Var_vs_Ppto_CY',
-                    formatter: '.format.money'
+                  <Text
+                    text="{
+                      path: 'r1>Var_vs_Ppto_CY',
+                      formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -179,7 +184,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Percentage_1_CY',
-                    formatter: '.format.percentage'
+                    formatter: 'percentage'
                     }"
                     wrapping="false"
                   />
@@ -195,7 +200,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Var_vs_AA_CY',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -211,7 +216,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Percentage_2_CY',
-                    formatter: '.format.percentage'
+                    formatter: 'percentage'
                     }"
                     wrapping="false"
                   />
@@ -291,7 +296,7 @@
                 <t:template> 
                   <Text text="{
                     path: 'r1>Var_vs_Ppto_LY',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -307,7 +312,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Percentage_1_LY',
-                    formatter: '.format.percentage'
+                    formatter: 'percentage'
                     }"
                     wrapping="false"
                   />
@@ -323,7 +328,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Var_vs_AA_LY',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -339,7 +344,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Percentage_2_LY',
-                    formatter: '.format.percentage'
+                    formatter: 'percentage'
                     }"
                     wrapping="false"
                   />

@@ -8,9 +8,7 @@ export default function (abtei) {
   });
 
   if (abtei instanceof Array)
-    abtei.forEach((value) =>
-      tvp.rows.add(String(value).substr(0, 12))
-    );
+    abtei.forEach((value) => tvp.rows.add(String(value).substr(0, 12)));
 
   return tvp;
 }

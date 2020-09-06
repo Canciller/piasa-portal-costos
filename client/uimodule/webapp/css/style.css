@@ -66,3 +66,15 @@
 .reporteHeader {
   padding-top: 0 !important;
 }
+
+.valueYellow {
+  color: yellow;
+}
+
+.valueRed {
+  color: red;
+}
+
+.valueGreen {
+  color: green;
+}

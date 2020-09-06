@@ -27,19 +27,23 @@ export default {
       next(error);
     }
   },
-  getParams: async function(req, res, next) {
+  getParams: async function (req, res, next) {
     try {
       var params = await Reportes.getParams(req.user.username);
       return res.json(params);
-    } catch(error) {
+    } catch (error) {
       next(error);
     }
   },
-  getParamsFiltered: async function(req, res, next) {
+  getParamsFiltered: async function (req, res, next) {
     try {
-      var params = await Reportes.getParamsFiltered(req.user.username, req.body.abtei, req.body.verak);
+      var params = await Reportes.getParamsFiltered(
+        req.user.username,
+        req.body.abtei,
+        req.body.verak
+      );
       return res.json(params);
-    } catch(error) {
+    } catch (error) {
       next(error);
     }
   },

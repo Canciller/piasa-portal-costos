@@ -30,13 +30,12 @@ sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
       }
       return null;
     },
-    setLoading: function(loading, property) {
-      if(property)
-        this.setProperty(property + '/loading', loading);
+    setLoading: function (loading, property) {
+      if (property) this.setProperty(property + '/loading', loading);
       else this.setProperty('/loading', loading);
     },
-    setModelSize: function(size) {
-      if(this.model) this.model.setSizeLimit(size);
+    setModelSize: function (size) {
+      if (this.model) this.model.setSizeLimit(size);
     },
     refresh: function () {
       if (this.model) this.model.refresh();
