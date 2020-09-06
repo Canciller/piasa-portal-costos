@@ -81,6 +81,7 @@ sap.ui.define(
 
           this.setupExport();
           this.attachOnReady(Reporte1DetailService.fillReporteDetail.bind(Reporte1DetailService));
+          this.attachOnExport(this.handleExport.bind(this));
         },
         setupExport: function () {
           var aColumns = [
@@ -156,6 +157,7 @@ sap.ui.define(
             {
               label: 'Pedido',
               property: 'EBELN',
+              type: 'Number'
             },
             {
               label: 'Pos.Ped.',
@@ -174,28 +176,21 @@ sap.ui.define(
             },
           };
         },
-        onExport: async function () {
-          /*
-          try {
-            ReporteService.setProperty('/exporting', true);
-            var data = ReporteService.getProperty('/reporte1Detail/data'),
-              year = ReporteService.getProperty('/reporte1Detail/selectedYear'),
-              month = ReporteService.getProperty('/reporte1Detail/month'),
-              desc1 = ReporteService.getProperty('/reporte1Detail/desc1');
+        handleExport: async function () {
+          var data = Reporte1DetailService.getProperty('/detail/data'),
+            desc1 = Reporte1DetailService.getDESC1();
 
-            this._mSettings.fileName = `${desc1}_${year}_${month}`;
-            this._mSettings.dataSource = data;
-            this._mSettings.workbook.context = {
-              sheetName: `${desc1}-${year}-${month}`,
-            };
-            var oSpreadsheet = new SpreadSheet(this._mSettings);
-            oSpreadsheet.build();
-          } catch (error) {
-            throw error;
-          } finally {
-            ReporteService.setProperty('/exporting', false);
-          }
-          */
+          var date = Reporte1DetailService.getDate();
+          var year = date.year,
+            month = date.month;
+
+          this._mSettings.fileName = `${desc1}_${year}_${month}`;
+          this._mSettings.dataSource = data;
+          this._mSettings.workbook.context = {
+            sheetName: `${desc1}-${year}-${month}`,
+          };
+          var oSpreadsheet = new SpreadSheet(this._mSettings);
+          oSpreadsheet.build();
         },
       }
     );

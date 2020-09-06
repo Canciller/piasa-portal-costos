@@ -108,13 +108,13 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual_Accum_CY"
-                sortProperty="Actual_Accum_CY"
+                filterProperty="Budget_CY"
+                sortProperty="Budget_CY"
               >
-                <Label text="Real Acumulado" />
+                <Label text="Presupuesto" />
                 <t:template>
                   <Text text="{
-                    path: 'r1>Actual_Accum_CY',
+                    path: 'r1>Budget_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -124,13 +124,109 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget_CY"
-                sortProperty="Budget_CY"
+                filterProperty="Actual_LY"
+                sortProperty="Actual_LY"
               >
-                <Label text="Presupuesto" />
+                <Label text="Real AA" />
                 <t:template>
                   <Text text="{
-                    path: 'r1>Budget_CY',
+                    path: 'r1>Actual_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Budget_LY"
+                sortProperty="Budget_LY"
+              >
+                <Label text="Presupuesto AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'r1>Budget_LY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Var_vs_Ppto_CY"
+                sortProperty="Var_vs_Ppto_CY"
+              >
+                <Label text="Var.$ Real vs Ppto" />
+                <t:template>
+                  <Text text="{
+                    path: 'r1>Var_vs_Ppto_CY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Percentage_1_CY"
+                sortProperty="Percentage_1_CY"
+              >
+                <Label text="Var.% Real vs Ppto" />
+                <t:template>
+                  <Text text="{
+                    path: 'r1>Percentage_1_CY',
+                    formatter: '.format.percentage'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Var_vs_AA_CY"
+                sortProperty="Var_vs_AA_CY"
+              >
+                <Label text="Var.$ Real vs Real AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'r1>Var_vs_AA_CY',
+                    formatter: '.format.money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Percentage_2_CY"
+                sortProperty="Percentage_2_CY"
+              >
+                <Label text="Var.% Real vs Real AA" />
+                <t:template>
+                  <Text text="{
+                    path: 'r1>Percentage_2_CY',
+                    formatter: '.format.percentage'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="Actual_Accum_CY"
+                sortProperty="Actual_Accum_CY"
+              >
+                <Label text="Real Acumulado" />
+                <t:template>
+                  <Text text="{
+                    path: 'r1>Actual_Accum_CY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -156,86 +252,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_Ppto_CY"
-                sortProperty="Var_vs_Ppto_CY"
-              >
-                <Label text="Var vs Ppto" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Var_vs_Ppto_CY',
-                    formatter: '.format.money'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                filterProperty="Percentage_1_CY"
-                sortProperty="Percentage_1_CY"
-              >
-                <Label text="%" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Percentage_1_CY',
-                    formatter: '.format.percentage'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                filterProperty="Var_vs_AA_CY"
-                sortProperty="Var_vs_AA_CY"
-              >
-                <Label text="Var vs AA" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Var_vs_AA_CY',
-                    formatter: '.format.money'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                filterProperty="Percentage_2_CY"
-                sortProperty="Percentage_2_CY"
-              >
-                <Label text="%" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Percentage_2_CY',
-                    formatter: '.format.percentage'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                filterProperty="Actual_LY"
-                sortProperty="Actual_LY"
-              >
-                <Label text="Real AA" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Actual_LY',
-                    formatter: '.format.money'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
                 filterProperty="Actual_Accum_LY"
                 sortProperty="Actual_Accum_LY"
               >
@@ -243,22 +259,6 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Actual_Accum_LY',
-                    formatter: '.format.money'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                filterProperty="Budget_LY"
-                sortProperty="Budget_LY"
-              >
-                <Label text="Presupuesto AA" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Budget_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"
@@ -287,8 +287,8 @@
                 filterProperty="Var_vs_Ppto_LY"
                 sortProperty="Var_vs_Ppto_LY"
               >
-                <Label text="Var vs Ppto AA" />
-                <t:template>
+                <Label text="Var.$ Real Acumulado vs Ppto Acumulado" />
+                <t:template> 
                   <Text text="{
                     path: 'r1>Var_vs_Ppto_LY',
                     formatter: '.format.money'
@@ -303,7 +303,7 @@
                 filterProperty="Percentage_1_LY"
                 sortProperty="Percentage_1_LY"
               >
-                <Label text="% AA" />
+                <Label text="Var.% Real Acumulado vs Ppto Acumulado" />
                 <t:template>
                   <Text text="{
                     path: 'r1>Percentage_1_LY',
@@ -319,7 +319,7 @@
                 filterProperty="Var_vs_AA_LY"
                 sortProperty="Var_vs_AA_LY"
               >
-                <Label text="Var vs AA AA" />
+                <Label text="Var.$ Real Acumulado vs Real AA Acumulado" />
                 <t:template>
                   <Text text="{
                     path: 'r1>Var_vs_AA_LY',
@@ -335,7 +335,7 @@
                 filterProperty="Percentage_2_LY"
                 sortProperty="Percentage_2_LY"
               >
-                <Label text="% AA" />
+                <Label text="Var.% Real Acumulado vs Real AA Acumulado" />
                 <t:template>
                   <Text text="{
                     path: 'r1>Percentage_2_LY',

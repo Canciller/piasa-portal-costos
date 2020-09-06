@@ -56,28 +56,8 @@ sap.ui.define(
               type: 'Number',
             },
             {
-              label: 'Actual Acumulado',
-              property: 'Actual_Accum_CY',
-              type: 'Number',
-            },
-            {
               label: 'Presupuesto',
               property: 'Budget_CY',
-              type: 'Number',
-            },
-            {
-              label: 'Presupuesto Acumulado',
-              property: 'Budget_Accum_CY',
-              type: 'Number',
-            },
-            {
-              label: 'Real AA',
-              property: 'Actual_LY',
-              type: 'Number',
-            },
-            {
-              label: 'Real Acumulado AA',
-              property: 'Actual_Accum_LY',
               type: 'Number',
             },
             {
@@ -86,8 +66,68 @@ sap.ui.define(
               type: 'Number',
             },
             {
+              label: 'Real AA',
+              property: 'Actual_LY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.$ Real vs Ppto',
+              property: 'Var_vs_Ppto_CY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.% Real vs Ppto',
+              property: 'Percentage_1_CY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.$ Real vs Real AA',
+              property: 'Var_vs_AA_CY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.% Real vs Real AA',
+              property: 'Percentage_2_CY',
+              type: 'Number',
+            },
+            {
+              label: 'Actual Acumulado',
+              property: 'Actual_Accum_CY',
+              type: 'Number',
+            },
+            {
+              label: 'Presupuesto Acumulado',
+              property: 'Budget_Accum_CY',
+              type: 'Number',
+            },
+            {
+              label: 'Real Acumulado AA',
+              property: 'Actual_Accum_LY',
+              type: 'Number',
+            },
+            {
               label: 'Presupuesto Acumulado AA',
               property: 'Budget_Accum_LY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.$ Real Acumulado vs Ppto Acumulado',
+              property: 'Var_vs_Ppto_LY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.% Real Acumulado vs Ppto Acumulado',
+              property: 'Percentage_1_LY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.$ Real Acumulado vs Real Acumulado AA',
+              property: 'Var_vs_AA_LY',
+              type: 'Number',
+            },
+            {
+              label: 'Var.% Real Acumulado vs Real Acumulado AA',
+              property: 'Percentage_2_LY',
               type: 'Number',
             },
           ];
@@ -148,25 +188,6 @@ sap.ui.define(
               Reporte1Service.setProperty('/fromReporte', true);
 
               this.navTo(route);
-              /*
-              try {
-                Reporte1Service.setProperty('/reporte1/loading', true);
-                var detail = await Reporte1Service.getReporte1Detail({
-                  isBudget: isBudget,
-                  isLastYear: isLastYear,
-                  desc1: desc1,
-                });
-
-                if (detail.length !== 0) {
-                  Reporte1Service.setProperty('/reporte1/fromDetail', true);
-                  this.navTo(route);
-                }
-              } catch (error) {
-                MessageBox.error(error.message);
-              } finally {
-                Reporte1Service.setProperty('/reporte1/loading', false);
-              }
-              */
             }.bind(this)
           );
         },
@@ -174,27 +195,20 @@ sap.ui.define(
           this._selected = oEvent.getParameters();
         },
         handleExport: async function () {
-          /*
-          try {
-            ReporteService.setProperty('/exporting', true);
-            var data = ReporteService.getProperty('/reporte1/data'),
-              year = ReporteService.getProperty('/reporte1Detail/year'),
-              month = ReporteService.getProperty('/reporte1Detail/month');
+          var data = Reporte1Service.getProperty('/data'),
+            date = Reporte1Service.getDate();
+          
+          var year = date.year,
+            month = date.month;
 
-            var name = `costos_sumarizado_${year}_${month}`;
-            this._mSettings.fileName = name + '.xlsx';
-            this._mSettings.dataSource = data;
-            this._mSettings.workbook.context = {
-              sheetName: `${year}-${month}`,
-            };
-            var oSpreadsheet = new SpreadSheet(this._mSettings);
-            oSpreadsheet.build();
-          } catch (error) {
-            throw error;
-          } finally {
-            ReporteService.setProperty('/exporting', false);
-          }
-          */
+          var name = `costos_sumarizado_${year}_${month}`;
+          this._mSettings.fileName = name + '.xlsx';
+          this._mSettings.dataSource = data;
+          this._mSettings.workbook.context = {
+            sheetName: `${year}-${month}`,
+          };
+          var oSpreadsheet = new SpreadSheet(this._mSettings);
+          oSpreadsheet.build();
         },
       }
     );
