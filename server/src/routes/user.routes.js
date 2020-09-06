@@ -10,6 +10,10 @@ router
   .post(checkCreateUser, controller.create);
 
 router
+  .route('/filter')
+  .get(controller.getAllFiltered);
+
+router
   .route('/:username')
   .get(controller.get)
   .put(checkUpdateUser, controller.update)

@@ -9,7 +9,7 @@ import nodemailer from 'nodemailer';
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-  service: 'hotmail',
+  service: process.env.EMAIL_SERVICE,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -22,6 +22,7 @@ export default {
       var user = await User.get(username);
 
       if (user) {
+        req.auth = req.user;
         req.user = user;
         return next();
       }
@@ -149,4 +150,21 @@ export default {
       next(error);
     }
   },
+  getAllFiltered: async (req, res, next) => {
+    try {
+      var users = await User.getAll();
+
+      var filtered = [];
+      var username = req.user.username;
+      for(var i = users.length; i--;)  {
+        var user = users[i];
+        if(user.role === 'U' || user.username === username)
+          filtered.push(user);
+      }
+
+      return res.json(filtered);
+    } catch (error) {
+      next(error);
+    }
+  }
 };

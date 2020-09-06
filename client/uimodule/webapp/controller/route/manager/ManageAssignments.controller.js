@@ -23,7 +23,7 @@ sap.ui.define(
           this.getRouter()
             .getRoute('assignments')
             .attachMatched(function () {
-              UserService.getAll()
+              UserService.getAllFiltered()
                 .then(() => AssignmentService.getAll())
                 .catch((error) => {
                   MessageBox.error(error.message);

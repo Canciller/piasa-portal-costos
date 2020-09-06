@@ -1,4 +1,5 @@
 import Assignment from '../models/assignment.model';
+import Users from '../models/user.model';
 import NotFoundError from '../util/error/NotFoundError';
 
 export default {
