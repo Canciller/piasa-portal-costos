@@ -3,18 +3,14 @@ sap.ui.define(
   function (APIService, JSONModel, UserService) {
     'use strict';
 
-    var AssignmentService = APIService.extend(
+    var GroupService = APIService.extend(
       'com.piasa.Costos.AssignmentService',
       {
         constructor: function () {
-          this.setBaseUrl('/api/v1/assignments');
+          this.setBaseUrl('/api/v1/groups');
           this.setModel(
             new JSONModel({
               assignments: {},
-              groups: {
-                loading: false,
-                date: [],
-              },
               user: {
                 loading: false,
               },
@@ -44,12 +40,6 @@ sap.ui.define(
         },
         setAssignments: function (assignments) {
           this.setProperty('/assignments', assignments);
-        },
-        getGroups: function () {
-          return this.getProperty('/groups/data');
-        },
-        setGroups: function(groups) {
-          this.setProperty('/groups/data', groups);
         },
         getUsername: function () {
           return UserService.getProperty('/user/username');
@@ -137,6 +127,7 @@ sap.ui.define(
               this.setFormattedUser(user);
 
               var assignments = await this.api(`/${username}/all`).get();
+              console.log(assignments);
               this.setAssignments(assignments);
               //this.setAllInitialSelectedAndStatus();
             }
@@ -172,14 +163,14 @@ sap.ui.define(
                 if (assignment.selected) {
                   create.push({
                     username: username,
-                    kostl: assignment.KOSTL,
+                    group: assignment.GRUPO,
                   });
                 }
               } else {
                 if (assignment.selected !== undefined && !assignment.selected) {
                   remove.push({
                     username: username,
-                    kostl: assignment.KOSTL,
+                    group: assignment.GRUPO,
                   });
                 }
               }
@@ -211,6 +202,6 @@ sap.ui.define(
       }
     );
 
-    return new AssignmentService();
+    return new GroupService();
   }
 );

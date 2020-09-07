@@ -126,7 +126,7 @@
         class="sapUiSmallMarginEnd"
       >
         <Text
-          text="Año/mes"
+          text="Año"
         />
         <DatePicker
           id="datePicker"

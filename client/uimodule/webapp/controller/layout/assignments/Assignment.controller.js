@@ -6,9 +6,8 @@ sap.ui.define(
     'sap/ui/model/Sorter',
     'sap/m/MessageBox',
     'sap/m/MessageToast',
-    'sap/ui/model/json/JSONModel',
     '../../../service/AssignmentService',
-    '../../../service/ReporteService',
+    '../../../service/GroupService',
   ],
   function (
     BaseController,
@@ -17,9 +16,8 @@ sap.ui.define(
     Sorter,
     MessageBox,
     MessageToast,
-    JSONModel,
     AssignmentService,
-    ReporteService
+    GroupService,
   ) {
     'use strict';
 
@@ -29,13 +27,10 @@ sap.ui.define(
         onInit: function () {
           this.oView = this.getView();
           this._bDescendingSort = false;
-          this.oAssignmentsTable = this.oView.byId('assignmentsTable');
+          this._bDescendingSortGroups = false;
 
-          /*
-          AssignmentService.setOnChangeAssignmentsCallback(
-            this.verifyAllSelected.bind(this)
-          );
-          */
+          this.oAssignmentsTable = this.oView.byId('assignmentsTable');
+          this.oGroupsTable = this.oView.byId('groupsTable');
         },
         onSort: function () {
           this._bDescendingSort = !this._bDescendingSort;
@@ -43,8 +38,13 @@ sap.ui.define(
             oSorter = new Sorter('KOSTL', this._bDescendingSort);
 
           oBinding.sort(oSorter);
+        },
+        onSortGroups: function () {
+          this._bDescendingSortGroups = !this._bDescendingSortGroups;
+          var oBinding = this.oGroupsTable.getBinding('items'),
+            oSorter = new Sorter('GRUPO', this._bDescendingSortGroups);
 
-          //this.verifyAllSelected();
+          oBinding.sort(oSorter);
         },
         onRefresh: function () {
           const clearSorters = Promise.resolve({
@@ -62,6 +62,22 @@ sap.ui.define(
               MessageBox.error(error.message);
             });
         },
+        onRefreshGroups: function () {
+          const clearSorters = Promise.resolve({
+            then: function (onFullfill) {
+              this._bDescendingSortGroups = false;
+              var oBinding = this.oGroupsTable.getBinding('items');
+              oBinding.aSorters = null;
+              onFullfill();
+            }.bind(this),
+          });
+
+          clearSorters
+            .then(() => GroupService.getAll())
+            .catch((error) => {
+              MessageBox.error(error.message);
+            });
+        },
         onSelectionChange: function (oEvent) {
           var oParameters = oEvent.getParameters();
           var aListItems = oParameters.listItems,
@@ -73,6 +89,19 @@ sap.ui.define(
               sPath = oContext.getPath();
 
             AssignmentService.setSelectedAndStatus(sPath, bSelected);
+          }
+        },
+        onSelectionChangeGroups: function (oEvent) {
+          var oParameters = oEvent.getParameters();
+          var aListItems = oParameters.listItems,
+            bSelected = oParameters.selected;
+
+          for (var i = aListItems.length; i--; ) {
+            var oItem = aListItems[i];
+            var oContext = oItem.getBindingContext('groups'),
+              sPath = oContext.getPath();
+
+            GroupService.setSelectedAndStatus(sPath, bSelected);
           }
         },
         onSearch: function (oEvent) {
@@ -88,17 +117,27 @@ sap.ui.define(
           this.oAssignmentsTable
             .getBinding('items')
             .filter(oTableSearchState, 'KOSTL');
+        },
+        onSearchGroups: function (oEvent) {
+          var oTableSearchState = [],
+            sQuery = oEvent.getParameter('query');
 
-          //this.verifyAllSelected();
+          if (sQuery && sQuery.length > 0) {
+            oTableSearchState = [
+              new Filter('GRUPO', FilterOperator.Contains, sQuery),
+            ];
+          }
+
+          this.oGroupsTable
+            .getBinding('items')
+            .filter(oTableSearchState, 'GRUPO');
         },
         onSave: function () {
           AssignmentService.save()
             .then((username) => {
               MessageToast.show(
-                `Asignaciones para '${username}' se han guardado exitosamente.`
+                `Asignaciones de centros de costo para '${username}' se han guardado exitosamente.`
               );
-
-              ReporteService.setProperty('/loaded', false);
             })
             .catch((error) => {
               MessageBox.error(error.message, {
@@ -106,6 +145,20 @@ sap.ui.define(
               });
             });
         },
+        onSaveGroups: function () {
+          GroupService.save()
+            .then((username) => {
+              MessageToast.show(
+                `Asignaciones de grupos de cuentas para '${username}' se han guardado exitosamente.`
+              );
+            })
+            .catch((error) => {
+              MessageBox.error(error.message, {
+                styleClass: 'manageUsersError',
+              });
+            });
+        },
+        /*
         verifyAllSelected: function () {
           if (!this.oAssignmentsTable) return;
 
@@ -162,6 +215,7 @@ sap.ui.define(
         onGrowing: function () {
           //this.verifyAllSelected();
         },
+        */
       }
     );
   }

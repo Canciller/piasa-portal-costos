@@ -5,13 +5,15 @@ sap.ui.define(
     'sap/m/MessageBox',
     '../../../service/UserService',
     '../../../service/AssignmentService',
+    '../../../service/GroupService',
   ],
   function (
     BaseController,
     ToolHeader,
     MessageBox,
     UserService,
-    AssignmentService
+    AssignmentService,
+    GroupService,
   ) {
     'use strict';
 
@@ -25,6 +27,7 @@ sap.ui.define(
             .attachMatched(function () {
               UserService.getAllFiltered()
                 .then(() => AssignmentService.getAll())
+                .then(() => GroupService.getAll())
                 .catch((error) => {
                   MessageBox.error(error.message);
                 });

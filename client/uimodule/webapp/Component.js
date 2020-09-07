@@ -9,6 +9,7 @@ sap.ui.define(
     './service/AuthService',
     './service/RoleService',
     './service/AssignmentService',
+    './service/GroupService',
     './service/BudgetService',
     './service/Reporte1Service',
     './service/Reporte1DetailService',
@@ -24,6 +25,7 @@ sap.ui.define(
     AuthService,
     RoleService,
     AssignmentService,
+    GroupService,
     BudgetService,
     Reporte1Service,
     Reporte1DetailService,
@@ -59,6 +61,9 @@ sap.ui.define(
 
         // Assignment Service
         this.setModel(AssignmentService.getModel(), 'assignments');
+
+        // Group Service
+        this.setModel(GroupService.getModel(), 'groups');
 
         // Budget Service
         this.setModel(BudgetService.getModel(), 'budget');

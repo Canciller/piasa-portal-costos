@@ -1,5 +1,6 @@
 import User from '../models/user.model';
 import Assignment from '../models/assignment.model';
+import Group from '../models/group.model';
 import generatePassword from '../util/generatePassword';
 import hashPassword from '../util/hashPassword';
 import NotFoundError from '../util/error/NotFoundError';
@@ -132,6 +133,12 @@ export default {
           'No se puede eliminar el usuario sin antes eliminar sus asignaciones de centros de costo.'
         );
 
+      exists = await Group.exists(username);
+      if (exists)
+        throw new ValidationError(
+          'No se puede eliminar el usuario sin antes eliminar sus asignaciones de grupos de cuentas.'
+        );
+
       var removed = await User.remove(username);
       return res.json(removed);
     } catch (error) {
@@ -158,6 +165,7 @@ export default {
       var username = req.user.username;
       for(var i = users.length; i--;)  {
         var user = users[i];
+        if(!user.isActive) continue;
         if(user.role === 'U' || user.username === username)
           filtered.push(user);
       }

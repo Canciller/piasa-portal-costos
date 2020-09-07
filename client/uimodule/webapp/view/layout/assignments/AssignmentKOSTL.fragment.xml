@@ -1,0 +1,81 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+>
+  <Table
+    busy="{assignments>/loading}"
+    busyIndicatorDelay="100"
+    id="assignmentsTable"
+    inset="false"
+    items="{
+      path: 'assignments>/assignments'
+    }"
+    mode="MultiSelect"
+    class="sapFDynamicPageAlignContent"
+    width="auto"
+    sticky="HeaderToolbar,ColumnHeaders"
+    showOverlay="{= !${users>/user/isActive}}"
+    growing="true"
+    growingThreshold="50"
+    growingScrollToLoad="false"
+    alternateRowColors="true"
+    growingFinished=".onGrowing"
+    selectionChange=".onSelectionChange"
+  >
+    <headerToolbar>
+      <Toolbar>
+        <Title text="Centros de Costo" level="H2"/>
+        <ToolbarSpacer/>
+        <SearchField
+          search=".onSearch"
+          width="12rem"
+        />
+        <OverflowToolbarButton
+          icon="sap-icon://sort"
+          text="Sort"
+          type="Transparent" press=".onSort"
+        />
+        <OverflowToolbarButton
+          icon="sap-icon://save"
+          text="Guardar"
+          type="Transparent" press=".onSave"
+        />
+        <OverflowToolbarButton
+          icon="sap-icon://refresh"
+          text="Refrescar"
+          type="Transparent"
+          press=".onRefresh"
+        />
+      </Toolbar>
+    </headerToolbar>
+    <columns>
+      <Column>
+        <Text text="Centro de costo"/>
+      </Column>
+      <Column>
+        <Text text="Descripción"/>
+      </Column>
+    </columns>
+    <items>
+      <ColumnListItem
+        highlight="{assignments>status}"
+        press=".onListItemPress"
+        selected="{assignments>selected}"
+      >
+        <cells>
+          <Text text="{
+              path : 'assignments>KOSTL', 
+              type : 'sap.ui.model.odata.type.String', 
+              constraints: { 
+                  isDigitSequence : true,
+                  maxLength : 10
+              }
+          }"/>
+          <Text
+            text="{assignments>LTEXT}"
+          />
+        </cells>
+      </ColumnListItem>
+    </items>
+  </Table>
+</core:FragmentDefinition>

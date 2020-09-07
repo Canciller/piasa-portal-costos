@@ -4,6 +4,7 @@ import errorHandler from '../middleware/errorHandler';
 import userRoutes from './user.routes';
 import authRoutes from './auth.routes';
 import assignmentRoutes from './assignment.routes';
+import groupRoutes from './group.routes';
 import budgetRoutes from './budget.routes';
 import reportesRoutes from './reportes.routes';
 
@@ -14,6 +15,7 @@ const router = require('express').Router();
 router.use('/auth', authRoutes);
 router.use('/users', checkPermissions('users'), userRoutes);
 router.use('/assignments', checkPermissions('assignments'), assignmentRoutes);
+router.use('/groups', checkPermissions('assignments'), groupRoutes);
 router.use('/budget', checkPermissions('budget'), budgetRoutes);
 router.use('/reportes', checkPermissions('reportes'), reportesRoutes);
 

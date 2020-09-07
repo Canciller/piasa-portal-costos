@@ -28,10 +28,9 @@ export default class Reportes {
     return tvp;
   }
 
-  static async getReporte1(year, month, hkont, kostl) {
+  static async getReporte1(year, month, kostl, username) {
     try {
-      var HKONTTable = createHKONTTable(hkont),
-        KOSTLTable = Reportes.createTable(kostl);
+      var KOSTLTable = Reportes.createTable(kostl);
 
       var pool = await getPool();
       var request = await pool
@@ -43,7 +42,7 @@ export default class Reportes {
           String(month).substr(0, 2).padStart(2, '0')
         )
         .input('KOSTLTable', sql.TVP('KOSTLTableType'), KOSTLTable)
-        .input('HKONTTable', sql.TVP('HKONTTableType'), HKONTTable);
+        .input('username', sql.VarChar(30), username);
 
       var res = await request.execute('getReporte1');
 
@@ -59,13 +58,12 @@ export default class Reportes {
     year,
     month,
     desc1,
-    hkont,
     kostl,
-    isBudget = false
+    isBudget = false,
+    username
   ) {
     try {
-      var HKONTTable = createHKONTTable(hkont),
-        KOSTLTable = Reportes.createTable(kostl);
+      var KOSTLTable = Reportes.createTable(kostl);
 
       var pool = await getPool();
       var request = await pool
@@ -77,8 +75,8 @@ export default class Reportes {
           String(month).substr(0, 2).padStart(2, '0')
         )
         .input('DESC1', sql.VarChar(50), desc1)
-        .input('HKONTTable', sql.TVP('HKONTTableType'), HKONTTable)
-        .input('KOSTLTable', sql.TVP('KOSTLTableType'), KOSTLTable);
+        .input('KOSTLTable', sql.TVP('KOSTLTableType'), KOSTLTable)
+        .input('username', sql.VarChar(30), username);
 
       var sp = isBudget ? 'Budget' : 'Real';
       var res = await request.execute('getReporte1Detail' + sp);
@@ -91,14 +89,15 @@ export default class Reportes {
     }
   }
 
-  static async getReporte2(year, kostl) {
+  static async getReporte2(year, kostl, username) {
     try {
       var tvp = Reportes.createTable(kostl);
       var pool = await getPool();
       var request = await pool
         .request()
         .input('YEAR', sql.NChar(4), String(year).substr(0, 4))
-        .input('KOSTLTable', sql.TVP('KOSTLTableType'), tvp);
+        .input('KOSTLTable', sql.TVP('KOSTLTableType'), tvp)
+        .input('username', sql.VarChar(30), username);
 
       var res = await request.execute('getReporte2');
 

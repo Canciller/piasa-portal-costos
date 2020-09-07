@@ -1,0 +1,67 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+>
+  <Table
+    busy="{groups>/loading}"
+    busyIndicatorDelay="100"
+    inset="false"
+    id="groupsTable"
+    items="{
+      path: 'groups>/assignments'
+    }"
+    mode="MultiSelect"
+    class="sapFDynamicPageAlignContent"
+    width="auto"
+    sticky="HeaderToolbar,ColumnHeaders"
+    showOverlay="{= !${users>/user/isActive}}"
+    growing="true"
+    growingThreshold="50"
+    growingScrollToLoad="false"
+    alternateRowColors="true"
+    selectionChange=".onSelectionChangeGroups"
+  >
+    <headerToolbar>
+      <Toolbar>
+        <Title text="Grupos de cuentas" level="H2"/>
+        <ToolbarSpacer/>
+        <SearchField
+          search=".onSearchGroups"
+          width="12rem"
+        />
+        <OverflowToolbarButton
+          icon="sap-icon://sort"
+          text="Sort"
+          type="Transparent" press=".onSortGroups"
+        />
+        <OverflowToolbarButton
+          icon="sap-icon://save"
+          text="Guardar"
+          type="Transparent" press=".onSaveGroups"
+        />
+        <OverflowToolbarButton
+          icon="sap-icon://refresh"
+          text="Refrescar"
+          type="Transparent"
+          press=".onRefreshGroups"
+        />
+      </Toolbar>
+    </headerToolbar>
+    <columns>
+      <Column>
+        <Text text="Grupo de cuentas"/>
+      </Column>
+    </columns>
+    <items>
+      <ColumnListItem
+        highlight="{groups>status}"
+        press=".onListItemPress"
+        selected="{groups>selected}"
+      >
+        <cells>
+          <Text text="{groups>GRUPO}"/>
+        </cells>
+      </ColumnListItem>
+    </items>
+  </Table>
+</core:FragmentDefinition>

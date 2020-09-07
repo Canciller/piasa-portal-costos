@@ -6,6 +6,7 @@ sap.ui.define(
     'sap/ui/model/Sorter',
     'sap/m/MessageBox',
     '../../../service/AssignmentService',
+    '../../../service/GroupService',
     '../../../service/UserService',
     'sap/f/library',
   ],
@@ -16,6 +17,7 @@ sap.ui.define(
     Sorter,
     MessageBox,
     AssignmentService,
+    GroupService,
     UserService,
     fioriLibrary
   ) {
@@ -52,7 +54,7 @@ sap.ui.define(
           oBinding.sort(oSorter);
         },
         onRefresh: function () {
-          UserService.getAll().catch((error) => {
+          UserService.getAllFiltered().catch((error) => {
             MessageBox.error(error.message);
           });
         },
@@ -65,7 +67,9 @@ sap.ui.define(
 
           oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsMidExpanded);
 
-          AssignmentService.setCurrentUserAndGetAll(user).catch((error) => {
+          AssignmentService.setCurrentUserAndGetAll(user)
+          .then(() => GroupService.setCurrentUserAndGetAll(user))
+          .catch((error) => {
             MessageBox.error(error.message);
             throw error;
           });
