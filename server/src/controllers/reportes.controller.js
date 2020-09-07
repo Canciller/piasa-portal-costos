@@ -188,6 +188,13 @@ export default {
         lines[1] = Object.assign(lines[1], data.b);
         lines[2] = Object.assign(lines[2], data.aly);
 
+        for(var i = monthLabel.length; i--;) {
+          var month = monthLabel[i];
+          if(!lines[0][month]) lines[0][month] = 0;
+          if(!lines[1][month]) lines[1][month] = 0;
+          if(!lines[2][month]) lines[2][month] = 0;
+        }
+
         output = output.concat(lines);
       };
 
