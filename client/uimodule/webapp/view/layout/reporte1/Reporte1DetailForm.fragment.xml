@@ -5,7 +5,6 @@
 	xmlns:core="sap.ui.core">
   <VBox>
     <HBox
-      wrap="Wrap"
     >
       <VBox
         class="sapUiSmallMarginEnd sapUiSmallMarginTop"
