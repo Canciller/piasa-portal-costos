@@ -63,13 +63,13 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setProperty('/loading', false);
       }
     },
-    getAllFiltered: async function() {
+    getAllFiltered: async function () {
       try {
         this.setProperty('/loading', true);
         var users = await this.api('/filter').get();
         this._setUsers(users);
         return users;
-      } catch(error) {
+      } catch (error) {
         this._clearUsers();
         throw error;
       } finally {

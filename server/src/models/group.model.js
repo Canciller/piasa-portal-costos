@@ -24,7 +24,10 @@ export default class Assignment {
 
     if (assignments instanceof Array)
       assignments.forEach((assignment) =>
-        tvp.rows.add(assignment.username, String(assignment.group).substr(0, 30))
+        tvp.rows.add(
+          assignment.username,
+          String(assignment.group).substr(0, 30)
+        )
       );
 
     return tvp;

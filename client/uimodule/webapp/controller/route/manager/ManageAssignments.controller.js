@@ -13,7 +13,7 @@ sap.ui.define(
     MessageBox,
     UserService,
     AssignmentService,
-    GroupService,
+    GroupService
   ) {
     'use strict';
 

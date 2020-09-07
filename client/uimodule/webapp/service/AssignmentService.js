@@ -48,7 +48,7 @@ sap.ui.define(
         getGroups: function () {
           return this.getProperty('/groups/data');
         },
-        setGroups: function(groups) {
+        setGroups: function (groups) {
           this.setProperty('/groups/data', groups);
         },
         getUsername: function () {

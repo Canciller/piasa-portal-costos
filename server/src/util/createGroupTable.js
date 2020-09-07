@@ -7,9 +7,7 @@ export default function (groups) {
   });
 
   if (groups instanceof Array)
-    groups.forEach((value) =>
-      tvp.rows.add(String(value).substr(0, 30))
-    );
+    groups.forEach((value) => tvp.rows.add(String(value).substr(0, 30)));
 
   return tvp;
 }

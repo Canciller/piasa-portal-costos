@@ -17,7 +17,7 @@ sap.ui.define(
     MessageBox,
     MessageToast,
     AssignmentService,
-    GroupService,
+    GroupService
   ) {
     'use strict';
 

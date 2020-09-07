@@ -69,10 +69,23 @@
             selectionBehavior="RowOnly"
             selectionMode="Single"
             id="table"
-            fixedColumnCount="2"
+            fixedColumnCount="3"
             showOverlay="{= !${r2>/enabled}}"
           >
             <t:columns>
+              <t:Column
+                width="12rem"
+                filterProperty="DESC1"
+                sortProperty="DESC1"
+              >
+                <Label text="Cuenta Monthly Package Manual" />
+                <t:template>
+                  <Text
+                    text="{r2>DESC1}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
               <t:Column
                 width="12rem"
                 filterProperty="TXT50"

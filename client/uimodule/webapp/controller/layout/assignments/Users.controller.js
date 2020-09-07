@@ -68,11 +68,11 @@ sap.ui.define(
           oFCL.setLayout(fioriLibrary.LayoutType.TwoColumnsMidExpanded);
 
           AssignmentService.setCurrentUserAndGetAll(user)
-          .then(() => GroupService.setCurrentUserAndGetAll(user))
-          .catch((error) => {
-            MessageBox.error(error.message);
-            throw error;
-          });
+            .then(() => GroupService.setCurrentUserAndGetAll(user))
+            .catch((error) => {
+              MessageBox.error(error.message);
+              throw error;
+            });
         },
       }
     );

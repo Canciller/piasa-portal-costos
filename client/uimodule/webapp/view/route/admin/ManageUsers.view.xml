@@ -20,6 +20,7 @@
       title="Administrar usuarios"
       showNavButton="true"
       navButtonPress=".onNavBack"
+      class="sapUiResponsiveContentPadding"
      >
      <t:Table
       id="users"
@@ -27,7 +28,7 @@
       busy="{users>/loading}"
       busyIndicatorDelay="100"
       visibleRowCountMode="Auto"
-      rowHeight="51"
+      rowHeight="48"
       enableColumnReordering="false"
      >
 				<t:extension>
@@ -105,7 +106,8 @@
             </t:template>
           </t:Column>
           <t:Column
-            width="4rem"
+            width="5rem"
+            hAlign="Center"
           >
             <Label text="Activo" />
             <t:template>

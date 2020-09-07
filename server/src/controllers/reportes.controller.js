@@ -3,7 +3,7 @@ import UnauthorizedError from '../util/error/UnauthorizedError';
 import Assignment from '../models/assignment.model';
 import Reportes from '../models/reportes.model';
 
-var month = [
+var monthLabel = [
   'P01',
   'P02',
   'P03',
@@ -61,7 +61,12 @@ export default {
 
       // TODO matchHKONT
 
-      var reporte1 = await Reportes.getReporte1(year, month, kostl, req.user.username);
+      var reporte1 = await Reportes.getReporte1(
+        year,
+        month,
+        kostl,
+        req.user.username
+      );
 
       /*
       for (var i = reporte1.length; i--; ) {
@@ -129,7 +134,70 @@ export default {
           'Los centros de costo ingresados no se le fueron asignados.'
         );
 
-      var reporte2 = await Reportes.getReporte2(year, kostl, req.user.username);
+      var output = [];
+      var reporte = await Reportes.getReporte2(year, kostl, req.user.username);
+
+      var data = {};
+
+      var addValue = function (desc1, month, year, value) {
+        if (!data[desc1]) data[desc1] = {};
+        if (!data[desc1][year]) data[desc1][year] = {};
+        data[desc1][year];
+        data[desc1][year][month] = value;
+      };
+
+      for (var i = reporte.length; i--; ) {
+        var row = reporte[i];
+        var y = Number(row.GJAHR),
+          month = row.MONAT,
+          actual = row.ACTUAL,
+          budget = row.BUDGET,
+          desc1 = row.DESC1;
+
+        var m = Number(month) - 1;
+        month = monthLabel[m];
+
+        if (y === Number(year) - 1) {
+          if (actual) addValue(desc1, month, 'aly', actual);
+        } else {
+          if (actual) addValue(desc1, month, 'a', actual);
+          if (budget) addValue(desc1, month, 'b', budget);
+        }
+      }
+
+      var addRow = function (desc1, data) {
+        var lines = [
+          {
+            TXT50: 'Real',
+            DESC1: desc1,
+            YEAR: year,
+          },
+          {
+            TXT50: 'Presupuesto',
+            DESC1: desc1,
+            YEAR: year,
+          },
+          {
+            TXT50: 'Real (Año Anterior)',
+            DESC1: desc1,
+            YEAR: Number(year) - 1,
+          },
+        ];
+
+        lines[0] = Object.assign(lines[0], data.a);
+        lines[1] = Object.assign(lines[1], data.b);
+        lines[2] = Object.assign(lines[2], data.aly);
+
+        output = output.concat(lines);
+      };
+
+      var keys = Object.keys(data);
+      for(var i = keys.length; i--;) {
+        var desc1 = keys[i];
+        addRow(desc1, data[desc1]);
+      }
+
+      /*
       var output = [
         {
           TXT50: 'Real',
@@ -149,8 +217,8 @@ export default {
         output[i]['P' + month] = value;
       };
 
-      for (var i = reporte2.length; i--; ) {
-        var row = reporte2[i];
+      for (var i = reporte.length; i--; ) {
+        var row = reporte[i];
         var y = Number(row.YEAR),
           m = row.MONTH,
           actual = row.ACTUAL,
@@ -170,6 +238,7 @@ export default {
           if (!output[i][key]) output[i][key] = 0;
         }
       }
+      */
 
       return res.json(output);
     } catch (error) {

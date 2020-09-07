@@ -163,10 +163,10 @@ export default {
 
       var filtered = [];
       var username = req.user.username;
-      for(var i = users.length; i--;)  {
+      for (var i = users.length; i--; ) {
         var user = users[i];
-        if(!user.isActive) continue;
-        if(user.role === 'U' || user.username === username)
+        if (!user.isActive) continue;
+        if (user.role === 'U' || user.username === username)
           filtered.push(user);
       }
 
@@ -174,5 +174,5 @@ export default {
     } catch (error) {
       next(error);
     }
-  }
+  },
 };

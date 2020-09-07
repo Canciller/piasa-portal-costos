@@ -21,6 +21,7 @@
       title="Cargar presupuesto"
       showNavButton="true"
       navButtonPress=".onNavBack"
+      class="sapUiResponsiveContentPadding"
      >
       <t:Table
         id="users"

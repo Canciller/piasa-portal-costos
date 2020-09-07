@@ -8,6 +8,7 @@ const msg = {
     unique: (username) => `El nombre de usuario '${username}' ya existe.`,
     invalid:
       'El nombre de usuario debe de ser una combinación de letras, numeros, y guiones.',
+    length: 'El nombre de usuario no puede ser de más de 30 caracteres.',
   },
   name: {
     required: 'El nombre es requerido.',
@@ -75,6 +76,10 @@ const checkCreateUser = [
     .not()
     .isEmpty()
     .withMessage(msg.username.required)
+    .isLength({
+      max: 30,
+    })
+    .withMessage(msg.username.length)
     .custom(findUser)
     .matches(matches.username)
     .withMessage(msg.username.invalid),
@@ -107,6 +112,10 @@ const checkChangeUser = [
     .not()
     .isEmpty()
     .withMessage(msg.username.required)
+    .isLength({
+      max: 30,
+    })
+    .withMessage(msg.username.length)
     .custom(findUserEqual)
     .matches(matches.username)
     .withMessage(msg.username.invalid),

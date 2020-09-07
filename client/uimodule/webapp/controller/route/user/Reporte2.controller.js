@@ -43,6 +43,10 @@ sap.ui.define(
         setupExport: function () {
           var aColumns = [
             {
+              label: 'Cuenta Monthly Package Manual',
+              property: 'DESC1',
+            },
+            {
               label: 'Descripción',
               property: 'TXT50',
             },

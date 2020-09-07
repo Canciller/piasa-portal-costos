@@ -9,9 +9,7 @@ router
   .get(controller.getAll)
   .post(checkCreateUser, controller.create);
 
-router
-  .route('/filter')
-  .get(controller.getAllFiltered);
+router.route('/filter').get(controller.getAllFiltered);
 
 router
   .route('/:username')
