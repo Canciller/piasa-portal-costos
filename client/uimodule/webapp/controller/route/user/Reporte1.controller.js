@@ -42,7 +42,8 @@ sap.ui.define(
           this.setupExport();
           this.attachOnReady(
             async function () {
-              await Reporte1Service.fillReporte();
+              if(this.isLoading()) Reporte1Service.abort();
+              else await Reporte1Service.fillReporte();
             }.bind(this)
           );
           this.attachOnExport(this.handleExport.bind(this));

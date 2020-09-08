@@ -129,6 +129,13 @@ sap.ui.define(
         setFromDetail: function (fromDetail) {
           this.getService().setFromDetail(fromDetail);
         },
+        isLoading: function(prop) {
+          if(!prop) {
+            return this.getService().getProperty('/loading');
+          } else {
+            return this.getService().getProperty('/' + prop + '/loading');
+          }
+        },
 
         /**
          * Form Util

@@ -137,10 +137,10 @@
         />
       </VBox>
       <Button 
-        type="Emphasized"
+        type="{= ${r1>/loading} ? 'Negative' : 'Emphasized'}"
         press=".onReady"
-        text="Listo"
-        icon="sap-icon://accept"
+        text="{= ${r1>/loading} ? 'Cancelar' : 'Listo'}"
+        icon="sap-icon://{= ${r1>/loading} ? 'cancel' : 'accept'}"
         class="sapUiSmallMarginEnd"
         enabled="{= ${r1>/enabled} ? (${r1>/kostl/enabled} ? (${r1>/kostl/empty} ? false : true) : false) : false}"
       />
