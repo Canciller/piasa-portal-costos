@@ -67,8 +67,14 @@
         </f:header>
 
         <f:content>
-          <t:Table
-            rows="{r1>/data}"
+          <t:TreeTable
+            rows="{
+              path: 'r1>/tree/data',
+              parameters: {
+                arrayNames: ['data'],
+                numberOfExpandedLevels: 1
+              }
+            }"
             alternateRowColors="true"
             busy="{r1>/loading}"
             busyIndicatorDelay="100"
@@ -79,25 +85,27 @@
             id="table"
             fixedColumnCount="1"
             cellClick=".onCellClick"
+            filter=".onFilter"
+            sort=".onSort"
             showOverlay="{= !${r1>/abtei/enabled}}"
+            showColumnVisibilityMenu="true"
           >
             <t:columns>
               <t:Column
                 width="16rem"
-                filterProperty="DESC1"
-                sortProperty="DESC1"
               >
                 <Label text="Cuenta Monthly Package Manual" />
                 <t:template>
-                  <Text
-                    text="{r1>DESC1}"
+                  <Text text="{
+                    path: 'r1>DESC1_'
+                    }"
+                    wrapping="false"
                   />
                 </t:template>
               </t:Column>
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual_CY"
                 sortProperty="Actual_CY"
               >
                 <Label text="Real" />
@@ -113,7 +121,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget_CY"
                 sortProperty="Budget_CY"
               >
                 <Label text="Presupuesto" />
@@ -129,7 +136,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual_LY"
                 sortProperty="Actual_LY"
               >
                 <Label text="Real AA" />
@@ -145,7 +151,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget_LY"
                 sortProperty="Budget_LY"
               >
                 <Label text="Presupuesto AA" />
@@ -161,7 +166,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_Ppto_CY"
                 sortProperty="Var_vs_Ppto_CY"
               >
                 <Label text="Var.$ Real vs Ppto" />
@@ -178,7 +182,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_1_CY"
                 sortProperty="Percentage_1_CY"
               >
                 <Label text="Var.% Real vs Ppto" />
@@ -194,7 +197,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_AA_CY"
                 sortProperty="Var_vs_AA_CY"
               >
                 <Label text="Var.$ Real vs Real AA" />
@@ -210,7 +212,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_2_CY"
                 sortProperty="Percentage_2_CY"
               >
                 <Label text="Var.% Real vs Real AA" />
@@ -226,7 +227,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual_Accum_CY"
                 sortProperty="Actual_Accum_CY"
               >
                 <Label text="Real Acumulado" />
@@ -242,7 +242,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget_Accum_CY"
                 sortProperty="Budget_Accum_CY"
               >
                 <Label text="Presupuesto Acumulado" />
@@ -258,7 +257,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Actual_Accum_LY"
                 sortProperty="Actual_Accum_LY"
               >
                 <Label text="Real Acumulado AA" />
@@ -274,7 +272,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Budget_Accum_LY"
                 sortProperty="Budget_Accum_LY"
               >
                 <Label text="Presupuesto Acumulado AA" />
@@ -290,7 +287,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_Ppto_LY"
                 sortProperty="Var_vs_Ppto_LY"
               >
                 <Label text="Var.$ Real Acumulado vs Ppto Acumulado" />
@@ -306,7 +302,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_1_LY"
                 sortProperty="Percentage_1_LY"
               >
                 <Label text="Var.% Real Acumulado vs Ppto Acumulado" />
@@ -322,7 +317,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Var_vs_AA_LY"
                 sortProperty="Var_vs_AA_LY"
               >
                 <Label text="Var.$ Real Acumulado vs Real AA Acumulado" />
@@ -338,7 +332,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                filterProperty="Percentage_2_LY"
                 sortProperty="Percentage_2_LY"
               >
                 <Label text="Var.% Real Acumulado vs Real AA Acumulado" />
@@ -352,7 +345,7 @@
                 </t:template>
               </t:Column>
             </t:columns>
-          </t:Table>
+          </t:TreeTable>
         </f:content>
       </f:DynamicPage>
     </content>

@@ -18,7 +18,8 @@ export default {
       if (isEmail(username)) user = await User.getByEmail(username);
       else user = await User.get(username);
 
-      if (!user || !user.isActive) throw new ForbiddenError();
+      if (!user) throw new UnauthorizedError();
+      if (!user.isActive) throw new ForbiddenError();
 
       var validCredentials = await comparePassword(password, user.password);
       if (!validCredentials) throw new UnauthorizedError();
@@ -33,7 +34,7 @@ export default {
         name: user.name,
         email: user.email,
         role: user.role,
-        //token,
+        token,
       });
     } catch (error) {
       res.clearCookie('token'); // Clear token on error.
@@ -67,7 +68,7 @@ export default {
         name: user.name,
         email: user.email,
         role: user.role,
-        //token,
+        token,
       });
     } catch (error) {
       next(error);

@@ -317,6 +317,15 @@ export default class User {
       var request = await user.request();
       request.input('oldUsername', sql.VarChar(30), oldUsername);
 
+      await request.query(`
+        UPDATE assignments SET
+          username = @username
+        WHERE username = @oldUsername;
+        UPDATE group_assignments SET
+          username = @username
+        WHERE username = @oldUsername;
+      `);
+
       var res = await request.query(`
         UPDATE users SET
           username = @username,

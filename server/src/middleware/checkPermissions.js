@@ -25,6 +25,8 @@ export default function (collection) {
         case 'DELETE':
           allow = permissions.delete !== undefined;
           break;
+        case 'HEAD':
+          allow = true;
         default:
           break;
       }

@@ -17,6 +17,11 @@ sap.ui.define(
           this.setFormControls();
           this.addClearIcon();
         },
+        formatDESC1: function(value) {
+          if(!value) return '';
+          var len = value.length;
+          return value.substr(3, len);
+        },
         setFormControls: function () {
           this._oForm = {
             abtei: this.byId('ABTEI'),

@@ -125,7 +125,6 @@ sap.ui.define(
             this.setFormattedUser(user);
 
             var assignments = await this.api(`/${username}/all`).get();
-            console.log(assignments);
             this.setAssignments(assignments);
             //this.setAllInitialSelectedAndStatus();
           }

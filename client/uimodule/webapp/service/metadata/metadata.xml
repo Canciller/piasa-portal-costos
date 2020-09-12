@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData"
+>
+    <edmx:DataServices
+        m:DataServiceVersion="4.0"
+    >
+        <Schema
+            Namespace="Reporte.Models"
+            xml:lang="en" 
+            xmlns="http://schemas.microsoft.com/ado/2006/04/edm"
+        >
+            <EntityType
+                Name="R1Type"
+                sap:semantics="aggregate"
+            >
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property
+                    Name="ID"
+                    Type="Edm.Int32"
+                    sap:aggregation-role="dimension"
+                />
+                <Property
+                    Name="DESC2" Type="Edm.String" Nullable="false"
+                    sap:label="DESC2"
+                    sap:visible="true"
+                    sap:aggregation-role="dimension"
+                 />
+                <Property
+                    Name="DESC1" Type="Edm.String" Nullable="false"
+                    sap:label="Cuenta Monthly Package Manual"
+                    sap:visible="true"
+                    sap:aggregation-role="dimension"
+                />
+                <Property
+                    Name="Actual_CY"
+                    Type="Edm.Decimal"
+                    Scale="2"
+                    sap:label="Real"
+                    sap:aggregation-role="measure"
+                />
+            </EntityType>
+            <EntityContainer Name="ReporteR1" m:IsDefaultEntityContainer="true">
+                <EntitySet
+                    Name="R1"
+                    EntityType="Reporte.Models.R1Type"
+                />
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

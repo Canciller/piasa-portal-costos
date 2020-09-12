@@ -72,7 +72,7 @@
             <t:extension>
               <OverflowToolbar>
                 <Title
-                  text="{r1d>/desc1}" 
+                  text="{r1d>/desc2} - {r1d>/desc1_}" 
                 />
               </OverflowToolbar>
             </t:extension>
@@ -147,21 +147,6 @@
               </t:Column>
               <t:Column
                 width="8rem"
-                filterProperty="DESC1"
-                sortProperty="DESC1"
-              >
-                <Label
-                  text="Cuenta Monthly Package Manual"
-                />
-                <t:template>
-                  <Text
-                    text="{r1d>DESC1}"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
                 filterProperty="DESC2"
                 sortProperty="DESC2"
               >
@@ -171,6 +156,21 @@
                 <t:template>
                   <Text
                     text="{r1d>DESC2}"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
+              <t:Column
+                width="8rem"
+                filterProperty="DESC1_"
+                sortProperty="DESC1_"
+              >
+                <Label
+                  text="Cuenta Monthly Package Manual"
+                />
+                <t:template>
+                  <Text
+                    text="{r1d>DESC1_}"
                     wrapping="false"
                   />
                 </t:template>

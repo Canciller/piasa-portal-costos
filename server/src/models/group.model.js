@@ -40,7 +40,7 @@ export default class Assignment {
   static async create(assignments) {
     try {
       var tvp = Assignment.createTable(assignments);
-      console.log(tvp.rows);
+      //console.log(tvp.rows);
 
       var pool = await getPool();
       var request = await pool

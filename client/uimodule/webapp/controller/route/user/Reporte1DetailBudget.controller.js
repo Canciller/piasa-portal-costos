@@ -35,8 +35,10 @@ sap.ui.define(
                   Reporte1Service.getProperty('/isBudget')
                 );
 
-                var desc1 = Reporte1Service.getDESC1();
+                var desc1 = Reporte1Service.getDESC1(),
+                  desc2 = Reporte1Service.getDESC2();
                 Reporte1DetailService.setDESC1(desc1);
+                Reporte1DetailService.setDESC2(desc2);
 
                 var selectedAbtei = Reporte1Service.getSelectedKeys('abtei'),
                   selectedVerak = Reporte1Service.getSelectedKeys('verak'),
@@ -109,12 +111,12 @@ sap.ui.define(
               property: 'TXT50',
             },
             {
-              label: 'Cuenta Monthly Package Manual',
-              property: 'DESC1',
-            },
-            {
               label: 'Tipo de Gasto',
               property: 'DESC2',
+            },
+            {
+              label: 'Cuenta Monthly Package Manual',
+              property: 'DESC1_',
             },
             {
               label: 'Año',
@@ -141,16 +143,17 @@ sap.ui.define(
         },
         handleExport: async function () {
           var data = Reporte1DetailService.getProperty('/detail/data'),
-            desc1 = Reporte1DetailService.getDESC1();
+            desc1 = Reporte1DetailService.getDESC1_(),
+            desc2 = Reporte1DetailService.getDESC2();
 
           var date = Reporte1DetailService.getDate();
           var year = date.year,
             month = date.month;
 
-          this._mSettings.fileName = `${desc1}_${year}_${month}`;
+          this._mSettings.fileName = `${desc2} - ${desc1} Presupuesto ${year} ${month}`;
           this._mSettings.dataSource = data;
           this._mSettings.workbook.context = {
-            sheetName: `${desc1}-${year}-${month}`,
+            sheetName: `${desc1} ${year} ${month}`,
           };
           var oSpreadsheet = new SpreadSheet(this._mSettings);
           oSpreadsheet.build();

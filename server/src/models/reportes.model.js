@@ -58,6 +58,7 @@ export default class Reportes {
     year,
     month,
     desc1,
+    desc2,
     kostl,
     isBudget = false,
     username
@@ -75,6 +76,7 @@ export default class Reportes {
           String(month).substr(0, 2).padStart(2, '0')
         )
         .input('DESC1', sql.VarChar(50), desc1)
+        .input('DESC2', sql.VarChar(50), desc2)
         .input('KOSTLTable', sql.TVP('KOSTLTableType'), KOSTLTable)
         .input('username', sql.VarChar(30), username);
 

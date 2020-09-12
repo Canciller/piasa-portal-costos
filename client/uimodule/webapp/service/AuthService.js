@@ -7,12 +7,17 @@ sap.ui.define(['./APIService'], function (APIService) {
       this.model.setProperty('/name', user.name);
       this.model.setProperty('/email', user.email);
       this.model.setProperty('/role', user.role);
+      this.model.setProperty('/token', user.token);
     },
     _clearUser: function () {
       this.model.setProperty('/username', null);
       this.model.setProperty('/name', null);
       this.model.setProperty('/email', null);
       this.model.setProperty('/role', null);
+      this.model.setProperty('/token', null);
+    },
+    getToken: function() {
+      return this.getProperty('/token');
     },
     changePassword: async function () {
       try {

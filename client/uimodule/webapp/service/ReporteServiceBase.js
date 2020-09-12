@@ -10,6 +10,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
       this.setModel(
         new JSONModel({
           data: [],
+          tree: [],
           empty: true,
           enabled: false,
           detail: {
@@ -117,11 +118,30 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     /**
      * Properties
      */
+
     getDESC1: function () {
       return this.getProperty('/desc1');
     },
+    getDESC1_: function () {
+      return this.getProperty('/desc1_');
+    },
+    getDESC2: function () {
+      return this.getProperty('/desc2');
+    },
+    getDESC2_: function () {
+      return this.getProperty('/desc2_');
+    },
     setDESC1: function (desc1) {
       this.setProperty('/desc1', desc1);
+      if(desc1) {
+        var len = desc1.length;
+        this.setProperty('/desc1_', desc1.substr(3, len));
+      } else {
+        this.setProperty('/desc1_', null);
+      }
+    },
+    setDESC2: function (desc2) {
+      this.setProperty('/desc2', desc2);
     },
     setDate: function (date) {
       this.setProperty('/date', date);
@@ -213,6 +233,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
       var isBudget = this.getProperty('/isBudget');
       var desc1 = this.getDESC1(),
+        desc2 = this.getDESC2(),
         kostl = this.getSelectedKeys('kostl');
 
       if (kostl.length === 0 || !desc1) return;
@@ -232,6 +253,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         var detail = await this.api(route).post({
           kostl: kostl,
           desc1: desc1,
+          desc2: desc2,
           year: year,
           month: month,
         }, {
@@ -271,6 +293,86 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
           signal: this._controller.signal
         });
 
+        var totals =  {};
+        var data = {
+          data: []
+        }
+        if(reporte.length > 0) {
+
+          var k = 0;
+          var DESC2 = reporte[0].DESC2;
+          totals[DESC2] = Object.assign({}, reporte[0]);
+          data.data.push({
+            DESC1_: DESC2,
+            data: [
+              reporte[0]
+            ]
+          });
+
+          var keys = [
+            'Actual_CY',
+            'Budget_CY',
+            'Actual_LY',
+            'Budget_LY',
+            'Actual_Accum_CY',
+            'Budget_Accum_CY',
+            'Actual_Accum_LY',
+            'Budget_Accum_LY',
+            'Var_vs_Ppto_CY',
+            'Var_vs_AA_CY',
+            'Var_vs_Ppto_LY',
+            'Var_vs_AA_LY',
+          ];
+          for(var i = 1; i <= reporte.length - 1; i++) {
+            var el = reporte[i];
+            if(DESC2 !== el.DESC2) {
+              for(var j = keys.length; j--;) {
+                var key = keys[j];
+                data.data[k][key] = totals[DESC2][key];
+              }
+
+              data.data[k]['Percentage_1_CY'] = '';
+              data.data[k]['Percentage_2_CY'] = '';
+              data.data[k]['Percentage_1_LY'] = '';
+              data.data[k]['Percentage_2_LY'] = '';
+
+              k++;
+              DESC2 = el.DESC2;
+              data.data.push({
+                DESC1_: DESC2,
+                data: [ el ]
+              });
+              totals[DESC2] = Object.assign({}, el);
+              continue;
+            }
+
+            for(var j = keys.length; j--;) {
+              var key = keys[j];
+              var value = totals[DESC2][key];
+              var type = typeof(value);
+              if(type === 'number') {
+                totals[DESC2][key] += el[key];
+              }
+            }
+
+            data.data[k].data.push(el);
+          }
+
+          for(var j = keys.length; j--;) {
+            var key = keys[j];
+            data.data[k][key] = totals[DESC2][key];
+          }
+
+          data.data[k]['Percentage_1_CY'] = '';
+          data.data[k]['Percentage_2_CY'] = '';
+          data.data[k]['Percentage_1_LY'] = '';
+          data.data[k]['Percentage_2_LY'] = '';
+
+          //console.log(totals);
+          //console.log(data);
+        }
+
+        this.setProperty('/tree', data);
         this.setProperty('/data', reporte);
         this.setProperty('/empty', reporte.length === 0);
       } catch (error) {

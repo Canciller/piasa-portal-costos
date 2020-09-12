@@ -94,6 +94,18 @@ export default {
     try {
       var username = req.user.username;
 
+      var exists = await Assignment.exists(username);
+      if (exists)
+        throw new ValidationError(
+          'No se puede modificar el usuario sin antes eliminar sus asignaciones de centros de costo.'
+        );
+
+      exists = await Group.exists(username);
+      if (exists)
+        throw new ValidationError(
+          'No se puede modificar el usuario sin antes eliminar sus asignaciones de grupos de cuentas.'
+        );
+
       var user = new User();
       user.name = req.body.name;
       user.email = req.body.email;

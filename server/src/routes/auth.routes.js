@@ -8,7 +8,11 @@ router.route('/login').post(controller.login);
 
 router.route('/logout').get(controller.logout);
 
-router.route('/me').get(authenticate, (req, res) => res.json(req.user));
+router.route('/me').get(authenticate, (req, res) => {
+  return res.json({
+  ...req.user,
+  token: req.cookies.token,
+})});
 
 router
   .route('/change/password')

@@ -159,7 +159,7 @@ sap.ui.define(
 
           var showErrorMessage = function (error) {
             var msg = error.message;
-            if (error.details)
+            if (error.details && error.details.errors)
               error.details.errors.forEach(
                 (detail) => (msg += '\n* ' + detail.msg)
               );
