@@ -177,7 +177,7 @@ sap.ui.define(
           var year = date.year,
             month = date.month;
 
-          this._mSettings.fileName = `${desc2} - ${desc1} Real ${year} ${month}`;
+          this._mSettings.fileName = `${desc2} - ${desc1} Real - ${year} ${month}`;
           this._mSettings.dataSource = data;
           this._mSettings.workbook.context = {
             sheetName: `${desc1}-${year}-${month}`,

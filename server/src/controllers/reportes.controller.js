@@ -154,15 +154,15 @@ export default {
           'Los centros de costo ingresados no se le fueron asignados.'
         );
 
-      var output = [];
       var reporte = await Reportes.getReporte2(year, kostl, req.user.username);
 
+      /*
+      var output = [];
       var data = {};
 
       var addValue = function (desc1, month, year, value) {
         if (!data[desc1]) data[desc1] = {};
         if (!data[desc1][year]) data[desc1][year] = {};
-        data[desc1][year];
         data[desc1][year][month] = value;
       };
 
@@ -267,7 +267,7 @@ export default {
       }
       */
 
-      return res.json(output);
+      return res.json(reporte);
     } catch (error) {
       next(error);
     }

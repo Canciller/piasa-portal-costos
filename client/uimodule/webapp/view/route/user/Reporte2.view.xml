@@ -59,8 +59,14 @@
         </f:header>
 
         <f:content>
-          <t:Table
-            rows="{r2>/data}"
+          <t:TreeTable
+            rows="{
+              path: 'r2>/tree/data',
+              parameters: {
+                arrayNames: ['data'],
+                numberOfExpandedLevels: 2
+              }
+            }"
             alternateRowColors="true"
             busy="{r2>/loading}"
             busyIndicatorDelay="100"
@@ -69,23 +75,12 @@
             selectionBehavior="RowOnly"
             selectionMode="Single"
             id="table"
-            fixedColumnCount="3"
-            showOverlay="{= !${r2>/enabled}}"
+            fixedColumnCount="2"
+            showOverlay="{= !${r2>/abtei/enabled}}"
+            groupHeaderProperty="DESC1_"
+            useGroupMode="true"
           >
             <t:columns>
-              <t:Column
-                width="12rem"
-                filterProperty="DESC1"
-                sortProperty="DESC1"
-              >
-                <Label text="Cuenta Monthly Package Manual" />
-                <t:template>
-                  <Text
-                    text="{r2>DESC1}"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
               <t:Column
                 width="12rem"
                 filterProperty="TXT50"
@@ -101,15 +96,15 @@
               </t:Column>
               <t:Column
                 width="4rem"
-                filterProperty="YEAR"
-                sortProperty="YEAR"
+                filterProperty="GJAHR"
+                sortProperty="GJAHR"
               >
                 <Label
                   text="Año"
                 />
                 <t:template>
                   <Text
-                    text="{r2>YEAR}"
+                    text="{r2>GJAHR}"
                   />
                 </t:template>
               </t:Column>
@@ -306,7 +301,7 @@
                 </t:template>
               </t:Column>
             </t:columns>
-          </t:Table>
+          </t:TreeTable>
         </f:content>
       </f:DynamicPage>
     </content>

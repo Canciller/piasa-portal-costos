@@ -67,6 +67,7 @@
             busyIndicatorDelay="100"
             rowHeight="30px"
             visibleRowCountMode="Auto"
+            filter=".onFilter"
             id="table"
           >
             <t:extension>

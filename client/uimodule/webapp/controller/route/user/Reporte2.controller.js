@@ -36,7 +36,82 @@ sap.ui.define(
           this.attachOnReady(
             async function () {
               if(this.isLoading()) Reporte2Service.abort();
-              else await Reporte2Service.fillReporte();
+              else {
+                await Reporte2Service.fillReporte();
+
+                var reporte = Reporte2Service.getProperty('/data');
+
+                var data = [];
+
+                var size = reporte.length;
+                if(size > 0) {
+                  var currDataIndex = 0;
+                  var currInnerDataIndex = 0;
+                  var DESC2 = null,
+                    DESC1 = null;
+
+                  var currData = null;
+                  var currInnerData = null;
+                  for(var i = 0; i < size; i++) {
+                    var line = reporte[i];
+
+                    if(DESC2 !== line.DESC2 || !currData) {
+                      DESC2 = line.DESC2;
+                      data.push({
+                        DESC1_: DESC2,
+                        data: []
+                      });
+
+                      currData = data[currDataIndex].data;
+                      currDataIndex++;
+                      currInnerDataIndex = 0;
+                    }
+
+                    if(DESC1 !== line.DESC1 || !currInnerData) {
+                      DESC1 = line.DESC1;
+                      currData.push({
+                        DESC1_: line.DESC1_,
+                        data: []
+                      });
+
+                      currInnerData = currData[currInnerDataIndex].data
+                      currInnerDataIndex++;
+                    }
+
+                    currInnerData.push(line);
+                  }
+                }
+
+                /*
+                if(reporte.length > 0) {
+                  var k = 0;
+                  var DESC2 = reporte[0].DESC2;
+                  data.data.push({
+                    DESC1_: DESC2,
+                    data: [
+                      reporte[0]
+                    ]
+                  });
+
+                  for(var i = 1; i <= reporte.length - 1; i++) {
+                    var el = reporte[i];
+                    if(DESC2 !== el.DESC2) {
+                      k++;
+                      DESC2 = el.DESC2;
+                      data.data.push({
+                        DESC1_: DESC2,
+                        data: [ el ]
+                      });
+                      continue;
+                    }
+
+                    data.data[k].data.push(el);
+                  }
+                }
+                */
+
+                Reporte2Service.setProperty('/tree', { data: data });
+              }
             }.bind(this)
           );
           this.attachOnExport(this.handleExport.bind(this));
@@ -44,8 +119,12 @@ sap.ui.define(
         setupExport: function () {
           var aColumns = [
             {
+              label: 'Tipo de Gasto',
+              property: 'DESC2',
+            },
+            {
               label: 'Cuenta Monthly Package Manual',
-              property: 'DESC1',
+              property: 'DESC1_',
             },
             {
               label: 'Descripción',
@@ -53,7 +132,7 @@ sap.ui.define(
             },
             {
               label: 'Año',
-              property: 'YEAR',
+              property: 'GJAHR',
               type: 'Number',
             },
             {
@@ -129,7 +208,7 @@ sap.ui.define(
 
           var year = date.year;
 
-          var name = `tendencias_de_costos_${year}`;
+          var name = `Tendencias de costos ${year}`;
           this._mSettings.fileName = name + '.xlsx';
           this._mSettings.dataSource = data;
           this._mSettings.workbook.context = {

@@ -293,12 +293,12 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
           signal: this._controller.signal
         });
 
+        /*
         var totals =  {};
         var data = {
           data: []
         }
         if(reporte.length > 0) {
-
           var k = 0;
           var DESC2 = reporte[0].DESC2;
           totals[DESC2] = Object.assign({}, reporte[0]);
@@ -371,8 +371,9 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
           //console.log(totals);
           //console.log(data);
         }
+        */
 
-        this.setProperty('/tree', data);
+        //this.setProperty('/tree', data);
         this.setProperty('/data', reporte);
         this.setProperty('/empty', reporte.length === 0);
       } catch (error) {

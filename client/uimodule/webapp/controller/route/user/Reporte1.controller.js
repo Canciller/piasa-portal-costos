@@ -94,6 +94,90 @@ sap.ui.define(
               if(this.isLoading()) Reporte1Service.abort();
               else {
                 await Reporte1Service.fillReporte();
+
+                var reporte = Reporte1Service.getProperty('/data');
+
+                var totals =  {};
+                var data = {
+                  data: []
+                }
+
+                if(reporte.length > 0) {
+                  var k = 0;
+                  var DESC2 = reporte[0].DESC2;
+                  totals[DESC2] = Object.assign({}, reporte[0]);
+                  data.data.push({
+                    DESC1_: DESC2,
+                    data: [
+                      reporte[0]
+                    ]
+                  });
+
+                  var keys = [
+                    'Actual_CY',
+                    'Budget_CY',
+                    'Actual_LY',
+                    'Budget_LY',
+                    'Actual_Accum_CY',
+                    'Budget_Accum_CY',
+                    'Actual_Accum_LY',
+                    'Budget_Accum_LY',
+                    'Var_vs_Ppto_CY',
+                    'Var_vs_AA_CY',
+                    'Var_vs_Ppto_LY',
+                    'Var_vs_AA_LY',
+                  ];
+
+                  var clearKeys = [
+                    'Percentage_1_CY',
+                    'Percentage_2_CY',
+                    'Percentage_1_LY',
+                    'Percentage_2_LY'
+                  ];
+
+                  for(var i = 1; i <= reporte.length - 1; i++) {
+                    var el = reporte[i];
+                    if(DESC2 !== el.DESC2) {
+                      for(var j = keys.length; j--;) {
+                        var key = keys[j];
+                        data.data[k][key] = totals[DESC2][key];
+                      }
+
+                      for(var j = clearKeys.length; j--;) {
+                        var key = clearKeys[j];
+                        data.data[k][key] = '';
+                      }
+
+                      k++;
+                      DESC2 = el.DESC2;
+                      data.data.push({
+                        DESC1_: DESC2,
+                        data: [ el ]
+                      });
+                      totals[DESC2] = Object.assign({}, el);
+                      continue;
+                    }
+
+                    for(var j = keys.length; j--;) {
+                      var key = keys[j];
+                      totals[DESC2][key] += el[key];
+                    }
+
+                    data.data[k].data.push(el);
+                  }
+
+                  for(var j = keys.length; j--;) {
+                    var key = keys[j];
+                    data.data[k][key] = totals[DESC2][key];
+                  }
+
+                  for(var j = clearKeys.length; j--;) {
+                    var key = clearKeys[j];
+                    data.data[k][key] = '';
+                  }
+                }
+
+                Reporte1Service.setProperty('/tree', data);
               }
             }.bind(this)
           );
@@ -223,7 +307,7 @@ sap.ui.define(
                 desc1 = Reporte1Service.getProperty(path + '/DESC1'),
                 desc2 = Reporte1Service.getProperty(path + '/DESC2');
 
-              if(!desc1) return;
+              if(!desc1 || !desc2) return;
 
               switch (key) {
                 case 'Actual_CY':

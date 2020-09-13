@@ -141,6 +141,10 @@ sap.ui.define(
             },
           };
         },
+        onFilter: function(oEvent) {
+          var oTable = this.byId('table');
+          console.log(oTable.getRows());
+        },
         handleExport: async function () {
           var data = Reporte1DetailService.getProperty('/detail/data'),
             desc1 = Reporte1DetailService.getDESC1_(),
@@ -150,7 +154,7 @@ sap.ui.define(
           var year = date.year,
             month = date.month;
 
-          this._mSettings.fileName = `${desc2} - ${desc1} Presupuesto ${year} ${month}`;
+          this._mSettings.fileName = `${desc2} - ${desc1} - Presupuesto ${year} ${month}`;
           this._mSettings.dataSource = data;
           this._mSettings.workbook.context = {
             sheetName: `${desc1} ${year} ${month}`,
