@@ -1,6 +1,5 @@
 import authenticate from '../middleware/authenticate';
 import controller from '../controllers/reportes.controller';
-import { ServiceMetadata } from '@tjc-group/odata-v2-service-metadata';
 
 const router = require('express').Router();
 
