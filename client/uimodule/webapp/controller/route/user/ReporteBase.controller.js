@@ -17,8 +17,8 @@ sap.ui.define(
           this.setFormControls();
           this.addClearIcon();
         },
-        formatDESC1: function(value) {
-          if(!value) return '';
+        formatDESC1: function (value) {
+          if (!value) return '';
           var len = value.length;
           return value.substr(3, len);
         },
@@ -134,8 +134,8 @@ sap.ui.define(
         setFromDetail: function (fromDetail) {
           this.getService().setFromDetail(fromDetail);
         },
-        isLoading: function(prop) {
-          if(!prop) {
+        isLoading: function (prop) {
+          if (!prop) {
             return this.getService().getProperty('/loading');
           } else {
             return this.getService().getProperty('/' + prop + '/loading');

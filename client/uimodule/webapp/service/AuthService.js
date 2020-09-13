@@ -16,7 +16,7 @@ sap.ui.define(['./APIService'], function (APIService) {
       this.model.setProperty('/role', null);
       this.model.setProperty('/token', null);
     },
-    getToken: function() {
+    getToken: function () {
       return this.getProperty('/token');
     },
     changePassword: async function () {

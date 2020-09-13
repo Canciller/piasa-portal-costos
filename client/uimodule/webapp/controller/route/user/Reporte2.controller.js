@@ -35,7 +35,7 @@ sap.ui.define(
           this.setupExport();
           this.attachOnReady(
             async function () {
-              if(this.isLoading()) Reporte2Service.abort();
+              if (this.isLoading()) Reporte2Service.abort();
               else {
                 await Reporte2Service.fillReporte();
 
@@ -44,7 +44,7 @@ sap.ui.define(
                 var data = [];
 
                 var size = reporte.length;
-                if(size > 0) {
+                if (size > 0) {
                   var currDataIndex = 0;
                   var currInnerDataIndex = 0;
                   var DESC2 = null,
@@ -52,14 +52,14 @@ sap.ui.define(
 
                   var currData = null;
                   var currInnerData = null;
-                  for(var i = 0; i < size; i++) {
+                  for (var i = 0; i < size; i++) {
                     var line = reporte[i];
 
-                    if(DESC2 !== line.DESC2 || !currData) {
+                    if (DESC2 !== line.DESC2 || !currData) {
                       DESC2 = line.DESC2;
                       data.push({
                         DESC1_: DESC2,
-                        data: []
+                        data: [],
                       });
 
                       currData = data[currDataIndex].data;
@@ -67,14 +67,14 @@ sap.ui.define(
                       currInnerDataIndex = 0;
                     }
 
-                    if(DESC1 !== line.DESC1 || !currInnerData) {
+                    if (DESC1 !== line.DESC1 || !currInnerData) {
                       DESC1 = line.DESC1;
                       currData.push({
                         DESC1_: line.DESC1_,
-                        data: []
+                        data: [],
                       });
 
-                      currInnerData = currData[currInnerDataIndex].data
+                      currInnerData = currData[currInnerDataIndex].data;
                       currInnerDataIndex++;
                     }
 

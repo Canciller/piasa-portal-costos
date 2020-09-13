@@ -2,7 +2,7 @@ sap.ui.define(['sap/ui/core/format/NumberFormat'], function (NumberFormat) {
   'use strict';
 
   return function (value) {
-    if(typeof(value) === 'string') return '';
+    if (typeof value === 'string') return '';
     if (!value) value = 0;
 
     /*

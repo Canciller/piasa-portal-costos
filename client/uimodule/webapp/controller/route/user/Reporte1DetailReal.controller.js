@@ -84,10 +84,12 @@ sap.ui.define(
           ReporteController.prototype.onInit.call(this);
 
           this.setupExport();
-          this.attachOnReady(async function() {
-            if(this.isLoading('detail')) Reporte1DetailService.abort();
-            else Reporte1DetailService.fillReporteDetail();
-          }.bind(this));
+          this.attachOnReady(
+            async function () {
+              if (this.isLoading('detail')) Reporte1DetailService.abort();
+              else Reporte1DetailService.fillReporteDetail();
+            }.bind(this)
+          );
           this.attachOnExport(this.handleExport.bind(this));
         },
         setupExport: function () {

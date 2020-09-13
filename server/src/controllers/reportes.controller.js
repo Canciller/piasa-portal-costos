@@ -19,7 +19,7 @@ var monthLabel = [
 ];
 
 export default {
-  OData: function(req, res) {
+  OData: function (req, res) {
     odataServer.handle(req, res);
   },
   getKOSTL: async function (req, res, next) {
@@ -70,7 +70,7 @@ export default {
       );
 
       var size = reporte1.length;
-      for(var i = 0; i < size; i++) {
+      for (var i = 0; i < size; i++) {
         var desc1 = reporte1[i].DESC1;
         var len = desc1.length;
         reporte1[i].DESC1_ = desc1.substr(3, len);
@@ -108,7 +108,6 @@ export default {
       */
 
       return res.json(reporte1);
-
     } catch (error) {
       next(error);
     }

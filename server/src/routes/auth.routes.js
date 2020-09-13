@@ -10,9 +10,10 @@ router.route('/logout').get(controller.logout);
 
 router.route('/me').get(authenticate, (req, res) => {
   return res.json({
-  ...req.user,
-  token: req.cookies.token,
-})});
+    ...req.user,
+    token: req.cookies.token,
+  });
+});
 
 router
   .route('/change/password')

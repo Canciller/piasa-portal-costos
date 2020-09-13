@@ -133,7 +133,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     },
     setDESC1: function (desc1) {
       this.setProperty('/desc1', desc1);
-      if(desc1) {
+      if (desc1) {
         var len = desc1.length;
         this.setProperty('/desc1_', desc1.substr(3, len));
       } else {
@@ -224,8 +224,8 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setParamsLoading(false);
       }
     },
-    abort: function() {
-      if(!this._controller) return;
+    abort: function () {
+      if (!this._controller) return;
       this._controller.abort();
     },
     fillReporteDetail: async function () {
@@ -250,21 +250,23 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
         this._controller = new AbortController();
 
-        var detail = await this.api(route).post({
-          kostl: kostl,
-          desc1: desc1,
-          desc2: desc2,
-          year: year,
-          month: month,
-        }, {
-          signal: this._controller.signal
-        });
+        var detail = await this.api(route).post(
+          {
+            kostl: kostl,
+            desc1: desc1,
+            desc2: desc2,
+            year: year,
+            month: month,
+          },
+          {
+            signal: this._controller.signal,
+          }
+        );
 
         this.setProperty('/detail/data', detail);
         this.setProperty('/detail/empty', detail.length === 0);
       } catch (error) {
-        if(error.name !== 'AbortError')
-          throw error;
+        if (error.name !== 'AbortError') throw error;
       } finally {
         this.setLoading(false, '/detail');
       }
@@ -285,13 +287,16 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
         this._controller = new AbortController();
 
-        var reporte = await this.api(url).post({
-          year: year,
-          month: month,
-          kostl: kostl,
-        }, {
-          signal: this._controller.signal
-        });
+        var reporte = await this.api(url).post(
+          {
+            year: year,
+            month: month,
+            kostl: kostl,
+          },
+          {
+            signal: this._controller.signal,
+          }
+        );
 
         /*
         var totals =  {};
@@ -377,8 +382,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         this.setProperty('/data', reporte);
         this.setProperty('/empty', reporte.length === 0);
       } catch (error) {
-        if(error.name !== 'AbortError')
-          throw error;
+        if (error.name !== 'AbortError') throw error;
       } finally {
         this.setLoading(false);
       }
