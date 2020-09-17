@@ -47,6 +47,7 @@ sap.ui.define(
                 if (size > 0) {
                   var currDataIndex = 0;
                   var currInnerDataIndex = 0;
+
                   var DESC2 = null,
                     DESC1 = null;
 
@@ -57,6 +58,7 @@ sap.ui.define(
 
                     if (DESC2 !== line.DESC2 || !currData) {
                       DESC2 = line.DESC2;
+
                       data.push({
                         DESC1_: DESC2,
                         data: [],
@@ -67,48 +69,25 @@ sap.ui.define(
                       currInnerDataIndex = 0;
                     }
 
-                    if (DESC1 !== line.DESC1 || !currInnerData) {
-                      DESC1 = line.DESC1;
-                      currData.push({
-                        DESC1_: line.DESC1_,
-                        data: [],
-                      });
-
-                      currInnerData = currData[currInnerDataIndex].data;
+                    if(!line.DESC1 || line.DESC1.length === 0) {
+                      currData.push(line);
                       currInnerDataIndex++;
-                    }
+                    } else {
+                      if (DESC1 !== line.DESC1 || !currInnerData) {
+                        DESC1 = line.DESC1;
+                        currData.push({
+                          DESC1_: line.DESC1_,
+                          data: [],
+                        });
 
-                    currInnerData.push(line);
+                        currInnerData = currData[currInnerDataIndex].data;
+                        currInnerDataIndex++;
+                      }
+
+                      currInnerData.push(line);
+                    }
                   }
                 }
-
-                /*
-                if(reporte.length > 0) {
-                  var k = 0;
-                  var DESC2 = reporte[0].DESC2;
-                  data.data.push({
-                    DESC1_: DESC2,
-                    data: [
-                      reporte[0]
-                    ]
-                  });
-
-                  for(var i = 1; i <= reporte.length - 1; i++) {
-                    var el = reporte[i];
-                    if(DESC2 !== el.DESC2) {
-                      k++;
-                      DESC2 = el.DESC2;
-                      data.data.push({
-                        DESC1_: DESC2,
-                        data: [ el ]
-                      });
-                      continue;
-                    }
-
-                    data.data[k].data.push(el);
-                  }
-                }
-                */
 
                 Reporte2Service.setProperty('/tree', { data: data });
               }
