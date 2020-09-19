@@ -107,7 +107,7 @@
           "target": "presupuesto"
         },
         {
-          "pattern": "gasto",
+          "pattern": "gastos",
           "name": "reporte_1",
           "target": "reporte_1"
         },
