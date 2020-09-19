@@ -120,11 +120,9 @@ sap.ui.define(
                     'Actual_CY',
                     'Budget_CY',
                     'Actual_LY',
-                    'Budget_LY',
                     'Actual_Accum_CY',
                     'Budget_Accum_CY',
                     'Actual_Accum_LY',
-                    'Budget_Accum_LY',
                     'Var_vs_Ppto_CY',
                     'Var_vs_AA_CY',
                     'Var_vs_Ppto_LY',
@@ -212,11 +210,6 @@ sap.ui.define(
               type: 'Number',
             },
             {
-              label: 'Presupuesto AA',
-              property: 'Budget_LY',
-              type: 'Number',
-            },
-            {
               label: 'Var.$ Real vs Ppto',
               property: 'Var_vs_Ppto_CY',
               type: 'Number',
@@ -249,11 +242,6 @@ sap.ui.define(
             {
               label: 'Real Acumulado AA',
               property: 'Actual_Accum_LY',
-              type: 'Number',
-            },
-            {
-              label: 'Presupuesto Acumulado AA',
-              property: 'Budget_Accum_LY',
               type: 'Number',
             },
             {

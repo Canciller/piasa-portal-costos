@@ -151,21 +151,6 @@
               <t:Column
                 width="8rem"
                 hAlign="Right"
-                sortProperty="Budget_LY"
-              >
-                <Label text="Presupuesto AA" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Budget_LY',
-                    formatter: '.format.money'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
                 sortProperty="Var_vs_Ppto_CY"
               >
                 <Label text="Var.$ Real vs Ppto" />
@@ -263,21 +248,6 @@
                 <t:template>
                   <Text text="{
                     path: 'r1>Actual_Accum_LY',
-                    formatter: '.format.money'
-                    }"
-                    wrapping="false"
-                  />
-                </t:template>
-              </t:Column>
-              <t:Column
-                width="8rem"
-                hAlign="Right"
-                sortProperty="Budget_Accum_LY"
-              >
-                <Label text="Presupuesto Acumulado AA" />
-                <t:template>
-                  <Text text="{
-                    path: 'r1>Budget_Accum_LY',
                     formatter: '.format.money'
                     }"
                     wrapping="false"

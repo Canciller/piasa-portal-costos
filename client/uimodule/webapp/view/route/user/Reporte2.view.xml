@@ -9,6 +9,9 @@
     xmlns:form="sap.ui.layout.form"
 		xmlns:layout="sap.ui.layout"
     height="100%"
+    c:require="{
+      money: 'com/piasa/Costos/formatter/money'
+    }"
 >
   <Page>
     <customHeader>
@@ -118,7 +121,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P01',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -134,7 +137,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P02',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -150,7 +153,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P03',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -166,7 +169,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P04',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -182,7 +185,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P05',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -198,7 +201,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P06',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -214,7 +217,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P07',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -230,7 +233,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P08',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -246,7 +249,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P09',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -262,7 +265,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P10',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -278,7 +281,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P11',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
@@ -294,7 +297,7 @@
                 <t:template>
                   <Text text="{
                     path: 'r2>P12',
-                    formatter: '.format.money'
+                    formatter: 'money'
                     }"
                     wrapping="false"
                   />
