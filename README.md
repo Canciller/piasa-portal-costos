@@ -1,3 +1,3 @@
-# piasa-portal-costos
+# piasa-portal-gastos
 
-Portal de costos para PIASA
+Portal de gastos para PIASA

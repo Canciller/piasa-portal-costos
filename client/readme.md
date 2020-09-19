@@ -1,4 +1,4 @@
-# Costos
+# Gastos
 
 Insert the purpose of this project and some intersting infos here
 

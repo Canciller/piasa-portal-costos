@@ -107,17 +107,17 @@
           "target": "presupuesto"
         },
         {
-          "pattern": "costos",
+          "pattern": "gasto",
           "name": "reporte_1",
           "target": "reporte_1"
         },
         {
-          "pattern": "costos/real",
+          "pattern": "gastos/real",
           "name": "reporte1_real",
           "target": "reporte1_real"
         },
         {
-          "pattern": "costos/presupuesto",
+          "pattern": "gastos/presupuesto",
           "name": "reporte1_presupuesto",
           "target": "reporte1_presupuesto"
         },
