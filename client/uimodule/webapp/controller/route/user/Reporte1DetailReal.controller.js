@@ -162,6 +162,10 @@ sap.ui.define(
               label: 'Texto',
               property: 'SGTXT',
             },
+            {
+              label: 'Texto del pedido',
+              property: 'TXZ01'
+            }
           ];
 
           this._mSettings = {

@@ -174,6 +174,11 @@ sap.ui.define(
               property: 'P12',
               type: 'Number',
             },
+            {
+              label: 'Total',
+              property: 'TOTAL',
+              type: 'Number',
+            }
           ];
           this._mSettings = {
             workbook: {

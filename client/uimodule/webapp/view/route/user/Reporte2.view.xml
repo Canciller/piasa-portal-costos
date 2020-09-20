@@ -303,6 +303,22 @@
                   />
                 </t:template>
               </t:Column>
+              <t:Column
+                width="8rem"
+                hAlign="Right"
+                filterProperty="TOTAL"
+                sortProperty="TOTAL"
+              >
+                <Label text="Total" />
+                <t:template>
+                  <Text text="{
+                    path: 'r2>TOTAL',
+                    formatter: 'money'
+                    }"
+                    wrapping="false"
+                  />
+                </t:template>
+              </t:Column>
             </t:columns>
           </t:TreeTable>
         </f:content>
