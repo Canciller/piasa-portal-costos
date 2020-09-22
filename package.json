@@ -8,6 +8,8 @@
     "start": "npm run prod",
     "install:client": "cd client && npm install",
     "install:server": "cd server && npm install",
+    "install:service": "cd server && npm install:service",
+    "uninstall:service": "cd server && npm uninstall:service",
     "install": "npm-run-all install:server install:client",
     "lint:prettier": "prettier --check \"**/*.*\"",
     "fix:prettier": "prettier --write \"**/*.*\"",
