@@ -11,6 +11,8 @@
     "transpile": "babel ./src --out-dir build",
     "clean": "rimraf build",
     "watch:dev": "nodemon",
+    "install:service": "node ./installService.js",
+    "uninstall:service": "node ./uninstallService.js",
     "test": "npm run build && jest --passWithNoTests"
   },
   "dependencies": {

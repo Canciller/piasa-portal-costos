@@ -5,6 +5,7 @@ import generatePassword from '../util/generatePassword';
 import hashPassword from '../util/hashPassword';
 import NotFoundError from '../util/error/NotFoundError';
 import ValidationError from '../util/error/ValidationError';
+import APIError from '../util/error/APIError';
 import nodemailer from 'nodemailer';
 
 require('dotenv').config();
@@ -64,7 +65,7 @@ export default {
         });
       } catch (error) {
         await User.remove(req.body.username);
-        throw error;
+        throw new APIError('Error al enviar correo de creación. Verifique que el correo se haya configurado correctamente.');
       }
 
       return res.json(created);
@@ -128,7 +129,7 @@ export default {
           </p>`,
         });
       } catch (error) {
-        throw error;
+        throw new APIError('Error al enviar correo de modificación. Verifique que el correo se haya configurado correctamente.');
       }
 
       return res.json(updated);
