@@ -55,7 +55,7 @@ export default {
 
       try {
         let info = await transporter.sendMail({
-          from: process.env.EMAIL_USER,
+          from: process.env.EMAIL_EMAIL,
           to: req.body.email,
           subject: 'Creación de cuenta',
           html: `
@@ -122,7 +122,7 @@ export default {
 
       try {
         let info = await transporter.sendMail({
-          from: process.env.EMAIL_USER,
+          from: process.env.EMAIL_EMAIL,
           to: req.body.email,
           subject: 'Modificación de cuenta',
           html: `
