@@ -68,8 +68,7 @@ export default {
         });
       } catch (error) {
         await User.remove(req.body.username);
-        console.error(error);
-        throw new APIError('Error al enviar correo de creación. Verifique que el correo se haya configurado correctamente.');
+        throw new APIError(error.message);
       }
 
       return res.json(created);
@@ -133,8 +132,7 @@ export default {
           </p>`,
         });
       } catch (error) {
-        console.error(error);
-        throw new APIError('Error al enviar correo de modificación. Verifique que el correo se haya configurado correctamente.');
+        throw new APIError(error.message);
       }
 
       return res.json(updated);
