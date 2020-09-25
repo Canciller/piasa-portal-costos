@@ -11,7 +11,10 @@ import nodemailer from 'nodemailer';
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE,
+  //service: process.env.EMAIL_SERVICE,
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -65,6 +68,7 @@ export default {
         });
       } catch (error) {
         await User.remove(req.body.username);
+        console.error(error);
         throw new APIError('Error al enviar correo de creación. Verifique que el correo se haya configurado correctamente.');
       }
 
@@ -129,6 +133,7 @@ export default {
           </p>`,
         });
       } catch (error) {
+        console.error(error);
         throw new APIError('Error al enviar correo de modificación. Verifique que el correo se haya configurado correctamente.');
       }
 
