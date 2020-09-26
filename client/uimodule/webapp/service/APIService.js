@@ -1,12 +1,10 @@
 sap.ui.define(['sap/ui/base/Object'], function (BaseObject) {
   'use strict';
 
-  var alias = '/gastos';
-
   return BaseObject.extend('com.piasa.Costos.CoreService', {
     constructor: function () {},
     setBaseUrl: function (base) {
-      this.base = alias + base;
+      this.base = base;
     },
     setModel: function (model) {
       this.model = model;

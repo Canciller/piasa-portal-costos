@@ -5,7 +5,7 @@ sap.ui.define(
 
     var GroupService = APIService.extend('com.piasa.Costos.AssignmentService', {
       constructor: function () {
-        this.setBaseUrl('/api/v1/groups');
+        this.setBaseUrl('api/v1/groups');
         this.setModel(
           new JSONModel({
             assignments: {},

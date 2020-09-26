@@ -6,7 +6,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
   return APIService.extend('com.piasa.Costos.ReporteService', {
     constructor: function () {
-      this.setBaseUrl('/api/v1/reportes');
+      this.setBaseUrl('api/v1/reportes');
       this.setModel(
         new JSONModel({
           data: [],

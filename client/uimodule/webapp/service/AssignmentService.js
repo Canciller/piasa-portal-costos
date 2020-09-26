@@ -7,7 +7,7 @@ sap.ui.define(
       'com.piasa.Costos.AssignmentService',
       {
         constructor: function () {
-          this.setBaseUrl('/api/v1/assignments');
+          this.setBaseUrl('api/v1/assignments');
           this.setModel(
             new JSONModel({
               assignments: {},

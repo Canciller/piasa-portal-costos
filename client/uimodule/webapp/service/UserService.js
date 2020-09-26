@@ -6,7 +6,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
 
   var UserService = APIService.extend('com.piasa.Costos.UserService', {
     constructor: function () {
-      this.setBaseUrl('/api/v1/users');
+      this.setBaseUrl('api/v1/users');
       this.setModel(
         new JSONModel({
           user: {},

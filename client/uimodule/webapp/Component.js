@@ -91,7 +91,7 @@ sap.ui.define(
         this.setModel(oAuthModel, 'user');
 
         AuthService.setModel(oAuthModel);
-        AuthService.setBaseUrl('/api/v1/auth');
+        AuthService.setBaseUrl('api/v1/auth');
 
         // TODO: Refactor this using a single promise.
 
@@ -106,7 +106,7 @@ sap.ui.define(
                 })
                 .catch((error) => {
                   // TODO: Handle server connection error here.
-                  console.error(error);
+                  //console.error(error);
                 });
               break;
             default:
