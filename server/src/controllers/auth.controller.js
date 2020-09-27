@@ -28,7 +28,7 @@ export default {
 
       var month = new Date();
       month.setMonth(month.getMonth() + 1);
-      res.cookie('token', token, { httpOnly: true, expires: month });
+      res.cookie('token', token, { httpOnly: true, expires: month, secure: true, path: '/gastos' });
       return res.json({
         username: user.username,
         name: user.name,
@@ -43,7 +43,10 @@ export default {
     }
   },
   logout: async (req, res) => {
-    return res.clearCookie('token').json({});
+    return res.clearCookie('token', {
+      path: '/gastos',
+      secure: true
+    }).json({});
   },
   changeUser: async (req, res, next) => {
     try {
@@ -62,7 +65,7 @@ export default {
 
       var month = new Date();
       month.setMonth(month.getMonth() + 1);
-      res.cookie('token', token, { httpOnly: true, expires: month });
+      res.cookie('token', token, { httpOnly: true, expires: month, secure: true, path: '/gastos' });
       return res.json({
         username: user.username,
         name: user.name,
