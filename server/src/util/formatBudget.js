@@ -3,7 +3,7 @@ import ValidationError from './error/ValidationError';
 // Keep this updated with client's BudgetService.
 const P = [
   'P1',
-  'P3',
+  'P2',
   'P3',
   'P4',
   'P5',
