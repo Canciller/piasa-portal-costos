@@ -51,7 +51,7 @@ export default async function (budget) {
 
       var key = P[j];
       var value = row[key];
-      if (!value)
+      if (value === undefined || value === null)
         throw new ValidationError(
           `El valor del mes ${month} no esta definido, para ${forLine}.`
         );
