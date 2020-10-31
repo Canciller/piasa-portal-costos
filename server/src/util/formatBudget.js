@@ -51,10 +51,14 @@ export default async function (budget) {
 
       var key = P[j];
       var value = row[key];
-      if (value === undefined || value === null)
+      if (value === undefined || value === null) {
+        value = 0
+        /*
         throw new ValidationError(
           `El valor del mes ${month} no esta definido, para ${forLine}.`
         );
+        */
+      }
       value = parseInt(value);
       if (isNaN(value))
         throw new ValidationError(
