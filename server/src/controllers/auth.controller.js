@@ -29,6 +29,7 @@ export default {
       var month = new Date();
       month.setMonth(month.getMonth() + 1);
       res.cookie('token', token, { httpOnly: true, expires: month, secure: true, path: '/gastos' });
+      //res.cookie('token', token, { httpOnly: true, expires: month, secure: true, path: '/' });
       return res.json({
         username: user.username,
         name: user.name,
