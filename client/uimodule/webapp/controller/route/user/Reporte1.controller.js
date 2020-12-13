@@ -27,55 +27,6 @@ sap.ui.define(
       'com.piasa.Costos.route.manager.Reporte1.controller',
       {
         onInit: function () {
-          var createMockServer = function () {
-            var data = Reporte1Service.getProperty('/data');
-
-            if (!this.oMockServer) {
-              this.oMockServer = new MockServer({
-                rootUri: '/',
-              });
-
-              this.oMockServer.simulate(
-                '../../../service/metadata/metadata.xml',
-                {
-                  sMockdataBaseUrl: '../../../service/metadata',
-                  bGenerateMissingMockData: true,
-                }
-              );
-
-              this.oMockServer.start();
-            }
-
-            for (var i = data.length; i--; ) {
-              data[i]['ID'] = i;
-              data[i]['__metadata'] = {
-                id: `/R1(${i})`,
-                type: 'Reporte.Models.R1Type',
-                uri: `/R1(${i})`,
-              };
-            }
-            this.oMockServer.setEntitySetData('R1', data);
-
-            if (!this.oModel) {
-              this.oModel = new ODataModel({
-                serviceUrl: '/',
-                synchronizationMode: 'None',
-              });
-              //this.oModel.setDefaultCountMode("Inline");
-              //this.oModel.setDefaultCountMode(sap.ui.model.odata.CountMode.Request);
-              this.setModel(this.oModel);
-              //var oTable = this.byId('table');
-              //oTable.setModel(this.oModel);
-              /*
-              oTable.bindRows({
-                path: '/R1'
-              });
-              */
-            }
-
-            this.oModel.refresh();
-          }.bind(this);
-
           this.getRouter()
             .getRoute('reporte_1')
             .attachMatched(async function () {

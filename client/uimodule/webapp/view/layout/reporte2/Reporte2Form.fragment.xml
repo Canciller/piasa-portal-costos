@@ -103,7 +103,8 @@
           >
             <core:ListItem
               key="{r2>KOSTL}"
-              text="{
+              text="{r2>LTEXT}"
+              additionalText="{
                   path : 'r2>KOSTL', 
                   type : 'sap.ui.model.odata.type.String', 
                   constraints: { 
@@ -111,7 +112,6 @@
                       maxLength : 10
                   }
                 }"
-              additionalText="{r2>LTEXT}"
             />
           </MultiComboBox>
         </items>
