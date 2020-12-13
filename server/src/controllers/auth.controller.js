@@ -14,7 +14,12 @@ function getJwtCookieOptions() {
   var month = new Date();
   month.setMonth(month.getMonth() + 1);
 
-  return { httpOnly: true, expires: month, secure: jwtConfig.secure, path: jwtConfig.path };
+  return {
+    httpOnly: true,
+    expires: month,
+    secure: jwtConfig.secure,
+    path: jwtConfig.path,
+  };
 }
 
 export default {
@@ -55,10 +60,12 @@ export default {
   logout: async (req, res) => {
     const opts = getJwtCookieOptions();
 
-    return res.clearCookie('token', {
-      path: opts.path,
-      secure: opts.secure
-    }).json({});
+    return res
+      .clearCookie('token', {
+        path: opts.path,
+        secure: opts.secure,
+      })
+      .json({});
   },
   changeUser: async (req, res, next) => {
     try {

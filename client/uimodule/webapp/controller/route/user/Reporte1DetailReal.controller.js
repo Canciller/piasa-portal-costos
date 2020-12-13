@@ -164,8 +164,8 @@ sap.ui.define(
             },
             {
               label: 'Texto del pedido',
-              property: 'TXZ01'
-            }
+              property: 'TXZ01',
+            },
           ];
 
           this._mSettings = {

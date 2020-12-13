@@ -110,13 +110,13 @@ sap.ui.define(
 
           if (sQuery && sQuery.length > 0) {
             oTableSearchState = [
-              new Filter('KOSTL', FilterOperator.Contains, sQuery),
+              new Filter('LTEXT', FilterOperator.Contains, sQuery),
             ];
           }
 
           this.oAssignmentsTable
             .getBinding('items')
-            .filter(oTableSearchState, 'KOSTL');
+            .filter(oTableSearchState, 'LTEXT');
         },
         onSearchGroups: function (oEvent) {
           var oTableSearchState = [],

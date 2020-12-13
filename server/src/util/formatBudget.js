@@ -42,13 +42,17 @@ export default async function (budget) {
     if (!isEmptyString(row.GJAHR))
       throw new ValidationError('El año no puede estar vacio.');
 
-    if(row.KOSTL.length > 10 || Number.isNaN(Number(row.KOSTL)))
-      throw new ValidationError(`El centro de costo '${row.KOSTL}' es invalido, puede que sea de más de 10 caracteres o no sea un número.`);
+    if (row.KOSTL.length > 10 || Number.isNaN(Number(row.KOSTL)))
+      throw new ValidationError(
+        `El centro de costo '${row.KOSTL}' es invalido, puede que sea de más de 10 caracteres o no sea un número.`
+      );
 
-    if(row.HKONT.length > 10 || Number.isNaN(Number(row.HKONT)))
-      throw new ValidationError(`La cuenta '${row.HKONT}' es invalida, puede que sea de más de 10 caracteres o no sea un número.`);
+    if (row.HKONT.length > 10 || Number.isNaN(Number(row.HKONT)))
+      throw new ValidationError(
+        `La cuenta '${row.HKONT}' es invalida, puede que sea de más de 10 caracteres o no sea un número.`
+      );
 
-    if(row.GJAHR.length > 4 || Number.isNaN(Number(row.GJAHR)))
+    if (row.GJAHR.length > 4 || Number.isNaN(Number(row.GJAHR)))
       throw new ValidationError(`El año '${row.GJAHR}' es invalido.'`);
 
     formattedRow.KOSTL = row.KOSTL.padStart(10, '0');
@@ -61,7 +65,7 @@ export default async function (budget) {
       var key = P[j];
       var value = row[key];
       if (value === undefined || value === null) {
-        value = 0
+        value = 0;
         /*
         throw new ValidationError(
           `El valor del mes ${month} no esta definido, para ${forLine}.`

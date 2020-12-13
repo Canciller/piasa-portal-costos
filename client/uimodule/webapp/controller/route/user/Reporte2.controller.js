@@ -69,7 +69,7 @@ sap.ui.define(
                       currInnerDataIndex = 0;
                     }
 
-                    if(!line.DESC1 || line.DESC1.length === 0) {
+                    if (!line.DESC1 || line.DESC1.length === 0) {
                       currData.push(line);
                       currInnerDataIndex++;
                     } else {
@@ -178,7 +178,7 @@ sap.ui.define(
               label: 'Total',
               property: 'TOTAL',
               type: 'Number',
-            }
+            },
           ];
           this._mSettings = {
             workbook: {
