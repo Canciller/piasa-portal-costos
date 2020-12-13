@@ -8,6 +8,15 @@ import comparePassword from '../util/comparePassword';
 import hashPassword from '../util/hashPassword';
 import isEmail from '../util/validateEmail';
 
+import jwtConfig from '../config/jwt';
+
+function getJwtCookieOptions() {
+  var month = new Date();
+  month.setMonth(month.getMonth() + 1);
+
+  return { httpOnly: true, expires: month, secure: jwtConfig.secure, path: jwtConfig.path };
+}
+
 export default {
   login: async (req, res, next) => {
     try {
@@ -28,8 +37,8 @@ export default {
 
       var month = new Date();
       month.setMonth(month.getMonth() + 1);
-      res.cookie('token', token, { httpOnly: true, expires: month, secure: true, path: '/gastos' });
-      //res.cookie('token', token, { httpOnly: true, expires: month, secure: true, path: '/' });
+      res.cookie('token', token, getJwtCookieOptions());
+
       return res.json({
         username: user.username,
         name: user.name,
@@ -44,9 +53,11 @@ export default {
     }
   },
   logout: async (req, res) => {
+    const opts = getJwtCookieOptions();
+
     return res.clearCookie('token', {
-      path: '/gastos',
-      secure: true
+      path: opts.path,
+      secure: opts.secure
     }).json({});
   },
   changeUser: async (req, res, next) => {
@@ -66,7 +77,8 @@ export default {
 
       var month = new Date();
       month.setMonth(month.getMonth() + 1);
-      res.cookie('token', token, { httpOnly: true, expires: month, secure: true, path: '/gastos' });
+      res.cookie('token', token, getJwtCookieOptions());
+
       return res.json({
         username: user.username,
         name: user.name,
