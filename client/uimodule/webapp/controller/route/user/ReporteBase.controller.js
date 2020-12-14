@@ -15,6 +15,7 @@ sap.ui.define(
         Header: new ToolHeader(this),
         onInit: function () {
           this.setFormControls();
+          this.addSelectAllIcon();
           this.addClearIcon();
         },
         formatDESC1: function (value) {
@@ -29,6 +30,47 @@ sap.ui.define(
             kostl: this.byId('KOSTL'),
             date: this.byId('datePicker'),
           };
+        },
+        addSelectAllIcon: function() {
+          var oIcon = IconPool.getIconURI('activities');
+
+          var onSelectAll = function (key, oControl) {
+            oControl.setSelectedItems(oControl.getItems());
+            oControl.close();
+
+            // TODO: This call is probably needed.
+            //this.setSelectedKeys(key, []);
+
+            switch (key) {
+              case 'abtei':
+                this.onChangeABTEI();
+                break;
+              case 'verak':
+                this.onChangeVERAK();
+                break;
+              case 'kostl':
+                this.onChangeKOSTL();
+              default:
+                break;
+            }
+          }.bind(this);
+
+          var addEndIcon = function (oControl, key) {
+            oControl.addEndIcon({
+              src: oIcon,
+              press: function () {
+                onSelectAll(key, oControl);
+              }.bind(this),
+            });
+          };
+
+          var abtei = this._oForm.abtei,
+            verak = this._oForm.verak,
+            kostl = this._oForm.kostl;
+
+          addEndIcon(abtei, 'abtei');
+          addEndIcon(verak, 'verak');
+          addEndIcon(kostl, 'kostl');
         },
         addClearIcon: function () {
           var oIcon = IconPool.getIconURI('decline');
@@ -94,7 +136,6 @@ sap.ui.define(
         },
         setSelectedKeys: function (prop, selectedKeys) {
           this.getService().setSelectedKeys(prop, selectedKeys);
-          //this._oForm[prop].setSelectedKeys(selectedKeys);
         },
         createSelectedKeys: function (prop, key) {
           var control = this._oForm[prop];

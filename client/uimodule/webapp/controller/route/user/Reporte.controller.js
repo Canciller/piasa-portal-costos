@@ -23,6 +23,7 @@ sap.ui.define(
         Header: new ToolHeader(this),
         onInit: function () {
           this.resetDatePicker();
+          this.addSelectAllIconMultiComboBox();
           this.addClearIconMultiComboBox();
         },
         isLoaded: function () {
@@ -106,6 +107,23 @@ sap.ui.define(
                 src: oIcon,
                 press: function () {
                   this.onClearMultiComboBox(key);
+                }.bind(this),
+              });
+            }.bind(this)
+          );
+        },
+        addSelectAllIconMultiComboBox: function() {
+          var oMultiComboBoxes = this.getMultiComboBoxes(),
+            oIcon = IconPool.getIconURI('activities');
+
+          Object.keys(oMultiComboBoxes).forEach(
+            function (key) {
+              var oControl = oMultiComboBoxes[key];
+
+              oControl.addEndIcon({
+                src: oIcon,
+                press: function () {
+                  console.log('SELECT ALL');
                 }.bind(this),
               });
             }.bind(this)
