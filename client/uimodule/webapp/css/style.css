@@ -83,3 +83,20 @@
 .sapUiMnuItm {
   padding-left: 0.5rem;
 }
+
+.sapUiTableGroupHeaderRow > .sapUiTableContentCell > * {
+  font-weight: bold !important;
+}
+
+.reporte1 .sapUiTableGroupHeaderRow > .sapUiTableContentCell > * {
+  display: block !important;
+}
+
+.reporte1 .sapUiTableGroupIcon::after {
+  box-shadow: none !important;
+  width: 0 !important;
+}
+
+.reporte1 .sapUiTableGroupIcon {
+  background: none !important;
+}

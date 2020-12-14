@@ -3,10 +3,9 @@ sap.ui.define(
     'sap/ui/core/mvc/Controller',
     'sap/ui/core/routing/History',
     'sap/ui/core/UIComponent',
-    'com/piasa/Costos/model/formatter',
     'sap/ui/core/format/NumberFormat',
   ],
-  function (Controller, History, UIComponent, formatter, NumberFormat) {
+  function (Controller, History, UIComponent, NumberFormat) {
     'use strict';
 
     return Controller.extend('com.piasa.Costos.controller.BaseController', {
@@ -33,7 +32,6 @@ sap.ui.define(
           return result;
         },
       },
-      formatter: formatter,
       /**
        * Convenience method for getting the view model by name in every controller of the application.
        * @public

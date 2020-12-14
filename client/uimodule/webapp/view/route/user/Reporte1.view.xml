@@ -68,6 +68,7 @@
 
         <f:content>
           <t:TreeTable
+            class="reporte1"
             rows="{
               path: 'r1>/tree/data',
               parameters: {
@@ -75,7 +76,7 @@
                 numberOfExpandedLevels: 1
               }
             }"
-            alternateRowColors="true"
+            alternateRowColors="false"
             busy="{r1>/loading}"
             busyIndicatorDelay="100"
             rowHeight="30px"
@@ -89,6 +90,8 @@
             sort=".onSort"
             showOverlay="{= !${r1>/abtei/enabled}}"
             showColumnVisibilityMenu="true"
+            groupHeaderProperty="DESC1_"
+            useGroupMode="true"
           >
             <t:columns>
               <t:Column
