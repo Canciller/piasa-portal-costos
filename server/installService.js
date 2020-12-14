@@ -2,9 +2,9 @@ var Service = require('node-windows').Service;
 
 // Create a new service object
 var svc = new Service({
-  name: 'Portal de Gastos',
-  description: 'Portal de Gastos.',
-  script: '.\\build\\bin\\www.js',
+  name: 'Servidor Portal de Gastos',
+  description: 'Servidor Portal de Gastos.',
+  script: '.\\dist\\bin\\www.js',
   nodeOptions: ['--harmony', '--max_old_space_size=4096'],
   //, workingDirectory: '...'
   //, allowServiceLogon: true

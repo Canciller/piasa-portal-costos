@@ -2,8 +2,8 @@ var Service = require('node-windows').Service;
 
 // Create a new service object
 var svc = new Service({
-  name: 'Portal de Gastos',
-  script: '.\\build\\bin\\www.js',
+  name: 'Servidor Portal de Gastos',
+  script: '.\\dist\\bin\\www.js',
 });
 
 // Listen for the "uninstall" event so we know when it's done.
