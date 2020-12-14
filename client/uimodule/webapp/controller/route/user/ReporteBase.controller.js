@@ -31,7 +31,7 @@ sap.ui.define(
             date: this.byId('datePicker'),
           };
         },
-        addSelectAllIcon: function() {
+        addSelectAllIcon: function () {
           var oIcon = IconPool.getIconURI('activities');
 
           var onSelectAll = function (key, oControl) {

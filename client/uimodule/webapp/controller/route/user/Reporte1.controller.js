@@ -53,21 +53,7 @@ sap.ui.define(
 
                 var reporte = Reporte1Service.getProperty('/data');
 
-                var totals = {};
-                var data = {
-                  data: [],
-                };
-
-                if (reporte.length > 0) {
-                  var k = 0;
-                  var DESC2 = reporte[0].DESC2;
-                  totals[DESC2] = Object.assign({}, reporte[0]);
-                  data.data.push({
-                    DESC1_: DESC2,
-                    data: [reporte[0]],
-                  });
-
-                  var keys = [
+                var totalKeys = [
                     'Actual_CY',
                     'Budget_CY',
                     'Actual_LY',
@@ -80,56 +66,80 @@ sap.ui.define(
                     'Var_vs_AA_LY',
                   ];
 
-                  var clearKeys = [
-                    'Percentage_1_CY',
-                    'Percentage_2_CY',
-                    'Percentage_1_LY',
-                    'Percentage_2_LY',
-                  ];
+                var data = [];
 
-                  for (var i = 1; i <= reporte.length - 1; i++) {
-                    var el = reporte[i];
-                    if (DESC2 !== el.DESC2) {
-                      for (var j = keys.length; j--; ) {
-                        var key = keys[j];
-                        data.data[k][key] = totals[DESC2][key];
-                      }
+                var size = reporte.length;
+                if (size > 0) {
+                  var currDataIndex = 0;
+                  var currInnerDataIndex = 0;
 
-                      for (var j = clearKeys.length; j--; ) {
-                        var key = clearKeys[j];
-                        data.data[k][key] = '';
-                      }
+                  var DESC2 = null;
 
-                      k++;
-                      DESC2 = el.DESC2;
-                      data.data.push({
+                  var currData = null;
+                  var rootData = null;
+
+                  for (var i = 0; i < size; i++) {
+                    var line = reporte[i];
+
+                    // Create new root entry.
+                    if (DESC2 !== line.DESC2 || !currData) {
+                      DESC2 = line.DESC2;
+
+                      data.push({
                         DESC1_: DESC2,
-                        data: [el],
+                        data: [],
                       });
-                      totals[DESC2] = Object.assign({}, el);
-                      continue;
+
+                      rootData = data[currDataIndex];
+                      currData = rootData.data;
+                      currDataIndex++;
+                      currInnerDataIndex = 0;
                     }
 
-                    for (var j = keys.length; j--; ) {
-                      var key = keys[j];
-                      totals[DESC2][key] += el[key];
+                    // Add to totals.
+                    totalKeys.forEach(key => {
+                      const value = line[key];
+                      if(rootData[key] !== undefined) {
+                        rootData[key] += value;
+                      } else {
+                        rootData[key] = value;
+                      }
+                    });
+
+                    // Add line.
+                    currData.push(line);
+                    currInnerDataIndex++;
+                  }
+
+                  // Calculate percentages.
+                  for(var i = 0; i < currDataIndex; ++i) {
+                    var rootData = data[i];
+
+                    var p1cy = 0,
+                      p2cy = 0,
+                      p1ly = 0,
+                      p2ly = 0;
+
+                    if(rootData['Actual_CY']) {
+                      p1cy = rootData['Var_vs_Ppto_CY'] / rootData['Actual_CY'];
+                      p2cy = rootData['Var_vs_AA_CY'] / rootData['Actual_CY'];
                     }
 
-                    data.data[k].data.push(el);
-                  }
+                    if(rootData['Actual_Accum_CY']) {
+                      p1ly = rootData['Var_vs_Ppto_LY'] / rootData['Actual_Accum_CY'];
+                      p2ly = rootData['Var_vs_AA_LY'] / rootData['Actual_Accum_CY'];
+                    }
 
-                  for (var j = keys.length; j--; ) {
-                    var key = keys[j];
-                    data.data[k][key] = totals[DESC2][key];
-                  }
-
-                  for (var j = clearKeys.length; j--; ) {
-                    var key = clearKeys[j];
-                    data.data[k][key] = '';
+                    rootData['Percentage_1_CY'] = p1cy;
+                    rootData['Percentage_2_CY'] = p2cy;
+                    rootData['Percentage_1_LY'] = p1ly;
+                    rootData['Percentage_2_LY'] = p2ly;
                   }
                 }
 
-                Reporte1Service.setProperty('/tree', data);
+                Reporte1Service.setProperty('/tree', {
+                  data: data
+                });
               }
             }.bind(this)
           );

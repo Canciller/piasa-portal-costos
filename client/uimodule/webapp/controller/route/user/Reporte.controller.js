@@ -112,7 +112,7 @@ sap.ui.define(
             }.bind(this)
           );
         },
-        addSelectAllIconMultiComboBox: function() {
+        addSelectAllIconMultiComboBox: function () {
           var oMultiComboBoxes = this.getMultiComboBoxes(),
             oIcon = IconPool.getIconURI('activities');
 
