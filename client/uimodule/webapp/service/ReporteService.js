@@ -218,7 +218,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     getSelectedKeys: function (key) {
       try {
         return this.getProperty('/' + key + '/selectedKeys');
-      } catch {
+      } catch(err) {
         return [];
       }
     },
