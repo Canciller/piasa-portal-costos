@@ -180,6 +180,28 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     getParam: function (prop) {
       return this.getProperty('/' + prop + '/data');
     },
+    getFilteredKeys: function(prop, filterProp, filterText, filterFunction, includeKey = true) {
+      const data = this.getParam(prop);
+      if(!data) return [];
+
+      const filteredKeys = [];
+
+      if(filterText === undefined)
+        filterText = '';
+
+      data.forEach(obj => {
+        var val = obj[filterProp];
+        var match = filterFunction(filterText, val);
+        if(includeKey) {
+          if(match) filteredKeys.push(obj[prop.toUpperCase()]);
+        } else {
+          if(!match) filteredKeys.push(obj[prop.toUpperCase()]);
+        }
+      });
+
+
+      return filteredKeys;
+    },
     setSelectedKeys: function (property, selectedKeys) {
       this.setProperty('/' + property + '/selectedKeys', selectedKeys);
       this.setEmpty(selectedKeys.length === 0, property);

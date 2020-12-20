@@ -30,17 +30,50 @@ sap.ui.define(
             kostl: this.byId('KOSTL'),
             date: this.byId('datePicker'),
           };
+
+          this._filter = {};
+          var filter = this._filter;
+          
+          this._testFilter = (sTerm, sText) => {
+	            return new RegExp("^" + sTerm, "i").test(sText);
+          }
+          var testFilter = this._testFilter;
+
+          var setFilterFunction = function(key, oControl) {
+            oControl.setFilterFunction(function(sTerm, oItem) {
+              filter[key] = sTerm;
+              return testFilter(sTerm, oItem.getText());
+            });
+          }
+
+          setFilterFunction('abtei', this._oForm.abtei);
+          setFilterFunction('verak', this._oForm.verak);
+          setFilterFunction('kostl', this._oForm.kostl);
         },
         addSelectAllIcon: function () {
           var oIcon = IconPool.getIconURI('activities');
 
-          var onSelectAll = function (key, oControl) {
-            oControl.setSelectedItems(oControl.getItems());
-            oControl.close();
+          var onSelectAll = function (key, oControl, filterProp) {
+            //oControl.setSelectedItems(oControl.getItems());
+            //oControl.close();
+            //console.log(this.getParam(key));
+            //console.log(this.getSelectedKeys(key));
+
+            var lastSelectedKeys = this.getSelectedKeys(key);
+            var filteredKeys = this.getFilteredKeys(key, filterProp);
+            var selectedKeys = Array.from(new Set(lastSelectedKeys.concat(filteredKeys)));
+            //var selectedKeys = lastSelectedKeys.concat(filteredKeys);
+
+            this.setSelectedKeys(key, selectedKeys);
+            //oControl.addSelectedKeys(selectedKeys);
 
             // TODO: This call is probably needed.
             //this.setSelectedKeys(key, []);
 
+            // TODO: If is closed do not open it.
+            // TODO: Change this sort of a hack to refresh list.
+            this.refreshFilter(oControl);
+
             switch (key) {
               case 'abtei':
                 this.onChangeABTEI();
@@ -55,11 +88,11 @@ sap.ui.define(
             }
           }.bind(this);
 
-          var addEndIcon = function (oControl, key) {
+          var addEndIcon = function (oControl, key, filterProp) {
             oControl.addEndIcon({
               src: oIcon,
               press: function () {
-                onSelectAll(key, oControl);
+                onSelectAll(key, oControl, filterProp);
               }.bind(this),
             });
           };
@@ -68,15 +101,18 @@ sap.ui.define(
             verak = this._oForm.verak,
             kostl = this._oForm.kostl;
 
-          addEndIcon(abtei, 'abtei');
-          addEndIcon(verak, 'verak');
-          addEndIcon(kostl, 'kostl');
+          addEndIcon(abtei, 'abtei', 'ABTEI');
+          addEndIcon(verak, 'verak', 'VERAK');
+          addEndIcon(kostl, 'kostl', 'LTEXT');
         },
         addClearIcon: function () {
           var oIcon = IconPool.getIconURI('decline');
 
-          var onClear = function (key) {
+          var onClear = function (key, oControl, filterProp) {
+            this._filter[key] = undefined;
             this.setSelectedKeys(key, []);
+
+            this.refreshFilter(oControl);
 
             switch (key) {
               case 'abtei':
@@ -92,11 +128,11 @@ sap.ui.define(
             }
           }.bind(this);
 
-          var addEndIcon = function (oControl, key) {
+          var addEndIcon = function (oControl, key, filterProp) {
             oControl.addEndIcon({
               src: oIcon,
               press: function () {
-                onClear(key);
+                onClear(key, oControl, filterProp);
               }.bind(this),
             });
           };
@@ -105,9 +141,9 @@ sap.ui.define(
             verak = this._oForm.verak,
             kostl = this._oForm.kostl;
 
-          addEndIcon(abtei, 'abtei');
-          addEndIcon(verak, 'verak');
-          addEndIcon(kostl, 'kostl');
+          addEndIcon(abtei, 'abtei', 'ABTEI');
+          addEndIcon(verak, 'verak', 'VERAK');
+          addEndIcon(kostl, 'kostl', 'LEXT');
         },
 
         /**
@@ -133,6 +169,14 @@ sap.ui.define(
             selectedKeys.push(value[key]);
           }
           this.setSelectedKeys(prop, selectedKeys);
+        },
+        getParam: function(prop) {
+          return this.getService().getParam(prop);
+        },
+        getFilteredKeys: function(prop, filterProp) {
+          const filteredKeys = this.getService().getFilteredKeys(prop, filterProp, this._filter[prop], this._testFilter);
+          this._filter[prop] = undefined;
+          return filteredKeys;
         },
         setSelectedKeys: function (prop, selectedKeys) {
           this.getService().setSelectedKeys(prop, selectedKeys);
@@ -229,6 +273,12 @@ sap.ui.define(
           }
 
           this.setParam('kostl', kostl, 'KOSTL');
+        },
+        refreshFilter: function(oControl) {
+          if(oControl.isOpen()) {
+            oControl.close();
+            oControl.open();
+          }
         },
 
         /**
