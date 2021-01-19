@@ -39,7 +39,8 @@ export default {
   },
   create: async (req, res, next) => {
     try {
-      var password = generatePassword();
+      //var password = generatePassword();
+      var password = process.env.USER_INIT_PASS;
       var hash = await hashPassword(password);
 
       var user = new User(
@@ -53,6 +54,7 @@ export default {
 
       var created = await User.create(user);
 
+      /*
       try {
         let info = await transporter.sendMail({
           from: process.env.EMAIL_EMAIL,
@@ -70,6 +72,7 @@ export default {
         await User.remove(req.body.username);
         throw new APIError(error.message);
       }
+      */
 
       return res.json(created);
     } catch (error) {
@@ -119,6 +122,7 @@ export default {
       var updated = await User.update(username, user);
       delete updated.password;
 
+      /*
       try {
         let info = await transporter.sendMail({
           from: process.env.EMAIL_EMAIL,
@@ -134,6 +138,7 @@ export default {
       } catch (error) {
         throw new APIError(error.message);
       }
+      */
 
       return res.json(updated);
     } catch (error) {
