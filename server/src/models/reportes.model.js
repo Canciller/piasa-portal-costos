@@ -91,6 +91,41 @@ export default class Reportes {
     }
   }
 
+  static async getReporte1DetailRealAccum(
+    year,
+    month,
+    desc1,
+    desc2,
+    kostl,
+    username
+  ) {
+    try {
+      var KOSTLTable = Reportes.createTable(kostl);
+
+      var pool = await getPool();
+      var request = await pool
+        .request()
+        .input('YEAR', sql.NChar(4), String(year).substr(0, 4))
+        .input(
+          'MONTH',
+          sql.NChar(2),
+          String(month).substr(0, 2).padStart(2, '0')
+        )
+        .input('DESC1', sql.VarChar(50), desc1)
+        .input('DESC2', sql.VarChar(50), desc2)
+        .input('KOSTLTable', sql.TVP('KOSTLTableType'), KOSTLTable)
+        .input('username', sql.VarChar(30), username);
+
+      var res = await request.execute('getReporte1DetailRealAccum');
+
+      if (res.recordset && res.recordset.length !== 0) return res.recordset;
+
+      return [];
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async getReporte2(year, kostl, username) {
     try {
       var tvp = Reportes.createTable(kostl);

@@ -19,6 +19,7 @@ router.route('/1/budget').post(
   },
   controller.getReporte1Detail
 );
+router.route('/1/realAccum').post(authenticate, controller.getReporte1DetailRealAccum);
 
 router.route('/2').post(authenticate, controller.getReporte2);
 

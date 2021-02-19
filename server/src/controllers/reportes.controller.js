@@ -142,6 +142,34 @@ export default {
       next(error);
     }
   },
+  getReporte1DetailRealAccum: async function (req, res, next) {
+    try {
+      var year = req.body.year,
+        month = req.body.month,
+        kostl = req.body.kostl,
+        desc1 = req.body.desc1,
+        desc2 = req.body.desc2;
+
+      var match = await Assignment.matchKOSTL(req.user.username, kostl);
+      if (!match)
+        throw new UnauthorizedError(
+          'Los centros de costos no se le fueron asignados.'
+        );
+
+      var reporte1Detail = await Reportes.getReporte1DetailRealAccum(
+        year,
+        month,
+        desc1,
+        desc2,
+        kostl,
+        req.user.username
+      );
+
+      return res.json(reporte1Detail);
+    } catch (error) {
+      next(error);
+    }
+  },
   getReporte2: async function (req, res, next) {
     try {
       var year = req.body.year,
