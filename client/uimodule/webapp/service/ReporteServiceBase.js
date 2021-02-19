@@ -182,20 +182,20 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
     },
     getFilteredKeys: function(prop, filterProp, filterText, filterFunction, includeKey = true) {
       const data = this.getParam(prop);
-      if(!data) return [];
+      if (!data) return [];
 
       const filteredKeys = [];
 
-      if(filterText === undefined)
+      if (filterText === undefined)
         filterText = '';
 
       data.forEach(obj => {
         var val = obj[filterProp];
         var match = filterFunction(filterText, val);
-        if(includeKey) {
-          if(match) filteredKeys.push(obj[prop.toUpperCase()]);
+        if (includeKey) {
+          if (match) filteredKeys.push(obj[prop.toUpperCase()]);
         } else {
-          if(!match) filteredKeys.push(obj[prop.toUpperCase()]);
+          if (!match) filteredKeys.push(obj[prop.toUpperCase()]);
         }
       });
 
@@ -254,6 +254,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
       var url = this.getReporteUrl();
 
       var isBudget = this.getProperty('/isBudget');
+      var isAccum = this.getProperty('/isAccum');
       var desc1 = this.getDESC1(),
         desc2 = this.getDESC2(),
         kostl = this.getSelectedKeys('kostl');
@@ -265,6 +266,7 @@ sap.ui.define(['./APIService', 'sap/ui/model/json/JSONModel'], function (
         month = date.month;
 
       var route = isBudget ? '/budget' : '/real';
+      route += isAccum ? 'Accum' : '';
       route = url + route;
 
       try {

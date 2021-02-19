@@ -99,7 +99,7 @@ sap.ui.define(
                     // Add to totals.
                     totalKeys.forEach(key => {
                       const value = line[key];
-                      if(rootData[key] !== undefined) {
+                      if (rootData[key] !== undefined) {
                         rootData[key] += value;
                       } else {
                         rootData[key] = value;
@@ -112,7 +112,7 @@ sap.ui.define(
                   }
 
                   // Calculate percentages.
-                  for(var i = 0; i < currDataIndex; ++i) {
+                  for (var i = 0; i < currDataIndex; ++i) {
                     var rootData = data[i];
 
                     var p1cy = 0,
@@ -120,12 +120,12 @@ sap.ui.define(
                       p1ly = 0,
                       p2ly = 0;
 
-                    if(rootData['Actual_CY']) {
+                    if (rootData['Actual_CY']) {
                       p1cy = rootData['Var_vs_Ppto_CY'] / rootData['Actual_CY'];
                       p2cy = rootData['Var_vs_AA_CY'] / rootData['Actual_CY'];
                     }
 
-                    if(rootData['Actual_Accum_CY']) {
+                    if (rootData['Actual_Accum_CY']) {
                       p1ly = rootData['Var_vs_Ppto_LY'] / rootData['Actual_Accum_CY'];
                       p2ly = rootData['Var_vs_AA_LY'] / rootData['Actual_Accum_CY'];
                     }
@@ -256,6 +256,7 @@ sap.ui.define(
 
               var isBudget = false,
                 isLastYear = false,
+                isAccum = false,
                 desc1 = Reporte1Service.getProperty(path + '/DESC1'),
                 desc2 = Reporte1Service.getProperty(path + '/DESC2');
 
@@ -276,12 +277,20 @@ sap.ui.define(
                   isLastYear = true;
                   isBudget = true;
                   break;
+                case 'Actual_Accum_CY':
+                  isAccum = true;
+                  break;
+                case 'Actual_Accum_LY':
+                  isAccum = true;
+                  isLastYear = true;
+                  break;
                 default:
                   return;
               }
 
               Reporte1Service.setDESC2(desc2);
               Reporte1Service.setDESC1(desc1);
+              Reporte1Service.setProperty('/isAccum', isAccum);
               Reporte1Service.setProperty('/isBudget', isBudget);
               Reporte1Service.setProperty('/isLastYear', isLastYear);
               Reporte1Service.setProperty('/fromReporte', true);

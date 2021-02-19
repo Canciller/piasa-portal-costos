@@ -35,6 +35,11 @@ sap.ui.define(
                   Reporte1Service.getProperty('/isBudget')
                 );
 
+                Reporte1DetailService.setProperty(
+                  '/isAccum',
+                  Reporte1Service.getProperty('/isAccum')
+                );
+
                 var desc1 = Reporte1Service.getDESC1(),
                   desc2 = Reporte1Service.getDESC2();
                 Reporte1DetailService.setDESC1(desc1);
